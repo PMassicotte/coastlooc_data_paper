@@ -307,9 +307,9 @@ names(reflectance)
 
 names(stations)
 
-# pigments and phytoplankton ---------------------------------------------
+# surfaces and phytoplankton ---------------------------------------------
 
-pigment <- stations %>%
+surface <- stations %>%
   relocate(contains("chl"), .after = station) %>%
   rename(
     peridinin = peri,
@@ -322,9 +322,11 @@ pigment <- stations %>%
     .fn = ~ glue("{.x}", "xanthin"),
     .cols = c(fuco, allo, zea, neo, viola, diato, diadino, prasi)
   ) %>%
-  rename_with(~str_replace(., "_pga$", "_phy")) %>%
-  rename_with(~str_replace(., "_dta$", "_nap")) %>%
-  rename_with(~str_replace(., "_toa$", "_tot")) %>%
+  rename(
+    background_a_phy_average_745_750 = back_pga,
+    background_a_nap_average_745_750 = back_dta,
+    background_a_tot_average_745_750 = back_toa
+  ) %>%
   rename_with(everything(), .fn = ~ str_replace_all(., "chl([abc])", "chl_\\1")) %>%
   rename_with(everything(), .fn = ~ str_replace_all(., "tchl", "total_chl")) %>%
   rename_with(everything(), .fn = ~ str_replace_all(., "^t_", "total_")) %>%
@@ -340,11 +342,11 @@ pigment <- stations %>%
     total_phaeo = tphaeo
   )
 
-names(pigment)
+names(surface)
 
-pigment <- pigment %>%
+surface <- surface %>%
   relocate(contains("model"), .after = last_col()) %>%
   relocate(contains("total"), .after = contains("chl")) %>%
   relocate(contains("xanthin"), .after = contains("total"))
 
-write_csv(pigment, here("data/clean/pigment.csv"))
+write_csv(surface, here("data/clean/surface.csv"))

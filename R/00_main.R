@@ -14,11 +14,10 @@ library(sf)
 library(MBA)
 library(assertr)
 library(glue)
-library(GGally) # For ggpair
+# library(GGally) # For ggpair
 
 library(ggpmthemes)
 
 # Set default ggplot2 font size and font family
 # devtools::install_github("PMassicotte/ggpmthemes")
-theme_set(theme_poppins(base_size = 10))
-
+theme_set(theme_light_modified(base_family = "Exo", base_size = 10))
