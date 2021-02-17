@@ -53,8 +53,19 @@ absorption
 
 # Stations information ----------------------------------------------------
 
-stations <- data.table::fread(here("data/raw/SurfaceData5(C4corr).txt")) %>%
-  janitor::clean_names() %>%
+file <- here("data/raw/SurfaceData5(C4corr).txt")
+
+header_names <- read_lines(file, n_max = 1) %>%
+  str_split(",") %>%
+  map(., ~ str_replace_all(., "/", "_divided_")) %>%
+  map(., ~ str_replace_all(., "\\+", "_plus_")) %>%
+  map(., ~ str_replace_all(., "\\(([:alpha:]\\d)", "_or_\\1")) %>%
+  map(., ~ janitor::make_clean_names(.)) %>%
+  unlist()
+
+header_names
+
+stations <- data.table::fread(file, col.names = header_names) %>%
   as_tibble() %>%
   mutate(station = str_to_upper(station))
 
@@ -74,8 +85,7 @@ station_metadata <- stations %>%
     latitude = lat,
     gmt_time = gm_ttime
   ) %>%
-  type_convert() %>%
-  drop_na(longitude, latitude)
+  type_convert()
 
 station_metadata %>%
   distinct(depth_m)
@@ -88,8 +98,8 @@ station_metadata %>%
 
 # Basic tests to ensure thate some of the data is within ranges.
 station_metadata %>%
-  verify(between(latitude, 0, 90)) %>%
-  verify(between(longitude, -20, 20)) %>%
+  assert(within_bounds(0, 90), latitude) %>%
+  assert(within_bounds(-20, 20), longitude) %>%
   verify(between(lubridate::year(date), 1997, 1998)) %>%
   verify(depth_m == 0)
 
@@ -113,15 +123,24 @@ names(absorption)
 
 stations <- stations %>%
   select(-c(
-    contains("cdom"),
-    contains("dta"),
-    contains("toa"),
-    contains("pga"),
-    matches("^bp_\\d{3}_bp_\\d{3}$"),
-    matches("^\\d{3}_bp_\\d{3}$"),
-    contains("for"),
+    matches("cdom_\\d{3}$"),
+    matches("dta_\\d{3}$"),
+    matches("toa_\\d{3}$"),
+    matches("pga_\\d{3}$"),
+    matches("^n\\d{3}$"),
+    contains("_divided_"),
+    contains("_plus_back"),
+    contains("_plus_pheo"),
     contains("colonne"),
-    matches("^a_nap_\\d{3}_a_nap_\\d{3}$")
+    contains("ternary"),
+    contains("trees"),
+    contains("tress"),
+    contains("total"),
+    contains("calculated"),
+    contains("massimo"),
+    starts_with("tot_"),
+    starts_with("a_tot_"),
+    all_of(c("percent_pico", "percent_nano", "percent_micro"))
   ))
 
 stations
@@ -135,13 +154,14 @@ ac9 <- stations %>%
     station,
     matches("^a\\d{3}$"),
     matches("^c\\d{3}$"),
+    matches("^c\\d{3}_or_"),
+    matches("^a\\d{3}_or_"),
     matches("^bp_\\d{3}$"),
-    matches("^n\\d{3}$"),
     matches("^ad\\d{3}$"),
     matches("^z1_\\d{3}$"),
-    matches("^cd\\d{3}$"),
-    matches("^a_tot_10_\\d{3}$")
+    matches("^cd\\d{3}$")
   ) %>%
+  rename_with(~str_remove(., "_or.*"), contains("_for_")) %>%
   pivot_longer(
     -station,
     names_pattern = c("(.*)_?(\\d{3})"),
@@ -149,23 +169,47 @@ ac9 <- stations %>%
     names_transform = list(wavelength = parse_integer)
   ) %>%
   rename_with(~ str_remove_all(., "_$")) %>%
-  rename(molecular_to_total_scattering_ratio = n) %>%
-  arrange(station, wavelength)
+  rename(
+    a_dissolved = ad,
+    c_dissolved = cd,
+    remote_sensed_vertical_layer_meter = z1
+  ) %>%
+  relocate(c_dissolved, .after = a_dissolved)
 
 ac9
 
-# Remove ac9 variables, so we can continue to process remaining variables.
+# Should have only 1 observation per wavelength
+ac9 %>%
+  count(station, wavelength) %>%
+  verify(n == 1)
 
+# Some wavelengths were not exactly the same on the C6 cruise because the
+# radiometer had a different configuration.
+
+ac9 <- ac9 %>%
+  mutate(wavelength = case_when(
+    str_starts(station, "C6") & wavelength == 555 ~ 532L,
+    str_starts(station, "C6") & wavelength == 630 ~ 555L,
+    str_starts(station, "C6") & wavelength == 650 ~ 630L,
+    TRUE ~ wavelength
+  ))
+
+# Should have only 1 observation per wavelength
+ac9 %>%
+  count(station, wavelength) %>%
+  verify(n == 1)
+
+# Remove ac9 variables, so we can continue to process remaining variables.
 stations <- stations %>%
   select(-c(
     matches("^a\\d{3}$"),
     matches("^c\\d{3}$"),
+    matches("^c\\d{3}_or_"),
+    matches("^a\\d{3}_or_"),
     matches("^bp_\\d{3}$"),
-    matches("^n\\d{3}$"),
     matches("^ad\\d{3}$"),
     matches("^z1_\\d{3}$"),
-    matches("^cd\\d{3}$"),
-    matches("^a_tot_10_\\d{3}$")
+    matches("^cd\\d{3}$")
   ))
 
 names(stations)
@@ -175,8 +219,7 @@ names(stations)
 reflectance <- stations %>%
   select(
     station,
-    matches("^measured_r"),
-    matches("^calculated_r")
+    matches("^measured_r")
   ) %>%
   pivot_longer(
     -station,
@@ -186,38 +229,17 @@ reflectance <- stations %>%
   ) %>%
   select(-unit) %>%
   rename_with(~ str_replace_all(., "r_$", "reflectance")) %>%
-  mutate(across(c(measured_reflectance, calculated_reflectance), ~ . / 100))
+  mutate(across(c(measured_reflectance), ~ . / 100))
 
 reflectance
-
-# Figure 77 in the final PDF report
-reflectance %>%
-  filter(wavelength == 705) %>%
-  drop_na() %>%
-  left_join(station_metadata, by = "station") %>%
-  ggplot(aes(x = measured_reflectance, y = calculated_reflectance)) +
-  geom_point(aes(color = area)) +
-  scale_x_log10(
-    labels = scales::label_percent(),
-    limits = c(1e-4, 1),
-    expand = c(0, 0)
-  ) +
-  scale_y_log10(
-    labels = scales::label_percent(),
-    limits = c(1e-4, 1),
-    expand = c(0, 0)
-  ) +
-  annotation_logticks() +
-  geom_abline() +
-  labs(
-    title = "Reflectance at 705 nm"
-  )
 
 stations <- stations %>%
   select(-c(
     matches("^measured_r"),
     matches("^calculated_r")
   ))
+
+names(stations)
 
 # Irradiance --------------------------------------------------------------
 
@@ -248,6 +270,8 @@ stations <- stations %>%
 
 stations
 
+names(stations)
+
 # Other -------------------------------------------------------------------
 
 # TODO: What to do with ay_443, sy_model, anap_443, b555_spm
@@ -255,16 +279,16 @@ stations
 # Remove empty rows -------------------------------------------------------
 
 absorption <- absorption %>%
-  filter(!if_all(-c(station, wavelength), ~is.na(.)))
+  filter(!if_all(-c(station, wavelength), ~ is.na(.)))
 
 ac9 <- ac9 %>%
-  filter(!if_all(-c(station, wavelength), ~is.na(.)))
+  filter(!if_all(-c(station, wavelength), ~ is.na(.)))
 
 irradiance <- irradiance %>%
-  filter(!if_all(-c(station, wavelength), ~is.na(.)))
+  filter(!if_all(-c(station, wavelength), ~ is.na(.)))
 
 reflectance <- reflectance %>%
-  filter(!if_all(-c(station, wavelength), ~is.na(.)))
+  filter(!if_all(-c(station, wavelength), ~ is.na(.)))
 
 write_csv(absorption, here("data/clean/absorption.csv"))
 write_csv(ac9, here("data/clean/ac9.csv"))
@@ -281,9 +305,11 @@ names(ac9)
 names(irradiance)
 names(reflectance)
 
-# Nutrients and phytoplankton ---------------------------------------------
+names(stations)
 
-nutrient <- stations %>%
+# pigments and phytoplankton ---------------------------------------------
+
+pigment <- stations %>%
   relocate(contains("chl"), .after = station) %>%
   rename(
     peridinin = peri,
@@ -296,14 +322,29 @@ nutrient <- stations %>%
     .fn = ~ glue("{.x}", "xanthin"),
     .cols = c(fuco, allo, zea, neo, viola, diato, diadino, prasi)
   ) %>%
-  rename_with(
-    ~ str_replace(., "tot_", "total_")
+  rename_with(~str_replace(., "_pga$", "_phy")) %>%
+  rename_with(~str_replace(., "_dta$", "_nap")) %>%
+  rename_with(~str_replace(., "_toa$", "_tot")) %>%
+  rename_with(everything(), .fn = ~ str_replace_all(., "chl([abc])", "chl_\\1")) %>%
+  rename_with(everything(), .fn = ~ str_replace_all(., "tchl", "total_chl")) %>%
+  rename_with(everything(), .fn = ~ str_replace_all(., "^t_", "total_")) %>%
+  rename(
+    a_cdom_443_model = ay_443_model,
+    s_cdom_model = sy_model,
+    average_baseline_cdom_model = y_model_intercept,
+    a_nap_443_model = anap_443_model,
+    s_nap_model = snap_model,
+    average_baseline_nap_model = nap_model_intercept,
+    fluorescence_line_height = flh,
+    solar_zenith_angle = theta_s,
+    total_phaeo = tphaeo
   )
 
-names(nutrient)
+names(pigment)
 
-# Remove ratio variables
+pigment <- pigment %>%
+  relocate(contains("model"), .after = last_col()) %>%
+  relocate(contains("total"), .after = contains("chl")) %>%
+  relocate(contains("xanthin"), .after = contains("total"))
 
-# TODO: Validate with Marcel
-nutrient %>%
-  names()
+write_csv(pigment, here("data/clean/pigment.csv"))
