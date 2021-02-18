@@ -107,8 +107,6 @@ absorption <- absorption %>%
     a_tot = a_tot + background_a_tot_average_745_750,
   )
 
-# Plot the North Sea spectra with the old background added.
-
 # Now I can calculate the new background between 746 and 750 nm.
 
 absorption <- absorption %>%
@@ -152,10 +150,6 @@ p <- absorption %>%
     subtitle = "The dashed red line is the value of back_tot.",
     y = quote(a[tot]~(m^{-1})),
     x = "Wavelength (nm)"
-  ) +
-  theme(
-    panel.border = element_blank(),
-    axis.ticks = element_blank()
   )
 
 ggsave(
