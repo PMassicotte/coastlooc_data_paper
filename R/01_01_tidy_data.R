@@ -96,7 +96,7 @@ station_metadata %>%
 station_metadata %>%
   count(area, system)
 
-# Basic tests to ensure thate some of the data is within ranges.
+# Basic tests to ensure that some of the data is within ranges.
 station_metadata %>%
   assert(within_bounds(0, 90), latitude) %>%
   assert(within_bounds(-20, 20), longitude) %>%
@@ -272,10 +272,6 @@ stations
 
 names(stations)
 
-# Other -------------------------------------------------------------------
-
-# TODO: What to do with ay_443, sy_model, anap_443, b555_spm
-
 # Remove empty rows -------------------------------------------------------
 
 absorption <- absorption %>%
@@ -350,3 +346,4 @@ surface <- surface %>%
   relocate(contains("xanthin"), .after = contains("total"))
 
 write_csv(surface, here("data/clean/surface.csv"))
+

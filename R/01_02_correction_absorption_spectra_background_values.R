@@ -86,7 +86,7 @@ p <- absorption_north_sea %>%
   )
 
 ggsave(
-  here("graphs/03_a_tot_spectra_north_sea_without_background.pdf"),
+  here("graphs/01_02_a_tot_spectra_north_sea_without_background.pdf"),
   device = cairo_pdf,
   width = 8,
   height = 6
@@ -130,7 +130,6 @@ absorption %>%
   geom_point() +
   geom_abline(color = "red")
 
-
 # Plot the North Sea spectra with the old background added ----------------
 
 p <- absorption %>%
@@ -153,7 +152,7 @@ p <- absorption %>%
   )
 
 ggsave(
-  here("graphs/03_a_tot_spectra_north_sea_with_background.pdf"),
+  here("graphs/01_02_a_tot_spectra_north_sea_with_background.pdf"),
   device = cairo_pdf,
   width = 8,
   height = 6
@@ -168,4 +167,8 @@ absorption <- absorption %>%
     a_tot = a_tot - background_a_tot_average_746_750,
   )
 
-data.table::fwrite(absorption, here("data/clean/absorption_background_corrected.csv"))
+absorption
+
+absorption %>%
+  select(station, wavelength, starts_with("a_")) %>%
+  data.table::fwrite(here("data/clean/absorption_background_corrected.csv"))

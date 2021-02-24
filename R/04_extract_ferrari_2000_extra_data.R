@@ -1,4 +1,4 @@
-# <><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><>
+ # <><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><>
 # AUTHOR:       Philippe Massicotte
 #
 # DESCRIPTION:  Extract data from Ferrari 2000.
@@ -44,7 +44,8 @@ df2 <- df[i == 6] %>%
 # dataset.
 
 massimo <- bind_rows(df1, df2) %>%
-  filter(depth_m == 0)
+  filter(depth_m == 0) %>%
+  select(-depth_m)
 
 massimo
 
@@ -69,7 +70,6 @@ df_viz <- scdom_ferrari %>%
     cruise == "C4" ~ "C4 (The)",
   ))
 
-
 p <- df_viz %>%
   ggplot(aes(x = s_cdom, s_cdom_model, color = cruise)) +
   geom_point() +
@@ -81,7 +81,7 @@ p <- df_viz %>%
   )
 
 ggsave(
-  here("graphs/05_scdom_ferrari_vs_babin.pdf"),
+  here("graphs/04_scdom_ferrari_vs_babin.pdf"),
   device = cairo_pdf,
   width = 6,
   height = 4
@@ -89,4 +89,30 @@ ggsave(
 
 # Export data -------------------------------------------------------------
 
-# TODO
+surface <- read_csv(here("data/clean/surface.csv"))
+
+surface
+
+# Rename the stations found in Ferrari so they match those of Marcel's data.
+massimo <- massimo %>%
+  mutate(station = str_replace(station, "VH", "C10")) %>%
+  mutate(station = str_replace(station, "The", "C40")) %>%
+  mutate(station = str_pad(station, width = 8, side = "right", pad = "0"))
+
+massimo
+
+# Remove variables that are already included in Marcel's data.
+massimo <- massimo %>%
+  select(-contains("cdom"))
+
+massimo %>%
+  anti_join(surface, by = "station") %>%
+  verify(nrow(.) == 0)
+
+df <- surface %>%
+  left_join(massimo, by = "station")
+
+df
+
+df %>%
+  write_csv(here("data/clean/surface.csv"))
