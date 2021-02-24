@@ -57,13 +57,17 @@ p <- df_sf %>%
     expand = FALSE,
     crs = map_crs
   ) +
-  facet_wrap(~lubridate::year(time))
+  facet_wrap(~lubridate::year(time)) +
+  labs(
+    title = "Map with Valente et al. data",
+    subtitle = "There are no overlaps with the COASTLOOC data."
+  )
 
 ggsave(
-  here("graphs/99_map_valente_et_al.pdf"),
+  here("graphs/09_map_valente_et_al.pdf"),
   device = cairo_pdf,
   width = 8,
   height = 8
 )
 
-knitr::plot_crop(here("graphs/99_map_valente_et_al.pdf"))
+knitr::plot_crop(here("graphs/09_map_valente_et_al.pdf"))
