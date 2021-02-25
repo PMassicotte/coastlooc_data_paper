@@ -1,5 +1,6 @@
 graphs/
 data/
+*.html
 
 .Rproj.user
 .Rhistory
