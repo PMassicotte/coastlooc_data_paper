@@ -45,7 +45,7 @@ save_fun <- function(p) {
     str_remove("p_")
 
   ggsave(
-    here(glue("graphs/03_{fname}_spectra_by_area.pdf")),
+    here(glue("graphs/05_{fname}_spectra_by_area.pdf")),
     plot = p,
     device = cairo_pdf,
     height = 6,

@@ -81,7 +81,7 @@ p <- df_viz %>%
   )
 
 ggsave(
-  here("graphs/04_scdom_ferrari_vs_babin.pdf"),
+  here("graphs/06_scdom_ferrari_vs_babin.pdf"),
   device = cairo_pdf,
   width = 6,
   height = 4

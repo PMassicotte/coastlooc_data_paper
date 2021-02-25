@@ -79,7 +79,7 @@ p2 <- df %>%
 p <- p1 / p2
 
 ggsave(
-  here("graphs/01_03_raw_absorption_spectra.pdf"),
+  here("graphs/03_raw_absorption_spectra.pdf"),
   device = cairo_pdf,
   height = 8,
   width = 10
@@ -135,7 +135,7 @@ p <- df_pred %>%
   )
 
 ggsave(
-  here("graphs/01_03_fitted_acdom.pdf"),
+  here("graphs/03_fitted_acdom.pdf"),
   device = cairo_pdf,
   width = 18,
   height = 10
@@ -224,7 +224,7 @@ p <- p1 / p2 +
   )
 
 ggsave(
-  here("graphs/01_03_comparing_acdom_spectra.pdf"),
+  here("graphs/03_comparing_acdom_spectra.pdf"),
   device = cairo_pdf,
   width = 6,
   height = 8
@@ -268,7 +268,7 @@ p <- df_viz %>%
   )
 
 ggsave(
-  here("graphs/01_03_worst_fitted_acdom.pdf"),
+  here("graphs/03_worst_fitted_acdom.pdf"),
   device = cairo_pdf,
   width = 12,
   height = 10

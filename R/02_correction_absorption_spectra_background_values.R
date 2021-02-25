@@ -86,7 +86,7 @@ p <- absorption_north_sea %>%
   )
 
 ggsave(
-  here("graphs/01_02_a_tot_spectra_north_sea_without_background.pdf"),
+  here("graphs/02_a_tot_spectra_north_sea_without_background.pdf"),
   device = cairo_pdf,
   width = 8,
   height = 6
@@ -152,7 +152,7 @@ p <- absorption %>%
   )
 
 ggsave(
-  here("graphs/01_02_a_tot_spectra_north_sea_with_background.pdf"),
+  here("graphs/02_a_tot_spectra_north_sea_with_background.pdf"),
   device = cairo_pdf,
   width = 8,
   height = 6

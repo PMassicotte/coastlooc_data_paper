@@ -34,9 +34,16 @@ theme_update(
 
 # Scripts -----------------------------------------------------------------
 
-source("R/01_01_tidy_data.R")
-source("R/01_02_correction_absorption_spectra_background_values.R")
-source("R/01_03_tidy_absorption_spectra.R")
-source("R/02_geographic_map.R")
-source("R/03_visualize_absorption_spectra_by_area.R")
-source("R/04_extract_ferrari_2000_extra_data.R")
+source("R/01_tidy_data.R")
+source("R/02_correction_absorption_spectra_background_values.R")
+source("R/03_tidy_absorption_spectra.R")
+source("R/04_geographic_map.R")
+source("R/05_visualize_absorption_spectra_by_area.R")
+source("R/06_extract_ferrari_2000_extra_data.R")
+# source("R/07_clean_nutrient.R")
+source("R/08_clean_irradiance.R")
+source("R/09_clean_reflectance.R")
+source("R/10_clean_ac9.R")
+source("R/11_valente_2019.R")
+source("R/12_average_absorption_spectra_by_area.R")
+

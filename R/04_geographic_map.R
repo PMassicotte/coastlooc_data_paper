@@ -7,6 +7,8 @@
 
 rm(list = ls())
 
+source("R/zzz.R")
+
 stations <- read_csv(here("data/clean/stations.csv"))
 
 stations
@@ -124,8 +126,9 @@ p <- ggplot() +
     key_glyph = "rect",
     aes(color = area)
   ) +
-  paletteer::scale_color_paletteer_d(
-    "ggthemes::gdoc",
+  scale_color_manual(
+    breaks = area_breaks,
+    values = area_colors,
     guide = guide_legend(
       title = element_blank(),
       label.position = "top",
@@ -177,7 +180,7 @@ p <- ggplot() +
     axis.title = element_blank()
   )
 
-outfile <- here("graphs/02_geographic_map.pdf")
+outfile <- here("graphs/04_geographic_map.pdf")
 
 ggsave(
   outfile,
@@ -187,3 +190,10 @@ ggsave(
 )
 
 knitr::plot_crop(outfile)
+
+pdftools::pdf_convert(
+  outfile,
+  format = "png",
+  filenames = fs::path_ext_set(outfile, "png"),
+  dpi = 300
+)

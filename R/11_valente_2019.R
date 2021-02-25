@@ -63,11 +63,13 @@ p <- df_sf %>%
     subtitle = "There are no overlaps with the COASTLOOC data."
   )
 
+file <- here("graphs/11_map_valente_et_al.pdf")
+
 ggsave(
-  here("graphs/09_map_valente_et_al.pdf"),
+  file,
   device = cairo_pdf,
   width = 8,
   height = 8
 )
 
-knitr::plot_crop(here("graphs/09_map_valente_et_al.pdf"))
+knitr::plot_crop(file)
