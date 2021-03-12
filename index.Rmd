@@ -23,6 +23,8 @@ library(tidyverse)
 
 # What has been done
 
+This section shows the main steps that have been applied to pre-process the raw data.
+
 ## aCDOM spectra
 
 -   The CDOM spectra were modeled according to the information in Babin 2003.
@@ -53,15 +55,17 @@ library(tidyverse)
 
 -   Extracted extra variables (`DOC`, `AQY`) from Massimo 2000.
 
-# Geographical map
+# Visualizations
 
-The same color palette will be used to represent the areas in all graphics.
+Just some graphs to visualize the data. *Note that the same color palette will be used to represent the areas in all graphics.*
+
+## Geographical map
 
 ```{r}
 knitr::include_graphics(here("graphs/04_geographic_map.png"))
 ```
 
-# Available variables
+## Available variables
 
 Just an overview of the available variables (excluding radiometric measurements).
 
@@ -69,7 +73,7 @@ Just an overview of the available variables (excluding radiometric measurements)
 knitr::include_graphics(here("graphs/07_number_observation_nutrient_by_area.png"))
 ```
 
-# Absorption measurements
+## Absorption measurements
 
 Overview of the averaged absorption spectra for each area. The `acdom` spectra have been refitted from the original/raw spectra corrected with the new 746-750 nm background.
 
@@ -88,8 +92,6 @@ We can see that the `DOC` follows the same pattern as `acdom443`.
 ```{r}
 knitr::include_graphics(here("graphs/13_boxplot_doc_by_area.png"))
 ```
-
-# Other graphics
 
 We can also use scatterplots to further explore the relationships among variables.
 
