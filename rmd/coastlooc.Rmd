@@ -42,23 +42,21 @@ The CDOM spectra were modeled according to the information in Babin 2003.
 
 -   Some spectra start at 300 nm while others at 350 nm.
 
--   There are clear problems with the spectra of the C6 cruise.
-
--   Calculate the correlation between the measured and the fitted values as an indicator to remove bad fits.
+-   Calculated the correlation between the measured and the fitted values. Fits with R2 than 0.99 were removed from the data.
 
 -   Export the complete spectra (350-700): both the raw and the modeled data.
 
 ## Phytoplankton and non-algal absorption
 
--   Original data had background averaged calculated between 745 and 750 nm. This average background have been re-added to the spectra. Thereafter, a new background value has been calculated between 746 and 750 nm and subtracted from the spectra.
-
-## Other stuff
-
--   Extracted extra variables (DOC, AQY) in table in Massimo 2000.
+-   Original data had background averaged calculated between 745 and 750 nm. This average background have been re-added to the spectra. Thereafter, a new averaged background value has been calculated between 746 and 750 nm and subtracted from the spectra.
 
 ## Irradiance
 
--   There were negative values in the irradiance data (Ed, Eu, Kd, Ku). I have cleaned the data by setting these negative values to `NA`.
+-   There were negative values in the irradiance data (`Ed`, `Eu`, `Kd`, `Ku`). I have cleaned the data by setting these negative values to `NA`.
+
+## Other stuff
+
+-   Extracted extra variables (`DOC`, `AQY`) in Massimo 2000.
 
 # Geographical map
 
@@ -78,17 +76,25 @@ knitr::include_graphics(here("graphs/07_number_observation_nutrient_by_area.png"
 
 # Absorption measurements
 
-Overview of the averaged absorption spectra for each area. The $a_{\text{CDOM}}$ spectra have been refitted from the original/raw spectra.
+Overview of the averaged absorption spectra for each area. The `acdom` spectra have been refitted from the original/raw spectra corrected with the new 746-750 nm background.
 
 ```{r}
 knitr::include_graphics(here("graphs/12_average_absorption_spectra_by_area.png"))
 ```
 
-Comparing $a_{\text{CDOM}}(443)$ for the different areas. There is a clear gradient pattern among the areas.
+Comparing `acdom443` for the different areas. There is a clear open to coastal gradient pattern among the areas.
 
 ```{r}
-knitr::include_graphics(here("graphs/14_absorption.png"))
+knitr::include_graphics(here("graphs/14_boxplot_acdom443_by_area.png"))
 ```
+
+We can see that the `DOC` follows the same pattern as `acdom443`.
+
+```{r}
+knitr::include_graphics(here("graphs/13_boxplot_doc_by_area.png"))
+```
+
+# Other graphics
 
 We can also use scatterplots to further explore the relationships among variables.
 
@@ -96,13 +102,7 @@ We can also use scatterplots to further explore the relationships among variable
 knitr::include_graphics(here("graphs/14_aphy_vs_anap.png"))
 ```
 
-# Other graphics
-
-```{r}
-knitr::include_graphics(here("graphs/13_boxplot_doc_by_area.png"))
-```
-
-We can also explore the relationships between some pigments.
+Relationships between some pigments.
 
 ```{r}
 knitr::include_graphics(here("graphs/nano_chla_vs_hexanoyloxyfucoxanthin_19.png"))
@@ -128,7 +128,7 @@ knitr::include_graphics(here("graphs/nano_chla_vs_hexanoyloxyfucoxanthin_19.png"
 
 -   `Eu` means that `Eu0-` was estimated (see with Marcel, I do not remember what it means).
 
--   `Ed` is `Ed0-` calculated from 0.96\*ed0+.
+-   `Ed` is `Ed0-` calculated from `0.96 x ed0+`.
     - Change the name in the data files `ed` to `ed0-`.
 
 ## Reflectance
