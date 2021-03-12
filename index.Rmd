@@ -1,15 +1,11 @@
 ---
 title: "COASTLOOC data paper"
-# description: Presentation of the main results.
-author:
-  - name: Philippe Massicotte
 date: "`r Sys.Date()`"
 output: 
   distill::distill_article:
     toc: true
     toc_float: true
     theme: theme.css
-# bibliography: /home/filoche/Documents/library.bib
 ---
 
 ```{r setup, include=FALSE}
@@ -29,7 +25,7 @@ library(tidyverse)
 
 ## CDOM spectra
 
-The CDOM spectra were modeled according to the information in Babin 2003.
+- The CDOM spectra were modeled according to the information in Babin 2003.
 
 -   acdom spectra were re-fitted using the complete data (i.e. wavelength between at 350 nm instead of 380 nm).
 
@@ -38,13 +34,13 @@ The CDOM spectra were modeled according to the information in Babin 2003.
 
 -   Average background values calculated between 683-687 nm.
 
--   Some files were in binary format, so I could not open them (e.: `C2001000.YSA`).
+-   Some files were in binary format, so I could not open them (ex.: `C2001000.YSA`).
 
 -   Some spectra start at 300 nm while others at 350 nm.
 
 -   Calculated the correlation between the measured and the fitted values. Fits with R2 than 0.99 were removed from the data.
 
--   Export the complete spectra (350-700): both the raw and the modeled data.
+-   Exported the complete spectra (350-700 nm): both the raw and the modeled data.
 
 ## Phytoplankton and non-algal absorption
 
