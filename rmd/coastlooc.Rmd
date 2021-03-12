@@ -1,0 +1,142 @@
+---
+title: "COASTLOOC data paper"
+# description: Presentation of the main results.
+author:
+  - name: Philippe Massicotte
+date: "`r Sys.Date()`"
+output: 
+  distill::distill_article:
+    toc: true
+    toc_float: true
+    theme: theme.css
+# bibliography: /home/filoche/Documents/library.bib
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(
+  echo = FALSE,
+  message = FALSE,
+  warning = FALSE,
+  fig.pos = "center",
+  cache = TRUE
+)
+
+library(here)
+library(tidyverse)
+```
+
+# What has been done
+
+## CDOM spectra
+
+The CDOM spectra were modeled according to the information in Babin 2003.
+
+-   acdom spectra were re-fitted using the complete data (i.e. wavelength between at 350 nm instead of 380 nm).
+
+
+-   Between 350-500 nm.
+
+-   Average background values calculated between 683-687 nm.
+
+-   Some files were in binary format, so I could not open them (e.: `C2001000.YSA`).
+
+-   Some spectra start at 300 nm while others at 350 nm.
+
+-   There are clear problems with the spectra of the C6 cruise.
+
+-   Calculate the correlation between the measured and the fitted values as an indicator to remove bad fits.
+
+-   Export the complete spectra (350-700): both the raw and the modeled data.
+
+## Phytoplankton and non-algal absorption
+
+-   Original data had background averaged calculated between 745 and 750 nm. This average background have been re-added to the spectra. Thereafter, a new background value has been calculated between 746 and 750 nm and subtracted from the spectra.
+
+## Other stuff
+
+-   Extracted extra variables (DOC, AQY) in table in Massimo 2000.
+
+## Irradiance
+
+-   There were negative values in the irradiance data (Ed, Eu, Kd, Ku). I have cleaned the data by setting these negative values to `NA`.
+
+# Geographical map
+
+The same color palette will be used to represent the areas in all graphics.
+
+```{r}
+knitr::include_graphics(here("graphs/04_geographic_map.png"))
+```
+
+# Available variables
+
+Just an overview of the available variables (excluding radiometric measurements).
+
+```{r}
+knitr::include_graphics(here("graphs/07_number_observation_nutrient_by_area.png"))
+```
+
+# Absorption measurements
+
+Overview of the averaged absorption spectra for each area. The $a_{\text{CDOM}}$ spectra have been refitted from the original/raw spectra.
+
+```{r}
+knitr::include_graphics(here("graphs/12_average_absorption_spectra_by_area.png"))
+```
+
+Comparing $a_{\text{CDOM}}(443)$ for the different areas. There is a clear gradient pattern among the areas.
+
+```{r}
+knitr::include_graphics(here("graphs/14_absorption.png"))
+```
+
+We can also use scatterplots to further explore the relationships among variables.
+
+```{r}
+knitr::include_graphics(here("graphs/14_aphy_vs_anap.png"))
+```
+
+# Other graphics
+
+```{r}
+knitr::include_graphics(here("graphs/13_boxplot_doc_by_area.png"))
+```
+
+We can also explore the relationships between some pigments.
+
+```{r}
+knitr::include_graphics(here("graphs/nano_chla_vs_hexanoyloxyfucoxanthin_19.png"))
+```
+
+# TODOS
+
+-   There are two stations without geographical coordinates: `C2001000`, `C2002000`.
+
+-   Find a good way to flag the data:
+
+    -   For example, all `a_phy`, `a_nap`, `a_tot` spectra contain negative absorption values, but this does not mean they are bad spectra.
+
+-   There are a lot of nutrient parameters that have values of zero. Are they true zero or indicate missing values?
+
+-   Orientation of the paper
+
+    -   The data is a mix of temporal and spatial observations, so how should we present the data?
+
+        -   By `area`?
+
+## Irradiance data
+
+-   `Eu` means that `Eu0-` was estimated (see with Marcel, I do not remember what it means).
+
+-   `Ed` is `Ed0-` calculated from 0.96\*ed0+.
+    - Change the name in the data files `ed` to `ed0-`.
+
+## Reflectance
+
+-   There are negative values.
+
+## AC9
+
+-   `a(715)` is always at 0.
+
+-   There are negative values.
