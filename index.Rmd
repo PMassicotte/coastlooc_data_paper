@@ -23,14 +23,11 @@ library(tidyverse)
 
 # What has been done
 
-## CDOM spectra
+## aCDOM spectra
 
-- The CDOM spectra were modeled according to the information in Babin 2003.
+-   The CDOM spectra were modeled according to the information in Babin 2003.
 
--   acdom spectra were re-fitted using the complete data (i.e. wavelength between at 350 nm instead of 380 nm).
-
-
--   Between 350-500 nm.
+    -   `acdom` spectra were re-fitted using the complete data (i.e. between 350-500 nm).
 
 -   Average background values calculated between 683-687 nm.
 
@@ -44,15 +41,17 @@ library(tidyverse)
 
 ## Phytoplankton and non-algal absorption
 
--   Original data had background averaged calculated between 745 and 750 nm. This average background have been re-added to the spectra. Thereafter, a new averaged background value has been calculated between 746 and 750 nm and subtracted from the spectra.
+-   Original data had average background calculated between 745 and 750 nm. This average background have been re-added to the spectra. Thereafter, a new averaged background values were calculated between 746 and 750 nm and subtracted from the spectra.
 
 ## Irradiance
 
 -   There were negative values in the irradiance data (`Ed`, `Eu`, `Kd`, `Ku`). I have cleaned the data by setting these negative values to `NA`.
 
+    -   **To validate**
+
 ## Other stuff
 
--   Extracted extra variables (`DOC`, `AQY`) in Massimo 2000.
+-   Extracted extra variables (`DOC`, `AQY`) from Massimo 2000.
 
 # Geographical map
 
@@ -78,7 +77,7 @@ Overview of the averaged absorption spectra for each area. The `acdom` spectra h
 knitr::include_graphics(here("graphs/12_average_absorption_spectra_by_area.png"))
 ```
 
-Comparing `acdom443` for the different areas. There is a clear open to coastal gradient pattern among the areas.
+Comparing `acdom443` for the different areas shows that there is a clear open to coastal gradient.
 
 ```{r}
 knitr::include_graphics(here("graphs/14_boxplot_acdom443_by_area.png"))
@@ -125,7 +124,8 @@ knitr::include_graphics(here("graphs/nano_chla_vs_hexanoyloxyfucoxanthin_19.png"
 -   `Eu` means that `Eu0-` was estimated (see with Marcel, I do not remember what it means).
 
 -   `Ed` is `Ed0-` calculated from `0.96 x ed0+`.
-    - Change the name in the data files `ed` to `ed0-`.
+
+    -   Change the name in the data files `ed` to `ed0-`.
 
 ## Reflectance
 
