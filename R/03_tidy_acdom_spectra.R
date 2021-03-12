@@ -1,7 +1,11 @@
 # <><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><>
 # AUTHOR:       Philippe Massicotte
 #
-# DESCRIPTION:  Tidy and model aCDOM spectra.
+# DESCRIPTION:  Tidy and model aCDOM spectra. After discussion with Marcel, he
+# provided the original (i.e. un-corrected aCDOM spectra) files. Here I am
+# converting these from absorbance to absorption. Then I remove the average
+# background (683 - 687 nm). Finally, I model the spectra using a simple
+# exponential function.
 # <><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><>
 
 rm(list = ls())
@@ -73,13 +77,14 @@ p2 <- df %>%
   labs(
     x = "Wavelength (nm)",
     y = quote(a[CDOM]~(m^{-1})),
-    title = quote(bold(Baseline~corrected~a[CDOM]~spectra))
+    title = quote(bold(Baseline~corrected~a[CDOM]~spectra)),
+    subtitle = "Average aCDOM value between 683-687 nm has been removed."
   )
 
 p <- p1 / p2
 
 ggsave(
-  here("graphs/03_raw_absorption_spectra.pdf"),
+  here("graphs/03_raw_and_background_corrected_acdom_spectra.pdf"),
   device = cairo_pdf,
   height = 8,
   width = 10
@@ -135,7 +140,7 @@ p <- df_pred %>%
   )
 
 ggsave(
-  here("graphs/03_fitted_acdom.pdf"),
+  here("graphs/03_fitted_acdom_spectra.pdf"),
   device = cairo_pdf,
   width = 18,
   height = 10
@@ -268,13 +273,14 @@ p <- df_viz %>%
   )
 
 ggsave(
-  here("graphs/03_worst_fitted_acdom.pdf"),
+  here("graphs/03_worst_fitted_acdom_spectra.pdf"),
   device = cairo_pdf,
   width = 12,
   height = 10
 )
 
-# Export
+# Export ------------------------------------------------------------------
+
 df %>%
   unnest(mod_pred) %>%
   select(station,
