@@ -76,7 +76,7 @@ p <- absorption_north_sea %>%
   facet_wrap(~ glue("{station} ({area})"), scales = "free_y") +
   labs(
     title = quote(bold("Examples of "~ a[tot] ~"spectra in the North Sea")),
-    subtitle = "The dashed red line is the value of back_tot.",
+    subtitle = "The dashed red line is the value of back_tot (745-750 nm).",
     y = quote(a[tot]~(m^{-1})),
     x = "Wavelength (nm)"
   ) +
@@ -86,7 +86,7 @@ p <- absorption_north_sea %>%
   )
 
 ggsave(
-  here("graphs/02_a_tot_spectra_north_sea_without_background.pdf"),
+  here("graphs/02_a_tot_spectra_north_sea_without_745_750_background.pdf"),
   device = cairo_pdf,
   width = 8,
   height = 6
@@ -106,6 +106,34 @@ absorption <- absorption %>%
     a_nap = a_nap + background_a_nap_average_745_750,
     a_tot = a_tot + background_a_tot_average_745_750,
   )
+
+# Plot the North Sea spectra with the old background added ----------------
+
+p <- absorption %>%
+  semi_join(absorption_north_sea, by = "station") %>%
+  ggplot(aes(x = wavelength, y = a_tot)) +
+  geom_line() +
+  geom_hline(
+    aes(yintercept = background_a_tot_average_745_750),
+    color = "red",
+    lty = 2,
+    size = 0.25
+  ) +
+  geom_hline(yintercept = 0, color = "blue", lty = 2, size = 0.25) +
+  facet_wrap(~ glue("{station} ({area})"), scales = "free_y") +
+  labs(
+    title = quote(bold("Examples of "~ a[tot] ~"spectra in the North Sea")),
+    subtitle = "The dashed red line is the value of back_tot (745-750 nm).",
+    y = quote(a[tot]~(m^{-1})),
+    x = "Wavelength (nm)"
+  )
+
+ggsave(
+  here("graphs/02_a_tot_spectra_north_sea_with_745_750_background.pdf"),
+  device = cairo_pdf,
+  width = 8,
+  height = 6
+)
 
 # Now I can calculate the new background between 746 and 750 nm.
 
@@ -130,34 +158,6 @@ absorption %>%
   geom_point() +
   geom_abline(color = "red")
 
-# Plot the North Sea spectra with the old background added ----------------
-
-p <- absorption %>%
-  semi_join(absorption_north_sea, by = "station") %>%
-  ggplot(aes(x = wavelength, y = a_tot)) +
-  geom_line() +
-  geom_hline(
-    aes(yintercept = background_a_tot_average_745_750),
-    color = "red",
-    lty = 2,
-    size = 0.25
-  ) +
-  geom_hline(yintercept = 0, color = "blue", lty = 2, size = 0.25) +
-  facet_wrap(~ glue("{station} ({area})"), scales = "free_y") +
-  labs(
-    title = quote(bold("Examples of "~ a[tot] ~"spectra in the North Sea")),
-    subtitle = "The dashed red line is the value of back_tot.",
-    y = quote(a[tot]~(m^{-1})),
-    x = "Wavelength (nm)"
-  )
-
-ggsave(
-  here("graphs/02_a_tot_spectra_north_sea_with_background.pdf"),
-  device = cairo_pdf,
-  width = 8,
-  height = 6
-)
-
 # Subtract the new background values --------------------------------------
 
 absorption <- absorption %>%
@@ -168,6 +168,36 @@ absorption <- absorption %>%
   )
 
 absorption
+
+# Plot the North Sea spectra with the old background added ----------------
+
+p <- absorption %>%
+  semi_join(absorption_north_sea, by = "station") %>%
+  ggplot(aes(x = wavelength, y = a_tot)) +
+  geom_line() +
+  geom_hline(
+    aes(yintercept = background_a_tot_average_746_750),
+    color = "red",
+    lty = 2,
+    size = 0.25
+  ) +
+  geom_hline(yintercept = 0, color = "blue", lty = 2, size = 0.25) +
+  facet_wrap(~ glue("{station} ({area})"), scales = "free_y") +
+  labs(
+    title = quote(bold("Examples of "~ a[tot] ~"spectra in the North Sea")),
+    subtitle = "The dashed red line is the value of back_tot (746-750 nm).",
+    y = quote(a[tot]~(m^{-1})),
+    x = "Wavelength (nm)"
+  )
+
+ggsave(
+  here("graphs/02_a_tot_spectra_north_sea_with_746_750_background.pdf"),
+  device = cairo_pdf,
+  width = 8,
+  height = 6
+)
+
+# Export ------------------------------------------------------------------
 
 absorption %>%
   select(station, wavelength, starts_with("a_")) %>%
