@@ -1,11 +1,13 @@
 ---
 title: "COASTLOOC data paper"
-date: "`r Sys.Date()`"
-output: 
-  distill::distill_article:
+date: "Last compiled on `r format(Sys.time(), '%d %B, %Y')`"
+output:
+  html_document:
+    highlight: zenburn
+    css: "theme.css"
     toc: true
-    toc_float: true
-    theme: theme.css
+    toc_float:
+      collapsed: false
 ---
 
 ```{r setup, include=FALSE}
@@ -21,11 +23,11 @@ library(here)
 library(tidyverse)
 ```
 
-# What has been done
+## What has been done
 
 This section shows the main steps that have been applied to pre-process the raw data.
 
-## aCDOM spectra
+### aCDOM spectra
 
 -   The CDOM spectra were modeled according to the information in Babin 2003.
 
@@ -41,31 +43,31 @@ This section shows the main steps that have been applied to pre-process the raw 
 
 -   Exported the complete spectra (350-700 nm): both the raw and the modeled data.
 
-## Phytoplankton and non-algal absorption
+### Phytoplankton and non-algal absorption
 
 -   Original data had average background calculated between 745 and 750 nm. This average background have been re-added to the spectra. Thereafter, a new averaged background values were calculated between 746 and 750 nm and subtracted from the spectra.
 
-## Irradiance
+### Irradiance
 
 -   There were negative values in the irradiance data (`Ed`, `Eu`, `Kd`, `Ku`). I have cleaned the data by setting these negative values to `NA`.
 
     -   **To validate**
 
-## Other stuff
+### Other stuff
 
 -   Extracted extra variables (`DOC`, `AQY`) from Massimo 2000.
 
-# Visualizations
+## Visualizations
 
 Just some graphs to visualize the data. *Note that the same color palette will be used to represent the areas in all graphics.*
 
-## Geographical map
+### Geographical map
 
 ```{r}
 knitr::include_graphics(here("graphs/04_geographic_map.png"))
 ```
 
-## Available variables
+### Available variables
 
 Just an overview of the available variables (excluding radiometric measurements).
 
@@ -73,7 +75,7 @@ Just an overview of the available variables (excluding radiometric measurements)
 knitr::include_graphics(here("graphs/07_number_observation_nutrient_by_area.png"))
 ```
 
-## Absorption measurements
+### Absorption measurements
 
 Overview of the averaged absorption spectra for each area. The `acdom` spectra have been refitted from the original/raw spectra corrected with the new 746-750 nm background.
 
@@ -105,7 +107,7 @@ Relationships between some pigments.
 knitr::include_graphics(here("graphs/nano_chla_vs_hexanoyloxyfucoxanthin_19.png"))
 ```
 
-# TODOS
+## TODOS
 
 -   There are two stations without geographical coordinates: `C2001000`, `C2002000`.
 
@@ -121,7 +123,7 @@ knitr::include_graphics(here("graphs/nano_chla_vs_hexanoyloxyfucoxanthin_19.png"
 
         -   By `area`?
 
-## Irradiance data
+### Irradiance data
 
 -   `Eu` means that `Eu0-` was estimated (see with Marcel, I do not remember what it means).
 
@@ -129,11 +131,11 @@ knitr::include_graphics(here("graphs/nano_chla_vs_hexanoyloxyfucoxanthin_19.png"
 
     -   Change the name in the data files `ed` to `ed0-`.
 
-## Reflectance
+### Reflectance
 
 -   There are negative values.
 
-## AC9
+### AC9
 
 -   `a(715)` is always at 0.
 
