@@ -26,7 +26,7 @@ body {
 Table of content
 */
 #TOC>ul>li {
-  font-weight: bold;
+  font-weight: 500;
 }
 
 #TOC {
