@@ -17,10 +17,26 @@ pre {
   border-radius: 10px;
 }
 
-div.tocify {
-    font-size: 14px;
+body {
+  font-family: "Montserrat", sans-serif;
+  font-size: 18px;
 }
 
+/*
+Table of content
+*/
+#TOC>ul>li {
+  font-weight: bold;
+}
+
+#TOC {
+  font-family: "Montserrat", sans-serif;
+  font-size: 14px;
+}
+
+/*
+Titles
+*/
 h1.title {
   font-size: 30px;
   font-family: "Open Sans", sans-serif;
@@ -61,10 +77,6 @@ h3 {
   padding: 5px 5px 5px 10px;
 }
 
-.d-contents nav h3 {
-    background: transparent;
-}
-
 code {
   font-size: 90%;
   font-family: "Roboto Mono", monospace;
@@ -75,7 +87,5 @@ code {
   padding: 0 4px 1px;
 }
 
-body {
-  font-family: "Montserrat", sans-serif;
-  font-size: 18px;
-}
+
+
