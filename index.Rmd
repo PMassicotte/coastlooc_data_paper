@@ -139,6 +139,31 @@ However, I was told that the background values were calculated between 745-750 n
 knitr::include_graphics(here("graphs/02_comparing_745_750_and_746_750_backgrounds.png"))
 ```
 
+- There are some stations in the raw `acdom` data (ex.: `C5006066`) that have no entries in `SurfaceData5(C4corr).txt`. That means that we do not have coordinates nor area for stations like `C5006066`. The next list shows all the `acdom` stations without metadata.
+
+```{r}
+station <- read_csv(here("data/clean/stations.csv")) %>%
+  select(station, area)
+
+absorption <-
+  vroom::vroom(here("data/clean/absorption_background_corrected.csv")) %>%
+  left_join(station, by = "station") %>%
+  relocate(area, .after = station)
+
+absorption %>%
+  filter(is.na(area)) %>%
+  distinct(station) 
+```
+
+
+### Variable naming
+
+My understanding is that background variables in the original data should be renamed as follow (*validate if 745-750 nm or 746-750 nm*):
+
+- `background_a_cdom_average_683_687` = `y_model_intercept`
+- `background_a_phy_average_745_750` = `back_pga`
+- `background_a_nap_average_745_750` = `back_dta`
+- `background_a_tot_average_745_750` = `back_toa`
 
 ### Irradiance data
 
