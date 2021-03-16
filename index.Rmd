@@ -21,6 +21,7 @@ knitr::opts_chunk$set(
 
 library(here)
 library(tidyverse)
+library(kableExtra)
 ```
 
 ## What has been done
@@ -39,7 +40,8 @@ This section shows the main steps that have been applied to pre-process the raw 
 
 - Some spectra start at 300 nm while others at 350 nm.
 
-- Calculated the correlation between the measured and the fitted values. Fits with R2 than 0.99 were removed from the data.
+- Calculated the correlation between the measured and the fitted values. 
+    - Fits with R2 than 0.99 were removed from the data.
 
 - Exported the complete spectra (350-700 nm): both the raw and the modeled data.
 
@@ -53,17 +55,21 @@ This section shows the main steps that have been applied to pre-process the raw 
 
   - **To validate**
 
+### Reflectance
+
+- Reflectance values outside the 0-1 range were set to `NA`.
+
 ### Other stuff
 
 - Extracted extra variables (`DOC`, `AQY`) from Massimo 2000.
 
 ## Visualizations
 
-Just some graphs to visualize the data. _Note that the same color palette will be used to represent the areas in all graphics._
+Just some graphs to visualize the data. *Note that the same color palette will be used to represent the areas in all graphics.*
 
 ### Geographical map
 
-There were a total of 424 different stations that were sampled during the COASTLOOC expeditions.
+There is a total of 424 different stations that were sampled during the COASTLOOC expeditions.
 
 ```{r}
 knitr::include_graphics(here("graphs/04_geographic_map.png"))
@@ -125,7 +131,7 @@ In Babin 2003, it is said:
 
 > A baseline correction was applied by subtracting the absorbance value averaged over a 5-nm interval around 685 nm from all the spectral values.
 
-In the data, there is a variable called `y_model_intercept`. Is this variable really a value derived from a model? I think it is more the average value calculated between 683-687 nm. If I am right, `y_model_intercept` should be renamed to `background_a_cdom_average_683_687`.
+In the data, there is a variable called `y_model_intercept`. *Is this variable really a value derived from a model?* I think it is more the average value calculated between 683-687 nm. If I am right, `y_model_intercept` should be renamed to `background_a_cdom_average_683_687`.
 
 ### aphy and atot
 
@@ -133,7 +139,7 @@ In Babin 2003, it is said:
 
 > ...from all the measured spectral values of ap(l) and aNAP(l), respectively (to be exact, the averages of the measured values **between 746 and 750 nm** were subtracted).
 
-However, I was told that the background values were calculated between 745-750 nm. I was asked to re-do it but between 746-750 nm. If I compare both background values, they fit perfectly on the 1:1 line.
+However, I was told that the background values were calculated between 745-750 nm. I calculated new background values between 746-750 nm. If I compare both background values, they fit perfectly on the 1:1 line.
 
 ```{r}
 knitr::include_graphics(here("graphs/02_comparing_745_750_and_746_750_backgrounds.png"))
@@ -173,9 +179,19 @@ My understanding is that background variables in the original data should be ren
 
   - Change the name in the data files `ed` to `ed0-`.
 
-### Reflectance
+- Do we simply set negative vlaues to `NA` or completly remove the spectral profile? For example, we can look at the `ed` values for station `A2008000`.
 
-- There are negative values.
+```{r}
+irradiance <- read_csv(here("data/clean/irradiance.csv"))
+
+df <- irradiance %>%
+  filter(station == "A2008000")
+
+df %>% 
+  kbl() %>% 
+  kable_paper("striped", full_width = FALSE, font_size = 14)
+```
+
 
 ### AC9
 
