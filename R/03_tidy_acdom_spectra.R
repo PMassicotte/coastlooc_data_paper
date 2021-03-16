@@ -10,6 +10,8 @@
 
 rm(list = ls())
 
+source("R/zzz.R")
+
 files <- fs::dir_ls(here("data/raw/CDOM/"), recurse = TRUE, glob = "*.YSA")
 
 df <- files %>%
@@ -34,6 +36,15 @@ df <- df %>%
   select(-filename)
 
 df
+
+# Attach metadata ---------------------------------------------------------
+
+stations <- read_csv(here("data/clean/stations.csv")) %>%
+  select(station, area)
+
+df <- stations %>%
+  inner_join(df, by = "station") %>%
+  arrange(station, wavelength)
 
 # Convert to absorption ---------------------------------------------------
 
@@ -93,7 +104,7 @@ ggsave(
 # Model acdom spectra -----------------------------------------------------
 
 df <- df %>%
-  group_nest(station, cruise) %>%
+  group_nest(station, cruise, area) %>%
   mutate(mod = map(
     data,
     ~ minpack.lm::nlsLM(
@@ -119,7 +130,7 @@ df
 
 df_viz <- df %>%
   # slice_sample(n = 10) %>%
-  select(station, cruise, mod_pred, r2) %>%
+  select(station, area, cruise, mod_pred, r2) %>%
   unnest(mod_pred) %>%
   group_nest(station, r2, keep = TRUE) %>%
   arrange(desc(r2))
@@ -137,14 +148,18 @@ plot_acdom <- function(df) {
     labs(
       x = "Wavelength (nm)",
       y = quote(a[CDOM]~(lambda)),
-      title = glue("{unique(df$station)} (R2 = {round(unique(df$r2), digits = 4)})"),
+      title = glue("{unique(df$station)} ({unique(df$area)}) (R2 = {round(unique(df$r2), digits = 4)})"),
       subtitle = "Fits have been performed between 350 and 500 nm."
     )
 
   print(p)
 }
 
-pdf(here("graphs/03_fitted_acdom_spectra.pdf"), width = 7, height = 5)
+pdf(
+  here("graphs/03_fitted_acdom_spectra_ordered_from_best_to_worst_fits.pdf"),
+  width = 7,
+  height = 5
+)
 
 walk(df_viz$data, plot_acdom)
 
@@ -153,18 +168,22 @@ dev.off()
 # Filter bad spectra ------------------------------------------------------
 
 df %>%
-  select(r2) %>%
+  select(area, r2) %>%
   ggplot(aes(x = r2)) +
-  geom_histogram(binwidth = 0.001)
+  geom_histogram(bins = 50) +
+  facet_wrap(~area, scales = "free") +
+  geom_vline(xintercept = 0.95, lty = 2, size = 0.25, color = "red")
 
-# Only keep the best fits (R2 >= 0.99)
+# Only keep the best fits
 df_filtered <- df %>%
-  filter(r2 >= 0.99) %>%
-  unnest(mod_augmented) %>%
-  select(station,
+  filter(r2 >= 0.95) %>%
+  unnest(mod_pred) %>%
+  select(
+    station,
+    area,
     wavelength,
     a_cdom_measured = absorption_background_corrected,
-    a_cdom_modeled = .fitted,
+    a_cdom_modeled = pred,
     r2
   ) %>%
   arrange(station, wavelength)
@@ -174,17 +193,21 @@ df_filtered
 # Visualize the worst remaining fits.
 p <- df_filtered %>%
   group_nest(station, r2) %>%
-  top_n(n = 49, wt = -r2) %>%
+  top_n(n = 36, wt = -r2) %>%
   unnest(data) %>%
   ggplot(aes(x = wavelength, y = a_cdom_measured)) +
   geom_point(size = 0.5) +
+  scale_color_manual(
+    breaks = area_breaks,
+    values = area_colors
+  ) +
   geom_line(aes(y = a_cdom_modeled), color = "red") +
-  facet_wrap(~station, scales = "free_y") +
+  facet_wrap(~glue("{station}\n{area}"), scales = "free_y") +
   labs(
     x = "Wavelength (nm)",
     y = quote(a[CDOM]~(m^{-1})),
     title = "Worst fitted aCDOM spectra",
-    subtitle = "I filtered to keep only fits with R2 >= 0.99. These are the worst 49 fits after the filter."
+    subtitle = "I filtered to keep only fits with R2 >= 0.95. These are the worst 36 fits after the filter."
   )
 
 ggsave(
@@ -197,6 +220,9 @@ ggsave(
 # Merge with other absorption data ----------------------------------------
 
 df_filtered
+
+df_filtered <- df_filtered %>%
+  select(-area)
 
 absorption <- vroom::vroom(here("data/clean/absorption_without_acdom.csv"))
 
@@ -211,3 +237,4 @@ absorption_merged
 # Export ------------------------------------------------------------------
 
 write_csv(absorption_merged, here("data/clean/absorption.csv"))
+

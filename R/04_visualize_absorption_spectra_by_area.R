@@ -6,23 +6,26 @@
 
 rm(list = ls())
 
-station <- read_csv(here("data/clean/stations.csv")) %>%
-  select(station, area)
+absorption <- vroom::vroom(here("data/clean/absorption.csv"))
 
-absorption <- vroom::vroom(here("data/clean/absorption_background_corrected.csv")) %>%
-  left_join(station, by = "station") %>%
-  relocate(area, .after = station)
+stations <- read_csv(here("data/clean/stations.csv"))
+
+absorption <- absorption %>%
+  full_join(stations, by = "station") %>%
+  add_count(station, area, wavelength) %>%
+  assertr::verify(n == 1) %>%
+  select(-n)
 
 ggabsorption <- function(absorption, variable, display_name) {
 
   p <- absorption %>%
+    drop_na({{variable}}) %>%
     ggplot(aes(x = wavelength, y = {{variable}}, group = station)) +
     geom_line(size = 0.1, alpha = 0.5) +
     geom_hline(yintercept = 0, color = "blue", lty = 2, size = 0.25) +
     facet_wrap(~ glue("{station} ({area})"), scales = "free_y") +
     labs(
       title = parse(text = glue("bold({display_name}~'spectra for the different systems')")),
-      subtitle = "Data from all_abs_transpose.txt",
       y = parse(text = glue("{display_name}~(m^{-1})")),
       x = "Wavelength (nm)"
     ) +
@@ -38,7 +41,7 @@ ggabsorption <- function(absorption, variable, display_name) {
 p_a_phy <- ggabsorption(absorption, a_phy, "a[phy]")
 p_a_nap <- ggabsorption(absorption, a_nap, "a[nap]")
 p_a_tot <- ggabsorption(absorption, a_tot, "a[tot]")
-p_a_cdom <- ggabsorption(absorption, a_cdom_babin_2003, "a[cdom]")
+p_a_cdom <- ggabsorption(absorption, a_cdom_modeled, "a[cdom]")
 
 save_fun <- function(p) {
 
@@ -46,7 +49,7 @@ save_fun <- function(p) {
     str_remove("p_")
 
   ggsave(
-    here(glue("graphs/05_{fname}_spectra_by_area.pdf")),
+    here(glue("graphs/04_{fname}_spectra_by_area.pdf")),
     plot = p,
     device = cairo_pdf,
     height = 6,
