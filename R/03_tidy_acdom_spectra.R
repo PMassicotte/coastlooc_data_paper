@@ -5,7 +5,7 @@
 # provided the original (i.e. un-corrected aCDOM spectra) files. Here I am
 # converting these from absorbance to absorption. Then I remove the average
 # background (683 - 687 nm). Finally, I model the spectra using a simple
-# exponential function.
+# exponential function (see Babin 2003 GJR).
 # <><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><>
 
 rm(list = ls())
@@ -93,7 +93,6 @@ ggsave(
 # Model acdom spectra -----------------------------------------------------
 
 df <- df %>%
-  # filter(between(wavelength, 350, 500)) %>%
   group_nest(station, cruise) %>%
   mutate(mod = map(
     data,
@@ -109,157 +108,73 @@ df <- df %>%
 df <- df %>%
   mutate(mod_augmented = map(mod, broom::augment)) %>%
   mutate(mod_pred = map2(data, mod, modelr::add_predictions)) %>%
-  mutate(r = map_dbl(
+  mutate(r2 = map_dbl(
     mod_augmented,
-    ~ cor(.$absorption_background_corrected, .$.fitted)
+    ~ cor(.$absorption_background_corrected, .$.fitted)^2
   ))
 
 df
 
-# Visualize fitted models -------------------------------------------------
-
-set.seed(2021)
-
-df_pred <- df %>%
-  group_by(cruise) %>%
-  slice_sample(n = 10) %>%
-  unnest(mod_pred)
-
-p <- df_pred %>%
-  filter(between(wavelength, 350, 500)) %>%
-  ggplot(aes(x = wavelength, y = absorption_background_corrected, group = station)) +
-  geom_point(size = 0.1) +
-  geom_line(aes(y = pred), size = 0.25, color = "red") +
-  geom_hline(yintercept = 0, lty = 2, size = 0.25, color = "blue") +
-  facet_wrap(~station, scales = "free_y", ncol = 10) +
-  labs(
-    x = "Wavelength (nm)",
-    y = quote(a[CDOM]~(m^{-1})),
-    title = quote(bold(Baseline~corrected~a[CDOM]~spectra)),
-    subtitle = str_wrap("Random selection of 10 spectra per cruise. The red line is the fitted model between 350-500 nm.", 120)
-  )
-
-ggsave(
-  here("graphs/03_fitted_acdom_spectra.pdf"),
-  device = cairo_pdf,
-  width = 18,
-  height = 10
-)
-
-# Compare with Marcel's acdom spectra -------------------------------------
+# Visualize fitted spectra ------------------------------------------------
 
 df_viz <- df %>%
+  # slice_sample(n = 10) %>%
+  select(station, cruise, mod_pred, r2) %>%
   unnest(mod_pred) %>%
-  select(station, wavelength, a_cdom_modeled = pred, absorption_background_corrected, r) %>%
-  ungroup()
+  group_nest(station, r2, keep = TRUE) %>%
+  arrange(desc(r2))
 
 df_viz
 
-absorption <- vroom::vroom(here("data/clean/absorption_background_corrected.csv")) %>%
-  select(station, wavelength, a_cdom)
+plot_acdom <- function(df) {
 
-# Seems there are more stations included in the complete acdom spectra compared
-# to the data included in all_abs_transpose.txt
+  p <- df %>%
+    ggplot(aes(x = wavelength, y = absorption_background_corrected)) +
+    geom_point(color = "gray50") +
+    geom_line(aes(y = pred), color = "red") +
+    geom_vline(xintercept = c(350, 500), lty = 2, color = "#3c3c3c") +
+    scale_x_continuous(breaks = seq(200, 800, by = 50)) +
+    labs(
+      x = "Wavelength (nm)",
+      y = quote(a[CDOM]~(lambda)),
+      title = glue("{unique(df$station)} (R2 = {round(unique(df$r2), digits = 4)})"),
+      subtitle = "Fits have been performed between 350 and 500 nm."
+    )
 
-# 381 stations
-df_viz %>%
-  distinct(station)
+  print(p)
+}
 
-# 311 stations
-absorption %>%
-  distinct(station)
+pdf(here("graphs/03_fitted_acdom_spectra.pdf"), width = 7, height = 5)
 
-df_viz <- df_viz %>%
-  left_join(absorption, by = c("station", "wavelength"))
+walk(df_viz$data, plot_acdom)
 
-df_viz
+dev.off()
 
-# This is one of the station where we do not have a good match between Marcel
-# fits and my fits.
-
-lab <- df_viz %>%
-  filter(station == "C5029000") %>%
-  filter(wavelength == 443)
-
-p1 <- df_viz %>%
-  # filter(r > 0.95) %>%
-  filter(wavelength == 443) %>%
-  ggplot(aes(x = a_cdom_modeled, y = a_cdom, label = station)) +
-  geom_point(size = 0.5, color = "#3c3c3c") +
-  geom_abline(size = 0.25, color = "red", lty = 2) +
-  ggforce::geom_mark_circle(
-    data = lab,
-    aes(label = station),
-    expand = unit(1, "mm"),
-    color = "red"
-  ) +
-  labs(
-    title = bquote(bold("Comparing fitted"~a[CDOM]~(443))),
-    subtitle = "There are only few mismatches.",
-    x = quote(a[CDOM]~(Phil)),
-    y = quote(a[CDOM]~(Marcel))
-  )
-
-p2 <- df_viz %>%
-  filter(station == "C5029000") %>%
-  pivot_longer(contains("cdom")) %>%
-  ggplot(aes(x = wavelength, y = value, color = name)) +
-  geom_point(aes(y = absorption_background_corrected), size = 0.5, color = "#3c3c3c") +
-  geom_line() +
-  labs(
-    title = "A closer look at the station C5029000",
-    x = "Wavelength (nm)",
-    y = quote(a[CDOM]~(m^{-1}))
-  ) +
-  scale_color_discrete(
-    breaks = c("a_cdom", "a_cdom_modeled"),
-    labels = c(quote(a[CDOM]~(Marcel)), quote(a[CDOM]~(Phil)))
-  ) +
-  theme(
-    legend.title = element_blank(),
-    legend.position = "top"
-  )
-
-p <- p1 / p2 +
-  plot_annotation(
-    tag_levels = "A"
-  ) &
-  theme(
-    plot.tag = element_text(face = "bold")
-  )
-
-ggsave(
-  here("graphs/03_comparing_acdom_spectra.pdf"),
-  device = cairo_pdf,
-  width = 6,
-  height = 8
-)
-
-# Export the acdom spectra ------------------------------------------------
+# Filter bad spectra ------------------------------------------------------
 
 df %>%
-  select(r) %>%
-  ggplot(aes(x = r)) +
+  select(r2) %>%
+  ggplot(aes(x = r2)) +
   geom_histogram(binwidth = 0.001)
 
 # Only keep the best fits (R2 >= 0.99)
-df_viz <- df %>%
-  filter(r * r >= 0.99) %>%
+df_filtered <- df %>%
+  filter(r2 >= 0.99) %>%
   unnest(mod_augmented) %>%
   select(station,
     wavelength,
     a_cdom_measured = absorption_background_corrected,
     a_cdom_modeled = .fitted,
-    r
+    r2
   ) %>%
   arrange(station, wavelength)
 
-df_viz
+df_filtered
 
 # Visualize the worst remaining fits.
-p <- df_viz %>%
-  group_nest(station, r) %>%
-  top_n(n = 49, wt = -r) %>%
+p <- df_filtered %>%
+  group_nest(station, r2) %>%
+  top_n(n = 49, wt = -r2) %>%
   unnest(data) %>%
   ggplot(aes(x = wavelength, y = a_cdom_measured)) +
   geom_point(size = 0.5) +
@@ -279,13 +194,20 @@ ggsave(
   height = 10
 )
 
+# Merge with other absorption data ----------------------------------------
+
+df_filtered
+
+absorption <- vroom::vroom(here("data/clean/absorption_without_acdom.csv"))
+
+absorption_merged <- absorption %>%
+  full_join(df_filtered, by = c("station", "wavelength")) %>%
+  add_count(station, wavelength) %>%
+  assertr::verify(n == 1) %>% # make sure there is only 1 obs per station/wl
+  select(-n)
+
+absorption_merged
+
 # Export ------------------------------------------------------------------
 
-df %>%
-  unnest(mod_pred) %>%
-  select(station,
-    wavelength,
-    a_cdom_measured = absorption_background_corrected,
-    a_cdom_modeled = pred
-  ) %>%
-  write_csv(here("data/clean/a_cdom.csv"))
+write_csv(absorption_merged, here("data/clean/absorption.csv"))

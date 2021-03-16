@@ -18,8 +18,6 @@ library(tabulizer)
 library(patchwork)
 library(corrr)
 
-# library(GGally) # For ggpair
-
 library(ggpmthemes)
 
 # Set default ggplot2 font size and font family

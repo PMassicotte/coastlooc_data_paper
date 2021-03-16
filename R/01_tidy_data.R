@@ -41,7 +41,6 @@ absorption
 
 absorption <- absorption %>%
   rename(
-    a_cdom = cdom,
     a_phy = pga,
     a_phy_specific = aph_spe,
     a_nap = dta,
@@ -50,6 +49,12 @@ absorption <- absorption %>%
   relocate(starts_with("a_phy"), .after = wavelength)
 
 absorption
+
+# Remove cdom data, will use the "raw" data with the complete range of
+# wavelengths.
+
+absorption <- absorption %>%
+  select(-contains("cdom"))
 
 # Stations information ----------------------------------------------------
 
@@ -116,7 +121,7 @@ stations
 
 # In this file, there are a lot of radiometric quantities that have been
 # measured that need to be tidied. Remove absorption data that were already
-# tidied
+# tidied.
 
 names(stations)
 names(absorption)
@@ -286,7 +291,7 @@ irradiance <- irradiance %>%
 reflectance <- reflectance %>%
   filter(!if_all(-c(station, wavelength), ~ is.na(.)))
 
-write_csv(absorption, here("data/clean/absorption.csv"))
+write_csv(absorption, here("data/clean/absorption_without_acdom.csv"))
 write_csv(ac9, here("data/clean/ac9.csv"))
 write_csv(irradiance, here("data/clean/irradiance.csv"))
 write_csv(reflectance, here("data/clean/reflectance.csv"))
@@ -303,7 +308,7 @@ names(reflectance)
 
 names(stations)
 
-# surfaces and phytoplankton ---------------------------------------------
+# surface and phytoplankton ----------------------------------------------
 
 surface <- stations %>%
   relocate(contains("chl"), .after = station) %>%
@@ -319,20 +324,19 @@ surface <- stations %>%
     .cols = c(fuco, allo, zea, neo, viola, diato, diadino, prasi)
   ) %>%
   rename(
-    background_a_phy_average_745_750 = back_pga,
-    background_a_nap_average_745_750 = back_dta,
-    background_a_tot_average_745_750 = back_toa
+    background_a_cdom_average_683_687 = y_model_intercept,
+    background_a_phy_average_746_750 = back_pga,
+    background_a_nap_average_746_750 = back_dta,
+    background_a_tot_average_746_750 = back_toa
   ) %>%
   rename_with(everything(), .fn = ~ str_replace_all(., "chl([abc])", "chl_\\1")) %>%
   rename_with(everything(), .fn = ~ str_replace_all(., "tchl", "total_chl")) %>%
   rename_with(everything(), .fn = ~ str_replace_all(., "^t_", "total_")) %>%
   rename(
     a_cdom_443_model = ay_443_model,
-    s_cdom_model = sy_model,
-    average_baseline_cdom_model = y_model_intercept,
+    s_cdom_350_500_model = sy_model,
     a_nap_443_model = anap_443_model,
     s_nap_model = snap_model,
-    average_baseline_nap_model = nap_model_intercept,
     fluorescence_line_height = flh,
     solar_zenith_angle = theta_s,
     total_phaeo = tphaeo
@@ -340,10 +344,26 @@ surface <- stations %>%
 
 names(surface)
 
+# Found out that "nap_model_intercept" was very similar to "back_dta"
+# ("background_a_nap_average_746_750"). I decided to remove it from the data to
+# avoid possible confusion.
+
+surface <- surface %>%
+  select(-nap_model_intercept)
+
+# Let's remove all CDOM data because Marcel provided me with the original acdom
+# files with a larger spectral range. I will use this data in the final data.
+
+surface <- surface %>%
+  select(-contains("cdom"))
+
 surface <- surface %>%
   relocate(contains("model"), .after = last_col()) %>%
+  relocate(contains("background"), .after = last_col()) %>%
   relocate(contains("total"), .after = contains("chl")) %>%
   relocate(contains("xanthin"), .after = contains("total"))
+
+names(surface)
 
 write_csv(surface, here("data/clean/surface.csv"))
 
