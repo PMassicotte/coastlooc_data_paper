@@ -24,7 +24,7 @@ library(tidyverse)
 library(kableExtra)
 ```
 
-## What has been done
+## Data cleaning
 
 This section shows the main steps that have been applied to pre-process the raw data.
 
@@ -32,28 +32,27 @@ This section shows the main steps that have been applied to pre-process the raw 
 
 - The CDOM spectra were modeled according to the information in Babin 2003.
 
-  - `acdom` spectra were re-fitted using the complete data (i.e. between 350-500 nm).
+  - `acdom` spectra were re-fitted using the complete data (i.e. between 350-500 nm) because the data in `all_abs_transpose.txt` started at 380 nm.
 
-- Average background values calculated between 683-687 nm.
+- Average background values calculated between 683-687 nm and subtracted from each spectra.
 
 - Some files were in binary format, so I could not open them (ex.: `C2001000.YSA`).
 
 - Some spectra start at 300 nm while others at 350 nm.
 
-- Calculated the correlation between the measured and the fitted values. 
-    - Fits with R2 than 0.99 were removed from the data.
+- Calculated the correlation between the measured and the fitted values.
+
+  - Fits with R2 than 0.99 were removed from the data.
 
 - Exported the complete spectra (350-700 nm): both the raw and the modeled data.
 
 ### Phytoplankton and non-algal absorption
 
-- Original data had average background calculated between 745 and 750 nm. This average background have been re-added to the spectra. Thereafter, a new averaged background values were calculated between 746 and 750 nm and subtracted from the spectra.
+- Nothing special was done with this data. I just transposed the data.
 
 ### Irradiance
 
 - There were negative values in the irradiance data (`Ed`, `Eu`, `Kd`, `Ku`). I have cleaned the data by setting these negative values to `NA`.
-
-  - **To validate**
 
 ### Reflectance
 
@@ -63,6 +62,24 @@ This section shows the main steps that have been applied to pre-process the raw 
 
 - Extracted extra variables (`DOC`, `AQY`) from Massimo 2000.
 
+## TODOS
+
+- There are a lot of nutrient parameters that have values of zero. Are they true zero or indicate missing values?
+
+### Irradiance data
+
+- `Eu` means that `Eu0-` was estimated (see with Marcel, I do not remember what it means).
+
+- `Ed` is `Ed0-` calculated from `0.94 x ed0+`.
+
+  - Change the name in the data files `ed` to `ed0-`.
+
+## Orientation of the paper
+
+- The data is a mix of temporal and spatial observations, so how should we present the data?
+
+- By `area`?
+
 ## Visualizations
 
 Just some graphs to visualize the data. *Note that the same color palette will be used to represent the areas in all graphics.*
@@ -71,8 +88,10 @@ Just some graphs to visualize the data. *Note that the same color palette will b
 
 There is a total of 424 different stations that were sampled during the COASTLOOC expeditions.
 
+- Note that there are two stations without geographical coordinates: `C2001000`, `C2002000`.
+
 ```{r}
-knitr::include_graphics(here("graphs/04_geographic_map.png"))
+knitr::include_graphics(here("graphs/02_geographic_map.png"))
 ```
 
 ### Available variables
@@ -80,33 +99,33 @@ knitr::include_graphics(here("graphs/04_geographic_map.png"))
 Just an overview of the available variables (excluding radiometric measurements).
 
 ```{r}
-knitr::include_graphics(here("graphs/07_number_observation_nutrient_by_area.png"))
+knitr::include_graphics(here("graphs/06_number_observation_nutrient_by_area.png"))
 ```
 
 ### Absorption measurements
 
-Overview of the averaged absorption spectra for each area. The `acdom` spectra have been refitted from the original/raw spectra corrected with the new 746-750 nm background.
+Overview of the averaged absorption spectra for each area.
 
 ```{r}
-knitr::include_graphics(here("graphs/12_average_absorption_spectra_by_area.png"))
+knitr::include_graphics(here("graphs/11_average_absorption_spectra_by_area.png"))
 ```
 
 Comparing `acdom443` for the different areas shows that there is a clear open to coastal gradient.
 
 ```{r}
-knitr::include_graphics(here("graphs/14_boxplot_acdom443_by_area.png"))
+knitr::include_graphics(here("graphs/13_boxplot_acdom443_by_area.png"))
 ```
 
 We can see that the `DOC` follows the same pattern as `acdom443`.
 
 ```{r}
-knitr::include_graphics(here("graphs/13_boxplot_doc_by_area.png"))
+knitr::include_graphics(here("graphs/12_boxplot_doc_by_area.png"))
 ```
 
 We can also use scatter-plots to further explore the relationships among variables.
 
 ```{r}
-knitr::include_graphics(here("graphs/14_aphy_vs_anap.png"))
+knitr::include_graphics(here("graphs/13_aphy_vs_anap.png"))
 ```
 
 Relationships between some pigments.
@@ -114,93 +133,3 @@ Relationships between some pigments.
 ```{r}
 knitr::include_graphics(here("graphs/nano_chla_vs_hexanoyloxyfucoxanthin_19.png"))
 ```
-
-## TODOS
-
-- There are two stations without geographical coordinates: `C2001000`, `C2002000`.
-
-- Find a good way to flag the data:
-
-  - For example, all `a_phy`, `a_nap`, `a_tot` spectra contain negative absorption values, but this does not mean they are bad spectra.
-
-- There are a lot of nutrient parameters that have values of zero. Are they true zero or indicate missing values?
-
-### aCDOM
-
-In Babin 2003, it is said:
-
-> A baseline correction was applied by subtracting the absorbance value averaged over a 5-nm interval around 685 nm from all the spectral values.
-
-In the data, there is a variable called `y_model_intercept`. *Is this variable really a value derived from a model?* I think it is more the average value calculated between 683-687 nm. If I am right, `y_model_intercept` should be renamed to `background_a_cdom_average_683_687`.
-
-### aphy and atot
-
-In Babin 2003, it is said:
-
-> ...from all the measured spectral values of ap(l) and aNAP(l), respectively (to be exact, the averages of the measured values **between 746 and 750 nm** were subtracted).
-
-However, I was told that the background values were calculated between 745-750 nm. I calculated new background values between 746-750 nm. If I compare both background values, they fit perfectly on the 1:1 line.
-
-```{r}
-knitr::include_graphics(here("graphs/02_comparing_745_750_and_746_750_backgrounds.png"))
-```
-
-- There are some stations in the raw `acdom` data (ex.: `C5006066`) that have no entries in `SurfaceData5(C4corr).txt`. That means that we do not have coordinates nor area for stations like `C5006066`. The next list shows all the `acdom` stations without metadata.
-
-```{r}
-station <- read_csv(here("data/clean/stations.csv")) %>%
-  select(station, area)
-
-absorption <-
-  vroom::vroom(here("data/clean/absorption_background_corrected.csv")) %>%
-  left_join(station, by = "station") %>%
-  relocate(area, .after = station)
-
-absorption %>%
-  filter(is.na(area)) %>%
-  distinct(station) 
-```
-
-
-### Variable naming
-
-My understanding is that background variables in the original data should be renamed as follow (*validate if 745-750 nm or 746-750 nm*):
-
-- `background_a_cdom_average_683_687` = `y_model_intercept`
-- `background_a_phy_average_745_750` = `back_pga`
-- `background_a_nap_average_745_750` = `back_dta`
-- `background_a_tot_average_745_750` = `back_toa`
-
-### Irradiance data
-
-- `Eu` means that `Eu0-` was estimated (see with Marcel, I do not remember what it means).
-
-- `Ed` is `Ed0-` calculated from `0.96 x ed0+`.
-
-  - Change the name in the data files `ed` to `ed0-`.
-
-- Do we simply set negative vlaues to `NA` or completly remove the spectral profile? For example, we can look at the `ed` values for station `A2008000`.
-
-```{r}
-irradiance <- read_csv(here("data/clean/irradiance.csv"))
-
-df <- irradiance %>%
-  filter(station == "A2008000")
-
-df %>% 
-  kbl() %>% 
-  kable_paper("striped", full_width = FALSE, font_size = 14)
-```
-
-
-### AC9
-
-- `a(715)` is always at 0.
-
-- There are negative values.
-
-## Orientation of the paper
-
-- The data is a mix of temporal and spatial observations, so how should we present the data?
-
-- By `area`?

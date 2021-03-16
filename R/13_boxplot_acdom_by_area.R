@@ -5,11 +5,12 @@ station <- read_csv(here("data/clean/stations.csv"))
 
 # acdom -------------------------------------------------------------------
 
-acdom <- read_csv(here("data/clean/a_cdom.csv")) %>%
+acdom <- read_csv(here("data/clean/absorption.csv")) %>%
   left_join(station, ., by = "station")
 
 p <- acdom %>%
   filter(wavelength == 443) %>%
+  drop_na(a_cdom_modeled) %>%
   # mutate(area = str_wrap(area, 12)) %>%
   mutate(area = fct_reorder(area, a_cdom_modeled, .fun = mean)) %>%
   ggplot(aes(x = area, y = a_cdom_modeled, fill = area)) +
@@ -27,7 +28,7 @@ p <- acdom %>%
     legend.position = "none"
   )
 
-file <- here("graphs/14_boxplot_acdom443_by_area.pdf")
+file <- here("graphs/13_boxplot_acdom443_by_area.pdf")
 
 ggsave(
   file,
@@ -45,18 +46,18 @@ pdftools::pdf_convert(
 
 # aphy --------------------------------------------------------------------
 
-aphy <- read_csv(here("data/clean/absorption_background_corrected.csv")) %>%
+aphy <- read_csv(here("data/clean/absorption.csv")) %>%
   left_join(station, ., by = "station")
 
 aphy %>%
   filter(wavelength == 443) %>%
   ggplot(aes(x = a_phy, y = a_nap, color = area)) +
-  geom_point() +
+  geom_point(size = 0.5) +
   facet_wrap(~area, scales = "free") +
   scale_x_log10() +
   scale_y_log10() +
   annotation_logticks(size = 0.25, color = "gray50") +
-  geom_smooth(method = "lm") +
+  geom_smooth(method = "lm", size = 0.25) +
   scale_color_manual(
     breaks = area_breaks,
     values = area_colors
@@ -69,7 +70,7 @@ aphy %>%
     legend.position = "none"
   )
 
-file <- here("graphs/14_aphy_vs_anap.pdf")
+file <- here("graphs/13_aphy_vs_anap.pdf")
 
 ggsave(
   file,

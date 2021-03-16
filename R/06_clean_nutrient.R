@@ -98,7 +98,7 @@ p <- nutrient %>%
     plot.title.position = "plot"
   )
 
-file <- here("graphs/07_number_observation_nutrient_by_area.pdf")
+file <- here("graphs/06_number_observation_nutrient_by_area.pdf")
 
 ggsave(
   file,

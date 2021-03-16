@@ -27,7 +27,7 @@ p <- df %>%
     legend.position = "none"
   )
 
-file <- here("graphs/13_boxplot_doc_by_area.pdf")
+file <- here("graphs/12_boxplot_doc_by_area.pdf")
 
 ggsave(
   file,

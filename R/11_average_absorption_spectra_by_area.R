@@ -2,11 +2,8 @@ source("R/zzz.R")
 
 station <- read_csv(here("data/clean/stations.csv"))
 
-absorption <- read_csv(here("data/clean/absorption_background_corrected.csv")) %>%
-  left_join(station, ., by = "station")
-
-acdom <- read_csv(here("data/clean/a_cdom.csv")) %>%
-  filter(wavelength >= 380) %>%
+absorption <- read_csv(here("data/clean/absorption.csv")) %>%
+  filter(wavelength >= 350) %>%
   left_join(station, ., by = "station") %>%
   group_by(area, wavelength) %>%
   summarise(across(starts_with("a_"), ~ mean(., na.rm = TRUE))) %>%
@@ -66,7 +63,7 @@ p3 <- df_viz %>%
     legend.position = "none"
   )
 
-p4 <- acdom %>%
+p4 <- absorption %>%
   ggplot(aes(x = wavelength, y = a_cdom_modeled, color = area)) +
   geom_line() +
   scale_color_manual(
@@ -99,7 +96,7 @@ p <- wrap_plots(p1, p2, p3, p4, ncol = 2) +
     plot.tag = element_text(face = "bold")
   )
 
-file <- here("graphs/12_average_absorption_spectra_by_area.pdf")
+file <- here("graphs/11_average_absorption_spectra_by_area.pdf")
 
 ggsave(
   file,
