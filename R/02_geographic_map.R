@@ -180,7 +180,7 @@ p <- ggplot() +
     axis.title = element_blank()
   )
 
-outfile <- here("graphs/04_geographic_map.pdf")
+outfile <- here("graphs/02_geographic_map.pdf")
 
 ggsave(
   outfile,

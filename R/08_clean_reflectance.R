@@ -21,7 +21,7 @@ p <- reflectance %>%
   ) +
   labs(
     title = "Histograms of raw reflectance data",
-    subtitle = "There are negative values in this data.",
+    subtitle = "There are values outside the 0-1 range.",
     x = "Measured reflectance"
   )
 
@@ -31,7 +31,7 @@ ggsave(
   height = 5
 )
 
-# Remove negative values --------------------------------------------------
+# Remove values outside the 0-1 range -------------------------------------
 
 reflectance
 
@@ -52,7 +52,7 @@ p <- reflectance_clean %>%
   ) +
   labs(
     title = "Histograms of reflectance data",
-    subtitle = "Values lower than 0% and higher than 100% have been removed.",
+    subtitle = "Values lower than 0% or higher than 100% have been removed.",
     x = "Measured reflectance"
   )
 

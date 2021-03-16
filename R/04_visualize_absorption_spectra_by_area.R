@@ -10,7 +10,8 @@ station <- read_csv(here("data/clean/stations.csv")) %>%
   select(station, area)
 
 absorption <- vroom::vroom(here("data/clean/absorption_background_corrected.csv")) %>%
-  left_join(station, by = "station")
+  left_join(station, by = "station") %>%
+  relocate(area, .after = station)
 
 ggabsorption <- function(absorption, variable, display_name) {
 
@@ -37,7 +38,7 @@ ggabsorption <- function(absorption, variable, display_name) {
 p_a_phy <- ggabsorption(absorption, a_phy, "a[phy]")
 p_a_nap <- ggabsorption(absorption, a_nap, "a[nap]")
 p_a_tot <- ggabsorption(absorption, a_tot, "a[tot]")
-p_a_cdom <- ggabsorption(absorption, a_cdom, "a[cdom]")
+p_a_cdom <- ggabsorption(absorption, a_cdom_babin_2003, "a[cdom]")
 
 save_fun <- function(p) {
 

@@ -19,7 +19,7 @@ df_viz %>%
   filter(value < 0) %>%
   count(wavelength, name)
 
-df_viz %>%
+p <- df_viz %>%
   ggplot(aes(x = value)) +
   geom_histogram() +
   facet_wrap(~ glue("{name} ({wavelength} nm)"), scales = "free", ncol = 15) +
@@ -78,3 +78,9 @@ irradiance_clean %>%
 irradiance_clean %>%
   group_nest(station) %>%
   mutate(n = map_int(data, nrow))
+
+irradiance %>%
+  filter(station == "A2008000")
+
+irradiance_clean %>%
+  filter(station == "A2008000")
