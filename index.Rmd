@@ -24,7 +24,7 @@ library(tidyverse)
 library(kableExtra)
 ```
 
-## Data cleaning
+## Data cleaning and pre-processing
 
 This section shows the main steps that have been applied to pre-process the raw data.
 
@@ -54,6 +54,10 @@ This section shows the main steps that have been applied to pre-process the raw 
 
 - There were negative values in the irradiance data (`Ed`, `Eu`, `Kd`, `Ku`). I have cleaned the data by setting these negative values to `NA`.
 
+- `Eu` is in fact `Eu0-` that was estimated estimated using a two-exponential function model.
+
+- `Ed` is in fact `Ed0-` calculated from `0.94 x ed0+`.
+
 ### Reflectance
 
 - Reflectance values outside the 0-1 range were set to `NA`.
@@ -61,18 +65,6 @@ This section shows the main steps that have been applied to pre-process the raw 
 ### Other stuff
 
 - Extracted extra variables (`DOC`, `AQY`) from Massimo 2000.
-
-## TODOS
-
-- There are a lot of nutrient parameters that have values of zero. Are they true zero or indicate missing values?
-
-### Irradiance data
-
-- `Eu` means that `Eu0-` was estimated (see with Marcel, I do not remember what it means).
-
-- `Ed` is `Ed0-` calculated from `0.94 x ed0+`.
-
-  - Change the name in the data files `ed` to `ed0-`.
 
 ## Orientation of the paper
 
@@ -133,3 +125,35 @@ Relationships between some pigments.
 ```{r}
 knitr::include_graphics(here("graphs/nano_chla_vs_hexanoyloxyfucoxanthin_19.png"))
 ```
+
+### Irradiance
+
+#### Ed
+
+```{r}
+knitr::include_graphics(here("graphs/07_ed_spectral_profiles_by_area.png"))
+```
+
+#### Eu
+
+```{r}
+knitr::include_graphics(here("graphs/07_eu_spectral_profiles_by_area.png"))
+```
+
+#### Kd
+
+```{r}
+knitr::include_graphics(here("graphs/07_kd_spectral_profiles_by_area.png"))
+```
+
+#### Ku
+
+```{r}
+knitr::include_graphics(here("graphs/07_ku_spectral_profiles_by_area.png"))
+```
+
+## TODOS
+
+- No absorption for `Med. Sea (Case 1)`. Is it normal?
+
+- There are a lot of nutrient parameters that have values of zero. Are they true zero or indicate missing values?

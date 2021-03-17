@@ -65,6 +65,6 @@ ggsave(
 # Export clean data -------------------------------------------------------
 
 reflectance_clean %>%
-  write_csv(here("data/clean/reflectance.csv"))
+  write_csv(here("data/clean/reflectance_negative_values_removed.csv"))
 
 
