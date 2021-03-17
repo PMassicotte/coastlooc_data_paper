@@ -30,7 +30,7 @@ p <- df_viz %>%
   )
 
 ggsave(
-  here("graphs/08_histogram_raw_irradiance.pdf"),
+  here("graphs/07_histogram_raw_irradiance.pdf"),
   device = cairo_pdf,
   width = 24,
   height = 10
@@ -58,7 +58,7 @@ p <- irradiance_clean %>%
   )
 
 ggsave(
-  here("graphs/08_histogram_irradiance_negative_values_removed.pdf"),
+  here("graphs/07_histogram_irradiance_negative_values_removed.pdf"),
   device = cairo_pdf,
   width = 24,
   height = 10
@@ -68,19 +68,3 @@ ggsave(
 
 irradiance_clean %>%
   write_csv(here("data/clean/irradiance.csv"))
-
-# Test --------------------------------------------------------------------
-
-# TODO: Should we keep only station where there are all positive radiometric
-# values? Even if a station ends up with only a subset of wavelengths (i.e. not
-# all the 15 wavelengths?). See station A2008000 for example.
-
-irradiance_clean %>%
-  group_nest(station) %>%
-  mutate(n = map_int(data, nrow))
-
-irradiance %>%
-  filter(station == "A2008000")
-
-irradiance_clean %>%
-  filter(station == "A2008000")

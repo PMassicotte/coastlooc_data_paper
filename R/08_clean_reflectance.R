@@ -26,7 +26,7 @@ p <- reflectance %>%
   )
 
 ggsave(
-  here("graphs/09_histogram_raw_reflectance.pdf"),
+  here("graphs/08_histogram_raw_reflectance.pdf"),
   width = 7,
   height = 5
 )
@@ -57,7 +57,14 @@ p <- reflectance_clean %>%
   )
 
 ggsave(
-  here("graphs/09_histogram_reflectance_values_outside_0_1_removed.pdf"),
+  here("graphs/08_histogram_reflectance_values_outside_0_1_removed.pdf"),
   width = 7,
   height = 5
 )
+
+# Export clean data -------------------------------------------------------
+
+reflectance_clean %>%
+  write_csv(here("data/clean/reflectance.csv"))
+
+

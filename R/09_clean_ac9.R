@@ -24,11 +24,11 @@ p <- df_viz %>%
   geom_vline(xintercept = 0, color = "red", lty = 2, size = 1) +
   labs(
     title = "Histograms of raw AC9 data",
-    subtitle = "There are negative values in this data. We can also see that a(715) is always 0."
+    subtitle = "There are negative values in this data. We can also see that a(715) is always 0 because it was used as the baseline."
   )
 
 ggsave(
-  here("graphs/10_histogram_raw_ac9.pdf"),
+  here("graphs/09_histogram_raw_ac9.pdf"),
   device = cairo_pdf,
   width = 24,
   height = 10
@@ -56,7 +56,7 @@ p <- ac9_clean %>%
   )
 
 ggsave(
-  here("graphs/10_histogram_ac9_negative_values_removed.pdf"),
+  here("graphs/09_histogram_ac9_negative_values_removed.pdf"),
   device = cairo_pdf,
   width = 24,
   height = 10
