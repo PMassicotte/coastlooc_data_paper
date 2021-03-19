@@ -190,10 +190,3 @@ ggsave(
 )
 
 knitr::plot_crop(outfile)
-
-pdftools::pdf_convert(
-  outfile,
-  format = "png",
-  filenames = fs::path_ext_set(outfile, "png"),
-  dpi = 300
-)

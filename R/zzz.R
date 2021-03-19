@@ -28,3 +28,17 @@ area_colors <-
     "#603808FF",
     "#586f7cFF"
   )
+
+pdf2png <- function(pdf_file, dpi = 300) {
+
+  png_file <- pdftools::pdf_convert(
+    pdf_file,
+    format = "png",
+    filenames = fs::path_ext_set(pdf_file, "png"),
+    dpi = dpi,
+    verbose = FALSE
+  )
+
+
+  return(png_file)
+}

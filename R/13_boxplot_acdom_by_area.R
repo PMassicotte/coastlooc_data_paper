@@ -37,13 +37,6 @@ ggsave(
   height = 5.2
 )
 
-pdftools::pdf_convert(
-  file,
-  format = "png",
-  filenames = fs::path_ext_set(file, "png"),
-  dpi = 300
-)
-
 # aphy --------------------------------------------------------------------
 
 aphy <- read_csv(here("data/clean/absorption.csv")) %>%
@@ -77,11 +70,4 @@ ggsave(
   device = cairo_pdf,
   width = 6.91,
   height = 5.2
-)
-
-pdftools::pdf_convert(
-  file,
-  format = "png",
-  filenames = fs::path_ext_set(file, "png"),
-  dpi = 300
 )

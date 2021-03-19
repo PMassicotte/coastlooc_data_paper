@@ -22,6 +22,24 @@ knitr::opts_chunk$set(
 library(here)
 library(tidyverse)
 library(kableExtra)
+
+library(ggpmthemes)
+
+# Set default ggplot2 font size and font family
+# devtools::install_github("PMassicotte/ggpmthemes")
+theme_set(theme_light_modified(
+  base_family = "Montserrat Alternates",
+  base_size = 10
+))
+
+theme_update(
+  panel.border = element_blank(),
+  axis.ticks = element_blank(),
+  strip.background = element_blank(),
+  strip.text = element_text(face = "bold", size = 10, color = "#4c4a4a")
+)
+
+source(here("R/zzz.R"))
 ```
 
 ## Data cleaning and pre-processing
@@ -54,6 +72,34 @@ This section shows the main steps that have been applied to pre-process the raw 
 
 - There were negative values in the irradiance data (`Ed`, `Eu`, `Kd`, `Ku`). I have cleaned the data by setting these negative values to `NA`.
 
+This graph shows the number of negative values for Ed by wavelength.
+
+```{r histo_negative_ed}
+irradiance <- read_csv(here("data/clean/irradiance.csv")) %>% 
+  filter(ed < 0)
+
+irradiance %>% 
+  ggplot(aes(x = ed)) +
+  geom_histogram() +
+  facet_wrap(~glue::glue("{wavelength} nm"), scales = "free")
+```
+
+Example of a spectral profile with negative value.
+
+```{r lineplot_negative_ed}
+read_csv("data/clean/irradiance.csv") %>% 
+  filter(station == "C2008000") %>% 
+  ggplot(aes(x = wavelength, y = ed)) +
+  geom_line() +
+  geom_point() +
+  labs(
+    title = "Station C2008000",
+    x = "Wavelength (nm)",
+    y = parse(text = "E[d](0^'-')~'['~W~m^{-2}~nm^{-1}~']'")
+  )
+
+```
+
 - `Eu` is in fact `Eu0-` that was estimated estimated using a two-exponential function model.
 
 - `Ed` is in fact `Ed0-` calculated from `0.94 x ed0+`.
@@ -61,6 +107,8 @@ This section shows the main steps that have been applied to pre-process the raw 
 ### Reflectance
 
 - Reflectance values outside the 0-1 range were set to `NA`.
+
+### AC9
 
 ### Other stuff
 
@@ -83,7 +131,7 @@ There is a total of 424 different stations that were sampled during the COASTLOO
 - Note that there are two stations without geographical coordinates: `C2001000`, `C2002000`.
 
 ```{r}
-knitr::include_graphics(here("graphs/02_geographic_map.png"))
+knitr::include_graphics(pdf2png(here("graphs/02_geographic_map.pdf")))
 ```
 
 ### Available variables
@@ -91,7 +139,7 @@ knitr::include_graphics(here("graphs/02_geographic_map.png"))
 Just an overview of the available variables (excluding radiometric measurements).
 
 ```{r}
-knitr::include_graphics(here("graphs/06_number_observation_nutrient_by_area.png"))
+knitr::include_graphics(pdf2png(here("graphs/06_number_observation_nutrient_by_area.pdf")))
 ```
 
 ### Absorption measurements
@@ -99,31 +147,55 @@ knitr::include_graphics(here("graphs/06_number_observation_nutrient_by_area.png"
 Overview of the averaged absorption spectra for each area.
 
 ```{r}
-knitr::include_graphics(here("graphs/11_average_absorption_spectra_by_area.png"))
+knitr::include_graphics(pdf2png(here("graphs/11_average_absorption_spectra_by_area.pdf")))
 ```
 
 Comparing `acdom443` for the different areas shows that there is a clear open to coastal gradient.
 
 ```{r}
-knitr::include_graphics(here("graphs/13_boxplot_acdom443_by_area.png"))
+knitr::include_graphics(pdf2png(here("graphs/13_boxplot_acdom443_by_area.pdf")))
 ```
 
 We can see that the `DOC` follows the same pattern as `acdom443`.
 
 ```{r}
-knitr::include_graphics(here("graphs/12_boxplot_doc_by_area.png"))
+knitr::include_graphics(pdf2png(here("graphs/12_boxplot_doc_by_area.pdf")))
 ```
 
 We can also use scatter-plots to further explore the relationships among variables.
 
 ```{r}
-knitr::include_graphics(here("graphs/13_aphy_vs_anap.png"))
+knitr::include_graphics(pdf2png(here("graphs/13_aphy_vs_anap.pdf")))
 ```
 
 Relationships between some pigments.
 
 ```{r}
-knitr::include_graphics(here("graphs/nano_chla_vs_hexanoyloxyfucoxanthin_19.png"))
+knitr::include_graphics(pdf2png(here("graphs/nano_chla_vs_hexanoyloxyfucoxanthin_19.pdf")))
+```
+
+#### aphy
+
+```{r}
+knitr::include_graphics(pdf2png(here("graphs/04_aphy_spectral_profiles_by_area.pdf")))
+```
+
+#### anap
+
+```{r}
+knitr::include_graphics(pdf2png(here("graphs/04_anap_spectral_profiles_by_area.pdf")))
+```
+
+#### atot
+
+```{r}
+knitr::include_graphics(pdf2png(here("graphs/04_atot_spectral_profiles_by_area.pdf")))
+```
+
+#### acdom
+
+```{r}
+knitr::include_graphics(pdf2png(here("graphs/04_acdom_spectral_profiles_by_area.pdf")))
 ```
 
 ### Irradiance
@@ -131,25 +203,51 @@ knitr::include_graphics(here("graphs/nano_chla_vs_hexanoyloxyfucoxanthin_19.png"
 #### Ed
 
 ```{r}
-knitr::include_graphics(here("graphs/07_ed_spectral_profiles_by_area.png"))
+knitr::include_graphics(pdf2png(here("graphs/07_ed_spectral_profiles_by_area.pdf")))
 ```
 
 #### Eu
 
 ```{r}
-knitr::include_graphics(here("graphs/07_eu_spectral_profiles_by_area.png"))
+knitr::include_graphics(pdf2png(here("graphs/07_eu_spectral_profiles_by_area.pdf")))
 ```
 
 #### Kd
 
 ```{r}
-knitr::include_graphics(here("graphs/07_kd_spectral_profiles_by_area.png"))
+knitr::include_graphics(pdf2png(here("graphs/07_kd_spectral_profiles_by_area.pdf")))
 ```
 
 #### Ku
 
 ```{r}
-knitr::include_graphics(here("graphs/07_ku_spectral_profiles_by_area.png"))
+knitr::include_graphics(pdf2png(here("graphs/07_ku_spectral_profiles_by_area.pdf")))
+```
+
+### Reflectance
+
+```{r}
+knitr::include_graphics(pdf2png(here("graphs/08_reflectance_profiles_by_area.pdf")))
+```
+
+### AC9
+
+#### Absorption
+
+```{r}
+knitr::include_graphics(pdf2png(here("graphs/09_ac9_a_spectral_profiles_by_area.pdf")))
+```
+
+#### Beam attenuation
+
+```{r}
+knitr::include_graphics(pdf2png(here("graphs/09_ac9_c_spectral_profiles_by_area.pdf")))
+```
+
+#### Backscattering
+
+```{r}
+knitr::include_graphics(pdf2png(here("graphs/09_ac9_bp_spectral_profiles_by_area.pdf")))
 ```
 
 ## TODOS
@@ -157,3 +255,4 @@ knitr::include_graphics(here("graphs/07_ku_spectral_profiles_by_area.png"))
 - No absorption for `Med. Sea (Case 1)`. Is it normal?
 
 - There are a lot of nutrient parameters that have values of zero. Are they true zero or indicate missing values?
+

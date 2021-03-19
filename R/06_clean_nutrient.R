@@ -106,10 +106,3 @@ ggsave(
   width = 8,
   height = 10
 )
-
-pdftools::pdf_convert(
-  file,
-  format = "png",
-  filenames = fs::path_ext_set(file, "png"),
-  dpi = 300
-)

@@ -6,6 +6,9 @@
 
 rm(list = ls())
 
+source("R/zzz.R")
+source("R/ggspectral.R")
+
 ac9 <- read_csv(here("data/clean/ac9.csv"))
 
 # Histogram of raw data ---------------------------------------------------
@@ -66,3 +69,21 @@ ggsave(
 
 ac9_clean %>%
   write_csv(here("data/clean/ac9_negative_values_removed.csv"))
+
+# Visualize AC9 spectral profiles -----------------------------------------
+
+ac9_clean
+
+stations <- read_csv(here("data/clean/stations.csv")) %>%
+  select(station, area)
+
+df_viz <- ac9_clean %>%
+  inner_join(stations, by = "station")
+
+p_a <- ggspectral(df_viz, a, "a~(m^{-1})")
+p_c <- ggspectral(df_viz, c, "c~(m^{-1})")
+p_bp <- ggspectral(df_viz, bp, "b[p]~(m^{-1})")
+
+save_fun(p_a, here("graphs", "09_ac9_a_spectral_profiles_by_area.pdf"))
+save_fun(p_c, here("graphs", "09_ac9_c_spectral_profiles_by_area.pdf"))
+save_fun(p_bp, here("graphs", "09_ac9_bp_spectral_profiles_by_area.pdf"))

@@ -6,6 +6,9 @@
 
 rm(list = ls())
 
+source("R/zzz.R")
+source("R/ggspectral.R")
+
 reflectance <- read_csv(here("data/clean/reflectance.csv"))
 
 # Histogram of raw reflectance --------------------------------------------
@@ -67,4 +70,14 @@ ggsave(
 reflectance_clean %>%
   write_csv(here("data/clean/reflectance_negative_values_removed.csv"))
 
+# Visualize the data ------------------------------------------------------
 
+stations <- read_csv(here("data/clean/stations.csv")) %>%
+  select(station, area)
+
+df_viz <- reflectance_clean %>%
+  inner_join(stations, by = "station")
+
+p_reflectance <- ggspectral(df_viz, measured_reflectance, "Reflectance")
+
+save_fun(p_reflectance, here("graphs", "08_reflectance_profiles_by_area.pdf"))

@@ -9,6 +9,7 @@
 rm(list = ls())
 
 source("R/zzz.R")
+source("R/ggspectral.R")
 
 irradiance <- read_csv(here("data/clean/irradiance.csv"))
 
@@ -87,74 +88,12 @@ stations <- read_csv(here("data/clean/stations.csv")) %>%
 df_viz <- irradiance_clean %>%
   left_join(stations, by = "station")
 
-ggirradiance <- function(df, variable, ylab) {
+p_eu <- ggspectral(df_viz, eu_wm2_nm1, "E[u](0^'-')~'['~W~m^{-2}~nm^{-1}~']'")
+p_ed <- ggspectral(df_viz, ed_wm2_nm1, "E[d](0^'-')~'['~W~m^{-2}~nm^{-1}~']'")
+p_ku <- ggspectral(df_viz, ku_m1, "K[u]~(m^{-1})")
+p_kd <- ggspectral(df_viz, kd_m1, "K[d]~(m^{-1})")
 
-  p <- df_viz %>%
-    ggplot(aes(x = wavelength, y = {{ variable }}, color = area, group = station)) +
-    geom_line(size = 0.1) +
-    scale_color_manual(
-      breaks = area_breaks,
-      values = area_colors
-    ) +
-    facet_wrap(~area, scales = "free_y") +
-    labs(
-      x = "Wavelength (nm)",
-      y = parse(text = ylab),
-      subtitle = "There are some wavelengths missing among missions. Note that negative values have been removed."
-    ) +
-    theme(
-      legend.position = "none"
-    )
-
-}
-
-# quote(E[u](0^"-")~"["~W~m^{-2}~nm^{-1}~"]")
-
-p_eu <- ggirradiance(df_viz, eu_wm2_nm1, "E[u](0^'-')~'['~W~m^{-2}~nm^{-1}~']'")
-p_ed <- ggirradiance(df_viz, ed_wm2_nm1, "E[d](0^'-')~'['~W~m^{-2}~nm^{-1}~']'")
-p_ku <- ggirradiance(df_viz, ku_m1, "K[u]~(m^{-1})")
-p_kd <- ggirradiance(df_viz, kd_m1, "K[d]~(m^{-1})")
-
-save_fun <- function(p) {
-
-  fname <- deparse(substitute(p)) %>%
-    str_remove("p_")
-
-  ggsave(
-    here(glue("graphs/07_{fname}_spectral_profiles_by_area.pdf")),
-    plot = p,
-    device = cairo_pdf,
-    height = 6,
-    width = 10
-  )
-
-  ggsave(
-    here(glue("graphs/07_{fname}_spectral_profiles_by_area.png")),
-    plot = p,
-    dpi = 300,
-    height = 6,
-    width = 10
-  )
-}
-
-save_fun(p_eu)
-save_fun(p_ed)
-save_fun(p_ku)
-save_fun(p_kd)
-
-
-#
-# outfile <- here("graphs/07_eu_spectral_profiles_per_area.pdf")
-#
-# ggsave(outfile,
-#   device = cairo_pdf,
-#   width = 8,
-#   height = 5
-# )
-#
-# pdftools::pdf_convert(
-#   outfile,
-#   format = "png",
-#   filenames = fs::path_ext_set(outfile, "png"),
-#   dpi = 300
-# )
+save_fun(p_eu, here("graphs", "07_eu_spectral_profiles_by_area.pdf"))
+save_fun(p_ed, here("graphs", "07_ed_spectral_profiles_by_area.pdf"))
+save_fun(p_ku, here("graphs", "07_ku_spectral_profiles_by_area.pdf"))
+save_fun(p_kd, here("graphs", "07_kd_spectral_profiles_by_area.pdf"))
