@@ -31,10 +31,17 @@ area_colors <-
 
 pdf2png <- function(pdf_file, dpi = 300) {
 
+  png_file <- fs::path_ext_set(fs::path_file(pdf_file), "png")
+  png_folder <- "graphs/png/"
+
+  fs::dir_create(png_folder)
+
+  outfile <- fs::path(png_folder, png_file)
+
   png_file <- pdftools::pdf_convert(
     pdf_file,
     format = "png",
-    filenames = fs::path_ext_set(pdf_file, "png"),
+    filenames = outfile,
     dpi = dpi,
     verbose = FALSE
   )
