@@ -60,13 +60,13 @@ This section shows the main steps that have been applied to pre-process the raw 
 
 - Calculated the correlation between the measured and the fitted values.
 
-  - Fits with R2 than 0.99 were removed from the data.
+  - Fits with R2 than 0.95 were removed from the data.
 
 - Exported the complete spectra (350-700 nm): both the raw and the modeled data.
 
 ### Phytoplankton and non-algal absorption
 
-- Nothing special was done with this data. I just transposed the data.
+- Nothing special was done with this data.
 
 ### Irradiance
 
@@ -84,7 +84,7 @@ irradiance %>%
   facet_wrap(~glue::glue("{wavelength} nm"), scales = "free")
 ```
 
-Example of a spectral profile with negative value.
+- Example of a spectral profile with negative value.
 
 ```{r lineplot_negative_ed}
 read_csv("data/clean/irradiance.csv") %>% 
@@ -110,15 +110,17 @@ read_csv("data/clean/irradiance.csv") %>%
 
 ### AC9
 
+- Negative values in `a`, `c`, `bp`, `a_dissolved` and `c_dissolved` have been set to `NA`.
+
+- `a(715)` was used as baseline, that is why the values are always at 0 (see next graph).
+
+```{r}
+knitr::include_graphics(pdf2png(here("graphs/09_histogram_ac9_negative_values_removed.pdf")))
+```
+
 ### Other stuff
 
 - Extracted extra variables (`DOC`, `AQY`) from Massimo 2000.
-
-## Orientation of the paper
-
-- The data is a mix of temporal and spatial observations, so how should we present the data?
-
-- By `area`?
 
 ## Visualizations
 
@@ -136,7 +138,7 @@ knitr::include_graphics(pdf2png(here("graphs/02_geographic_map.pdf")))
 
 ### Available variables
 
-Just an overview of the available variables (excluding radiometric measurements).
+This graph shows an overview of the available variables (excluding radiometric measurements).
 
 ```{r}
 knitr::include_graphics(pdf2png(here("graphs/06_number_observation_nutrient_by_area.pdf")))
@@ -250,9 +252,34 @@ knitr::include_graphics(pdf2png(here("graphs/09_ac9_c_spectral_profiles_by_area.
 knitr::include_graphics(pdf2png(here("graphs/09_ac9_bp_spectral_profiles_by_area.pdf")))
 ```
 
+## Data validation and diagnostics
+
+In this section we will explore various diagnostic graphics to validate the data.
+
+### Absorption (AC9 and spectrofluorometer)
+
+In theory, the dissolved absorption measured by the spectrofluorometer `aCDOM` should be comparable with the dissolved absorption measured by the `AC9` (using a filter). The next graphs compare both measurements at common wavelengths for the different areas.
+
+```{r}
+knitr::include_graphics(pdf2png(here("graphs/14_compare_spectrofluorimeter_and_ac9_absorption_scatterplot.pdf")))
+```
+
+We can also use sina plot as another way to compare the same data. 
+
+```{r}
+knitr::include_graphics(pdf2png(here("graphs/14_compare_spectrofluorimeter_and_ac9_absorption_boxplot.pdf")))
+```
+
+## Orientation of the paper
+
+- The data is a mix of temporal and spatial observations, so how should we present the data?
+
+- By `area`?
+
 ## TODOS
 
 - No absorption for `Med. Sea (Case 1)`. Is it normal?
 
-- There are a lot of nutrient parameters that have values of zero. Are they true zero or indicate missing values?
+- There are a lot of nutrient parameters that have values of zero. Are they true zero or they indicate missing values?
 
+- There are wavelength gaps in the `AC9`, `irradiance` and `reflectance` data. Is that normal?
