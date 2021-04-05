@@ -126,6 +126,36 @@ knitr::include_graphics(pdf2png(here("graphs/09_histogram_ac9_negative_values_re
 
 Just some graphs to visualize the data. *Note that the same color palette will be used to represent the areas in all graphics.*
 
+### Temporal sampling
+
+- This graph shows when the sampling were performed in the different areas. For instance, we can see that a large fraction of the measurements were made in September of 1998.
+
+```{r}
+source(here("R/zzz.R"))
+
+df <- read_csv(here("data/clean/stations.csv")) %>% 
+  mutate(month = clock::date_group(date, "month")) %>% 
+  count(area, month) 
+
+df %>% 
+  ggplot(aes(x = n, y = factor(month), fill = area)) +
+  geom_col() +
+  scale_fill_manual(
+    breaks = area_breaks,
+    values = area_colors
+  ) +
+  labs(
+    x = "Number of observations",
+    y = NULL,
+    title = "Number of measurements by month"
+  ) +
+  theme(
+    legend.position = "top",
+    legend.title = element_blank()
+  )
+```
+
+
 ### Geographical map
 
 There is a total of 424 different stations that were sampled during the COASTLOOC expeditions.
@@ -289,3 +319,8 @@ knitr::include_graphics(pdf2png(here("graphs/14_compare_spectrofluorimeter_and_a
 - There are a lot of nutrient parameters that have values of zero. Are they true zero or they indicate missing values?
 
 - There are wavelength gaps in the `AC9`, `irradiance` and `reflectance` data. Is that normal?
+
+- Remove absorption spectra if there are any negative values below 500 nm.
+
+- [x] test
+
