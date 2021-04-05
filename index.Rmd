@@ -62,11 +62,13 @@ This section shows the main steps that have been applied to pre-process the raw 
 
   - Fits with R2 than 0.95 were removed from the data.
 
+- Absorption spectra with any negative values below 500 nm were removed.
+
 - Exported the complete spectra (350-700 nm): both the raw and the modeled data.
 
 ### Phytoplankton and non-algal absorption
 
-- Nothing special was done with this data.
+- Absorption spectra with any negative values below 500 nm were removed.
 
 ### Irradiance
 
@@ -319,8 +321,6 @@ knitr::include_graphics(pdf2png(here("graphs/14_compare_spectrofluorimeter_and_a
 - There are a lot of nutrient parameters that have values of zero. Are they true zero or they indicate missing values?
 
 - There are wavelength gaps in the `AC9`, `irradiance` and `reflectance` data. Is that normal?
-
-- Remove absorption spectra if there are any negative values below 500 nm.
 
 - [x] test
 

@@ -234,7 +234,22 @@ absorption_merged <- absorption %>%
 
 absorption_merged
 
+# Clean absorption spectra ------------------------------------------------
+
+# Remove any spectra if there are negative values below 500 nm
+
+absorption_merged %>%
+  arrange(station, wavelength)
+
+absorption_clean <- absorption_merged %>%
+  pivot_longer(starts_with("a_")) %>%
+  group_by(station, name) %>%
+  filter(!any(value < 0 && wavelength <= 500)) %>%
+  ungroup() %>%
+  pivot_wider(names_from = name, values_from = value) %>%
+  arrange(station, wavelength)
+
 # Export ------------------------------------------------------------------
 
-write_csv(absorption_merged, here("data/clean/absorption.csv"))
+write_csv(absorption_clean, here("data/clean/absorption.csv"))
 
