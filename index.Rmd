@@ -48,11 +48,11 @@ This section shows the main steps that have been applied to pre-process the raw 
 
 ### aCDOM spectra
 
-- The CDOM spectra were modeled according to the information in Babin 2003.
+- The CDOM spectra were modelled according to the information in Babin 2003.
 
   - `acdom` spectra were re-fitted using the complete data (i.e. between 350-500 nm) because the data in `all_abs_transpose.txt` started at 380 nm.
 
-- Average background values calculated between 683-687 nm and subtracted from each spectra.
+- Average background values calculated between 683-687 nm and subtracted from each spectrum.
 
 - Some files were in binary format, so I could not open them (ex.: `C2001000.YSA`).
 
@@ -64,7 +64,7 @@ This section shows the main steps that have been applied to pre-process the raw 
 
 - Absorption spectra with any negative values below 500 nm were removed.
 
-- Exported the complete spectra (350-700 nm): both the raw and the modeled data.
+- Exported the complete spectra (350-700 nm): both the raw and the modelled data.
 
 ### Phytoplankton and non-algal absorption
 
@@ -86,7 +86,7 @@ irradiance %>%
   facet_wrap(~glue::glue("{wavelength} nm"), scales = "free")
 ```
 
-- Example of a spectral profile with negative value.
+- Example of a spectral profile with negative values.
 
 ```{r lineplot_negative_ed}
 read_csv("data/clean/irradiance.csv") %>% 
@@ -102,7 +102,7 @@ read_csv("data/clean/irradiance.csv") %>%
 
 ```
 
-- `Eu` is in fact `Eu0-` that was estimated estimated using a two-exponential function model.
+- `Eu` is in fact `Eu0-` that was estimated using a two-exponential function model.
 
 - `Ed` is in fact `Ed0-` calculated from `0.94 x ed0+`.
 
@@ -114,7 +114,7 @@ read_csv("data/clean/irradiance.csv") %>%
 
 - Negative values in `a`, `c`, `bp`, `a_dissolved` and `c_dissolved` have been set to `NA`.
 
-- `a(715)` was used as baseline, that is why the values are always at 0 (see next graph).
+- `a(715)` was used as the baseline, that is why the values are always at 0 (see next graph).
 
 ```{r}
 knitr::include_graphics(pdf2png(here("graphs/09_histogram_ac9_negative_values_removed.pdf")))
@@ -126,20 +126,22 @@ knitr::include_graphics(pdf2png(here("graphs/09_histogram_ac9_negative_values_re
 
 ## Visualizations
 
-Just some graphs to visualize the data. *Note that the same color palette will be used to represent the areas in all graphics.*
+Just some graphs to visualize the data. *Note that the same colour palette will be used to represent the areas in all graphics.*
 
 ### Temporal sampling
 
-- This graph shows when the sampling were performed in the different areas. For instance, we can see that a large fraction of the measurements were made in September of 1998.
+- This graph shows when the sampling was performed in the different areas. For instance, we can see that a large fraction of the measurements were made in September of 1998.
 
 ```{r}
 source(here("R/zzz.R"))
 
-df <- read_csv(here("data/clean/stations.csv")) %>% 
+df <- read_csv(here("data/clean/stations.csv"))
+
+df_viz <- df %>% 
   mutate(month = clock::date_group(date, "month")) %>% 
   count(area, month) 
 
-df %>% 
+df_viz %>% 
   ggplot(aes(x = n, y = factor(month), fill = area)) +
   geom_col() +
   scale_fill_manual(
@@ -157,15 +159,45 @@ df %>%
   )
 ```
 
-
 ### Geographical map
 
-There is a total of 424 different stations that were sampled during the COASTLOOC expeditions.
+There is a total of 424 different stations were sampled during the COASTLOOC expeditions.
 
 - Note that there are two stations without geographical coordinates: `C2001000`, `C2002000`.
 
 ```{r}
 knitr::include_graphics(pdf2png(here("graphs/02_geographic_map.pdf")))
+```
+
+### Land-to-sea gradient
+
+We could also present the data in relation with its distance to the land to get an overview of the landscape on optical quantities. For instance, `acdom` will likely be higher for stations located close to the shore because of the terrestrial influence.
+
+```{r, fig.align='center'}
+stations <- vroom::vroom(here("data/clean/stations.csv"))
+distances <- vroom::vroom(here("data/clean/distances_to_shore.csv"))
+
+df <- stations %>% 
+  inner_join(distances) 
+
+df %>% 
+  mutate(area = fct_reorder(area, distance_to_shore_m)) %>% 
+  ggplot(aes(x = area, y = distance_to_shore_m / 1000, fill = area)) +
+  geom_boxplot(size = 0.1, outlier.size = 0.25) +
+  scale_y_continuous(labels = scales::label_number_si(accuracy = 0.01)) +
+  scale_x_discrete(labels = function(x) str_wrap(x, 10)) +
+  scale_fill_manual(
+    breaks = area_breaks,
+    values = area_colors
+  ) +
+  labs(
+    x = NULL,
+    y = "Distance to the land (km)",
+    title = "How far are the stations from the land"
+  ) +
+  theme(
+    legend.position = "none"
+  )
 ```
 
 ### Available variables
@@ -196,7 +228,7 @@ We can see that the `DOC` follows the same pattern as `acdom443`.
 knitr::include_graphics(pdf2png(here("graphs/12_boxplot_doc_by_area.pdf")))
 ```
 
-We can also use scatter-plots to further explore the relationships among variables.
+We can also use scatter plots to further explore the relationships among variables.
 
 ```{r}
 knitr::include_graphics(pdf2png(here("graphs/13_aphy_vs_anap.pdf")))
@@ -292,7 +324,7 @@ knitr::include_graphics(pdf2png(here("graphs/09_ac9_bp_spectral_profiles_by_area
 
 ## Data validation and diagnostics
 
-In this section we will explore various diagnostic graphics to validate the data.
+In this section, we will explore various diagnostic graphics to validate the data.
 
 ### Absorption (AC9 and spectrofluorometer)
 

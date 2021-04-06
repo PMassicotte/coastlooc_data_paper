@@ -3,7 +3,7 @@
 #
 # AUTHOR:       Philippe Massicotte
 #
-# DESCRIPTION:  COSTLOOK data paper.
+# DESCRIPTION:  COSTLOOC data paper.
 # <><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><>
 
 # Setup -------------------------------------------------------------------
