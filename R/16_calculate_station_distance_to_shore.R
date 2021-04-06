@@ -8,6 +8,8 @@
 
 rm(list = ls())
 
+source(here("R/zzz.R"))
+
 stations <- read_csv(here("data/clean/stations.csv")) %>%
   drop_na(longitude, latitude) %>%
   st_as_sf(coords = c("longitude", "latitude"), crs = 4326)
@@ -28,11 +30,40 @@ ne_land <- rnaturalearth::ne_download(
 # st_nearest_points(stations, ne_land) %>%
 #   st_length()
 
-# ggplot() +
-#   geom_sf(data = st_nearest_points(stations, ne_land)) +
-#   geom_sf(data = ne_land) +
-#   geom_sf(data = stations) +
-#   coord_sf(xlim = c(2, 5), ylim = c(50, 54))
+# Plot --------------------------------------------------------------------
+
+p <- ggplot() +
+  geom_sf(data = st_nearest_points(stations, ne_land), size = 0.1) +
+  geom_sf(data = ne_land, size = 0.1) +
+  geom_sf(data = stations, aes(color = area), size = 0.25) +
+  coord_sf(xlim = c(-16, 16), ylim = c(25, 60)) +
+  scale_color_manual(
+    breaks = area_breaks,
+    values = area_colors,
+    guide = guide_legend(
+      override.aes = list(size = 2),
+      ncol = 3
+    )
+  ) +
+  labs(
+    title = str_wrap("Visualization of the shortest distances to the land", 40)
+  ) +
+  theme(
+    legend.position = "top",
+    legend.title = element_blank(),
+    plot.title.position = "plot"
+  )
+
+outfile <- here("graphs/16_geographical_map_stations_shortest_distances.pdf")
+
+ggsave(
+  outfile,
+  device = cairo_pdf,
+  width = 7,
+  height = 7
+)
+
+knitr::plot_crop(outfile)
 
 # ggplot() +
 #   geom_sf(data = st_union(ne_land)) +
@@ -44,7 +75,7 @@ ne_land <- rnaturalearth::ne_download(
 stations <- stations %>%
   mutate(distance_to_shore_m = as.vector(st_distance(stations, ne_land)))
 
-# TODO: Some ditances are calculated as 0. Try to figure out why (see
+# TODO: Some distances are calculated as 0. Try to figure out why (see
 # stackoverflow).
 
 stations %>%
