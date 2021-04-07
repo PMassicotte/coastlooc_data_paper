@@ -12,7 +12,7 @@ rm(list = ls())
 
 source("R/zzz.R")
 
-files <- fs::dir_ls(here("data/raw/CDOM/"), recurse = TRUE, glob = "*.YSA")
+files <- fs::dir_ls(here("data","raw","CDOM"), recurse = TRUE, glob = "*.YSA")
 
 df <- files %>%
   enframe(name = NULL, value = "filename") %>%
@@ -39,7 +39,7 @@ df
 
 # Attach metadata ---------------------------------------------------------
 
-stations <- read_csv(here("data/clean/stations.csv")) %>%
+stations <- read_csv(here("data","clean","stations.csv")) %>%
   select(station, area)
 
 df <- stations %>%
@@ -95,7 +95,7 @@ p2 <- df %>%
 p <- p1 / p2
 
 ggsave(
-  here("graphs/03_raw_and_background_corrected_acdom_spectra.pdf"),
+  here("graphs","03_raw_and_background_corrected_acdom_spectra.pdf"),
   device = cairo_pdf,
   height = 8,
   width = 10
@@ -156,7 +156,7 @@ plot_acdom <- function(df) {
 }
 
 pdf(
-  here("graphs/03_fitted_acdom_spectra_ordered_from_best_to_worst_fits.pdf"),
+  here("graphs","03_fitted_acdom_spectra_ordered_from_best_to_worst_fits.pdf"),
   width = 7,
   height = 5
 )
@@ -211,7 +211,7 @@ p <- df_filtered %>%
   )
 
 ggsave(
-  here("graphs/03_worst_fitted_acdom_spectra.pdf"),
+  here("graphs","03_worst_fitted_acdom_spectra.pdf"),
   device = cairo_pdf,
   width = 12,
   height = 10
@@ -224,7 +224,7 @@ df_filtered
 df_filtered <- df_filtered %>%
   select(-area)
 
-absorption <- vroom::vroom(here("data/clean/absorption_without_acdom.csv"))
+absorption <- vroom::vroom(here("data","clean","absorption_without_acdom.csv"))
 
 absorption_merged <- absorption %>%
   full_join(df_filtered, by = c("station", "wavelength")) %>%
@@ -251,5 +251,5 @@ absorption_clean <- absorption_merged %>%
 
 # Export ------------------------------------------------------------------
 
-write_csv(absorption_clean, here("data/clean/absorption.csv"))
+write_csv(absorption_clean, here("data","clean","absorption.csv"))
 

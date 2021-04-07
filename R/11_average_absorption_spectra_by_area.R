@@ -1,8 +1,8 @@
 source("R/zzz.R")
 
-station <- read_csv(here("data/clean/stations.csv"))
+station <- read_csv(here("data","clean","stations.csv"))
 
-absorption <- read_csv(here("data/clean/absorption.csv")) %>%
+absorption <- vroom::vroom(here("data","clean","absorption.csv")) %>%
   filter(wavelength >= 350) %>%
   left_join(station, ., by = "station") %>%
   group_by(area, wavelength) %>%
@@ -49,7 +49,7 @@ p2 <- df_viz %>%
   )
 
 p3 <- df_viz %>%
-  ggplot(aes(x = wavelength, y = a_tot, color = area)) +
+  ggplot(aes(x = wavelength, y = a_p, color = area)) +
   geom_line() +
   scale_color_manual(
     breaks = area_breaks,
@@ -57,7 +57,7 @@ p3 <- df_viz %>%
   ) +
   labs(
     x = "Wavelength (nm)",
-    y = quote(a[TOT]~(m^{-1}))
+    y = quote(a[P]~(m^{-1}))
   ) +
   theme(
     legend.position = "none"
@@ -96,7 +96,7 @@ p <- wrap_plots(p1, p2, p3, p4, ncol = 2) +
     plot.tag = element_text(face = "bold")
   )
 
-file <- here("graphs/11_average_absorption_spectra_by_area.pdf")
+file <- here("graphs","11_average_absorption_spectra_by_area.pdf")
 
 ggsave(
   file,

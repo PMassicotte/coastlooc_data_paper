@@ -92,5 +92,20 @@ code {
   padding: 0 4px 1px;
 }
 
+span.citation {
+  color: #4c4a4a;
+  font-weight: 500;
+  background: #dbe8fb;
+  border-radius: 8px;
+  padding: 0 4px 1px;
+}
 
+/*Citations*/
+.csl-entry em {
+  background-image:none;
+}
+
+.csl-entry {
+  padding-bottom: 20px;
+}
 
