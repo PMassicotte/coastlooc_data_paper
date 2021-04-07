@@ -8,7 +8,7 @@ rm(list = ls())
 
 source("R/zzz.R")
 
-absorption <- read_csv(here("data","clean","absorption.csv"))
+absorption <- vroom::vroom(here("data","clean","absorption.csv"))
 pigments <- read_csv(here("data","clean","surface.csv"))
 stations <- read_csv(here("data","clean","stations.csv"))
 

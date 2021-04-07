@@ -9,7 +9,7 @@ rm(list = ls())
 source("R/zzz.R")
 source("R/ggspectral.R")
 
-ac9 <- read_csv(here("data/clean/ac9.csv"))
+ac9 <- read_csv(here("data","clean","ac9.csv"))
 
 # Histogram of raw data ---------------------------------------------------
 
@@ -31,7 +31,7 @@ p <- df_viz %>%
   )
 
 ggsave(
-  here("graphs/09_histogram_raw_ac9.pdf"),
+  here("graphs","09_histogram_raw_ac9.pdf"),
   device = cairo_pdf,
   width = 24,
   height = 10
@@ -59,7 +59,7 @@ p <- ac9_clean %>%
   )
 
 ggsave(
-  here("graphs/09_histogram_ac9_negative_values_removed.pdf"),
+  here("graphs","09_histogram_ac9_negative_values_removed.pdf"),
   device = cairo_pdf,
   width = 24,
   height = 10
@@ -68,13 +68,13 @@ ggsave(
 # Export clean data -------------------------------------------------------
 
 ac9_clean %>%
-  write_csv(here("data/clean/ac9_negative_values_removed.csv"))
+  write_csv(here("data","clean","ac9_negative_values_removed.csv"))
 
 # Visualize AC9 spectral profiles -----------------------------------------
 
 ac9_clean
 
-stations <- read_csv(here("data/clean/stations.csv")) %>%
+stations <- read_csv(here("data","clean","stations.csv")) %>%
   select(station, area)
 
 df_viz <- ac9_clean %>%
