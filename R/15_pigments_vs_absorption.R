@@ -8,9 +8,9 @@ rm(list = ls())
 
 source("R/zzz.R")
 
-absorption <- read_csv(here("data/clean/absorption.csv"))
-pigments <- read_csv(here("data/clean/surface.csv"))
-stations <- read_csv(here("data/clean/stations.csv"))
+absorption <- read_csv(here("data","clean","absorption.csv"))
+pigments <- read_csv(here("data","clean","surface.csv"))
+stations <- read_csv(here("data","clean","stations.csv"))
 
 df <- absorption %>%
   inner_join(pigments, by = "station") %>%
@@ -40,7 +40,7 @@ p <- df %>%
   )
 
 ggsave(
-  here("graphs/15_total_chla_vs_aphy443.pdf"),
+  here("graphs","15_total_chla_vs_aphy443.pdf"),
   device = cairo_pdf,
   width = 6.9,
   height = 4.45

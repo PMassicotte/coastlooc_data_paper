@@ -1,8 +1,8 @@
 source("R/zzz.R")
 
-station <- read_csv(here("data/clean/stations.csv"))
+station <- read_csv(here("data","clean","stations.csv"))
 
-doc <- read_csv(here("data/clean/surface.csv")) %>%
+doc <- read_csv(here("data","clean","surface.csv")) %>%
   select(station, doc_um, salinity)
 
 df <- station %>%
@@ -27,7 +27,7 @@ p <- df %>%
     legend.position = "none"
   )
 
-file <- here("graphs/12_boxplot_doc_by_area.pdf")
+file <- here("graphs","12_boxplot_doc_by_area.pdf")
 
 ggsave(
   file,

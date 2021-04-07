@@ -11,7 +11,7 @@ rm(list = ls())
 source("R/zzz.R")
 source("R/ggspectral.R")
 
-irradiance <- read_csv(here("data/clean/irradiance.csv"))
+irradiance <- read_csv(here("data","clean","irradiance.csv"))
 
 irradiance
 
@@ -41,7 +41,7 @@ p <- df_viz %>%
   )
 
 ggsave(
-  here("graphs/07_histogram_raw_irradiance.pdf"),
+  here("graphs","07_histogram_raw_irradiance.pdf"),
   device = cairo_pdf,
   width = 24,
   height = 10
@@ -69,7 +69,7 @@ p <- irradiance_clean %>%
   )
 
 ggsave(
-  here("graphs/07_histogram_irradiance_negative_values_removed.pdf"),
+  here("graphs","07_histogram_irradiance_negative_values_removed.pdf"),
   device = cairo_pdf,
   width = 24,
   height = 10
@@ -78,11 +78,11 @@ ggsave(
 # Export clean data -------------------------------------------------------
 
 irradiance_clean %>%
-  write_csv(here("data/clean/irradiance_negative_values_removed.csv"))
+  write_csv(here("data","clean","irradiance_negative_values_removed.csv"))
 
 # Visualize the data ------------------------------------------------------
 
-stations <- read_csv(here("data/clean/stations.csv")) %>%
+stations <- read_csv(here("data","clean","stations.csv")) %>%
   select(station, area)
 
 df_viz <- irradiance_clean %>%

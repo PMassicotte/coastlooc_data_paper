@@ -8,9 +8,9 @@
 
 rm(list = ls())
 
-source(here("R/zzz.R"))
+source(here("R","zzz.R"))
 
-stations <- read_csv(here("data/clean/stations.csv")) %>%
+stations <- read_csv(here("data","clean","stations.csv")) %>%
   drop_na(longitude, latitude) %>%
   st_as_sf(coords = c("longitude", "latitude"), crs = 4326)
 
@@ -54,7 +54,7 @@ p <- ggplot() +
     plot.title.position = "plot"
   )
 
-outfile <- here("graphs/16_geographical_map_stations_shortest_distances.pdf")
+outfile <- here("graphs","16_geographical_map_stations_shortest_distances.pdf")
 
 ggsave(
   outfile,
@@ -84,4 +84,4 @@ stations %>%
 stations %>%
   as_tibble() %>%
   select(date, station, distance_to_shore_m) %>%
-  write_csv(here("data/clean/distances_to_shore.csv"))
+  write_csv(here("data","clean","distances_to_shore.csv"))

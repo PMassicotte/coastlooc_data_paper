@@ -1,11 +1,11 @@
 
 source("R/zzz.R")
 
-station <- read_csv(here("data/clean/stations.csv"))
+station <- read_csv(here("data","clean","stations.csv"))
 
 # acdom -------------------------------------------------------------------
 
-acdom <- read_csv(here("data/clean/absorption.csv")) %>%
+acdom <- read_csv(here("data","clean","absorption.csv")) %>%
   left_join(station, ., by = "station")
 
 p <- acdom %>%
@@ -28,7 +28,7 @@ p <- acdom %>%
     legend.position = "none"
   )
 
-file <- here("graphs/13_boxplot_acdom443_by_area.pdf")
+file <- here("graphs","13_boxplot_acdom443_by_area.pdf")
 
 ggsave(
   file,
@@ -39,7 +39,7 @@ ggsave(
 
 # aphy --------------------------------------------------------------------
 
-aphy <- read_csv(here("data/clean/absorption.csv")) %>%
+aphy <- read_csv(here("data","clean","absorption.csv")) %>%
   left_join(station, ., by = "station")
 
 aphy %>%
@@ -63,7 +63,7 @@ aphy %>%
     legend.position = "none"
   )
 
-file <- here("graphs/13_aphy_vs_anap.pdf")
+file <- here("graphs","13_aphy_vs_anap.pdf")
 
 ggsave(
   file,

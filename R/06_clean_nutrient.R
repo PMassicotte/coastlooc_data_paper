@@ -8,13 +8,13 @@ rm(list = ls())
 
 source("R/zzz.R")
 
-station <- read_csv(here("data/clean/stations.csv")) %>%
+station <- read_csv(here("data","clean","stations.csv")) %>%
   select(station, area)
 
 station %>%
   distinct(area)
 
-nutrient <- read_csv(here("data/clean/surface.csv"))
+nutrient <- read_csv(here("data","clean","surface.csv"))
 
 nutrient
 
@@ -98,7 +98,7 @@ p <- nutrient %>%
     plot.title.position = "plot"
   )
 
-file <- here("graphs/06_number_observation_nutrient_by_area.pdf")
+file <- here("graphs","06_number_observation_nutrient_by_area.pdf")
 
 ggsave(
   file,

@@ -7,7 +7,16 @@
 
 rm(list = ls())
 
-df <- data.table::fread(here("data/raw/valente_2019/Orginal_files_including_metadata/insitudb_iopskdtsm_2019-02.csv")) %>%
+df <-
+  data.table::fread(
+    here(
+      "data",
+      "raw",
+      "valente_2019",
+      "Orginal_files_including_metadata",
+      "insitudb_iopskdtsm_2019-02.csv"
+    )
+  ) %>%
   as_tibble() %>%
   distinct(time, lat, lon)
 
@@ -63,7 +72,7 @@ p <- df_sf %>%
     subtitle = "There are no overlaps with the COASTLOOC data."
   )
 
-file <- here("graphs/11_map_valente_et_al.pdf")
+file <- here("graphs","11_map_valente_et_al.pdf")
 
 ggsave(
   file,

@@ -6,11 +6,11 @@
 
 rm(list = ls())
 
-source(here("R/zzz.R"))
+source(here("R","zzz.R"))
 
-spectro <- vroom::vroom(here("data/clean/absorption.csv"))
-ac9 <- vroom::vroom(here("data/clean/ac9.csv"))
-station <- vroom::vroom(here("data/clean/stations.csv"))
+spectro <- vroom::vroom(here("data","clean","absorption.csv"))
+ac9 <- vroom::vroom(here("data","clean","ac9.csv"))
+station <- vroom::vroom(here("data","clean","stations.csv"))
 
 df <- spectro %>%
   inner_join(ac9, by = c("station", "wavelength")) %>%
@@ -56,7 +56,7 @@ p <- df %>%
   )
 
 ggsave(
-  here("graphs/14_compare_spectrofluorimeter_and_ac9_absorption_scatterplot.pdf"),
+  here("graphs","14_compare_spectrofluorimeter_and_ac9_absorption_scatterplot.pdf"),
   device = cairo_pdf,
   width = 9,
   height = 7
@@ -94,7 +94,7 @@ p <- df %>%
   )
 
 ggsave(
-  here("graphs/14_compare_spectrofluorimeter_and_ac9_absorption_boxplot.pdf"),
+  here("graphs","14_compare_spectrofluorimeter_and_ac9_absorption_boxplot.pdf"),
   device = cairo_pdf,
   width = 9,
   height = 7

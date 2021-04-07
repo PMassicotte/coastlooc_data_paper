@@ -9,9 +9,9 @@ rm(list = ls())
 source("R/zzz.R")
 source("R/ggspectral.R")
 
-absorption <- vroom::vroom(here("data/clean/absorption.csv"))
+absorption <- vroom::vroom(here("data","clean","absorption.csv"))
 
-stations <- read_csv(here("data/clean/stations.csv"))
+stations <- read_csv(here("data","clean","stations.csv"))
 
 absorption <- absorption %>%
   full_join(stations, by = "station") %>%

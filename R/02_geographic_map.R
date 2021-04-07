@@ -9,7 +9,7 @@ rm(list = ls())
 
 source("R/zzz.R")
 
-stations <- read_csv(here("data/clean/stations.csv"))
+stations <- read_csv(here("data","clean","stations.csv"))
 
 stations
 
@@ -180,7 +180,7 @@ p <- ggplot() +
     axis.title = element_blank()
   )
 
-outfile <- here("graphs/02_geographic_map.pdf")
+outfile <- here("graphs","02_geographic_map.pdf")
 
 ggsave(
   outfile,

@@ -6,7 +6,7 @@
 
 rm(list = ls())
 
-file <- here("man/Ferrari_2000.pdf")
+file <- here("man","Ferrari_2000.pdf")
 
 df <- tabulizer::extract_tables(
   file,
@@ -52,7 +52,7 @@ massimo
 
 # Export data -------------------------------------------------------------
 
-surface <- read_csv(here("data/clean/surface.csv"))
+surface <- read_csv(here("data","clean","surface.csv"))
 
 surface
 
@@ -78,4 +78,4 @@ df <- surface %>%
 df
 
 df %>%
-  write_csv(here("data/clean/surface.csv"))
+  write_csv(here("data","clean","surface.csv"))

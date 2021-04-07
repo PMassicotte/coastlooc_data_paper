@@ -3,7 +3,7 @@
 
 # paletteer::paletteer_d("ggthemes::gdoc")
 #
-# read_csv(here("data/clean/stations.csv")) %>%
+# read_csv(here("data","clean","stations.csv")) %>%
 #   distinct(area) %>%
 #   pull(area)
 
