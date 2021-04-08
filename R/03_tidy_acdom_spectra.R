@@ -174,9 +174,11 @@ df %>%
   facet_wrap(~area, scales = "free") +
   geom_vline(xintercept = 0.95, lty = 2, size = 0.25, color = "red")
 
+min_r2 <- 0.95
+
 # Only keep the best fits
 df_filtered <- df %>%
-  filter(r2 >= 0.95) %>%
+  filter(r2 >= min_r2) %>%
   unnest(mod_pred) %>%
   select(
     station,
@@ -253,3 +255,24 @@ absorption_clean <- absorption_merged %>%
 
 write_csv(absorption_clean, here("data","clean","absorption.csv"))
 
+# Export s_cdom -----------------------------------------------------------
+
+# Use absorption_clean to keep only good models.
+
+s_cdom <- df %>%
+  semi_join(absorption_clean, by = "station") %>%
+  select(station, mod) %>%
+  mutate(tidied = map(mod, broom::tidy)) %>%
+  select(-mod) %>%
+  unnest(tidied) %>%
+  filter(term == "s") %>%
+  select(station, s_cdom = estimate)
+
+s_cdom
+
+# s_cdom %>%
+#   ggplot(aes(x = s_cdom)) +
+#   geom_histogram() +
+#   geom_vline(xintercept = 0.012) #
+
+write_csv(s_cdom, here("data","clean","s_cdom.csv"))

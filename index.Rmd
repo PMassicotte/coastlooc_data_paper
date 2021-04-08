@@ -293,6 +293,42 @@ knitr::include_graphics(pdf2png(
 ))
 ```
 
+### Spectral slopes
+
+This graph compares the spectral slopes of both `CDOM` and `NAP` absorption spectra.
+
+```{r, fig.align='center'}
+s_cdom <- read_csv(here("data","clean","s_cdom.csv"))
+s_nap <- read_csv(here("data","clean","s_nap.csv"))
+stations <- read_csv(here("data","clean","stations.csv"))
+
+df <- stations %>% 
+  inner_join(s_cdom, by = "station") %>% 
+  inner_join(s_nap, by = "station") 
+
+df %>% 
+  select(station, area, s_cdom, s_nap) %>% 
+  pivot_longer(starts_with("s_")) %>% 
+  ggplot(aes(x = name, y= value, fill = area)) +
+  geom_boxplot(size = 0.1, outlier.size = 0.25) +
+  facet_wrap(~area) +
+  scale_fill_manual(
+    breaks = area_breaks,
+    values = area_colors
+  ) +
+  scale_x_discrete(
+    breaks = c("s_cdom", "s_nap"),
+    labels = c(parse(text = "S[CDOM]"), parse(text = "S[NAP]"))
+  ) +
+  labs(
+    x = NULL,
+    y = quote("Spectral slope" ~(nm^{-1}))
+  ) +
+  theme(
+    legend.position = "none"
+  )
+```
+
 ## Irradiance
 
 ### Ed
@@ -379,8 +415,6 @@ knitr::include_graphics(pdf2png(here("graphs", "14_compare_spectrofluorimeter_an
 
 -   There are wavelength gaps in the `AC9`, `irradiance` and `reflectance` data. Is that normal?
 
--   Calculate `s_nap` and `s_cdom`. See the method in Babin where he removes some wavelengths to calculate `s_nap`.
-
--   [x] test
+-   [x] Calculate `s_nap` and `s_cdom`. See the method in Babin where he removes some wavelengths to calculate `s_nap`.
 
 ## References
