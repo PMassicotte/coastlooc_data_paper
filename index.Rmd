@@ -124,13 +124,13 @@ knitr::include_graphics(pdf2png(here("graphs", "09_histogram_ac9_negative_values
 
 -   Extracted extra variables (`DOC`, `AQY`) from Massimo 2000.
 
-## Visualizations
+## Data sampling
 
 Just some graphs to visualize the data. *Note that the same colour palette will be used to represent the areas in all graphics.*
 
 ### Temporal sampling
 
--   This graph shows when the sampling was performed in the different areas. For instance, we can see that a large fraction of the measurements were made in September of 1998.
+This graph shows when the sampling was performed in the different areas. For instance, we can see that a large fraction of the measurements were made in September of 1998.
 
 ```{r}
 source(here("R", "zzz.R"))
@@ -200,7 +200,7 @@ df %>%
   )
 ```
 
-### Available variables
+## Available variables
 
 This graph shows an overview of the available variables (excluding radiometric measurements).
 
@@ -208,7 +208,7 @@ This graph shows an overview of the available variables (excluding radiometric m
 knitr::include_graphics(pdf2png(here("graphs", "06_number_observation_nutrient_by_area.pdf")))
 ```
 
-### Absorption measurements
+## Absorption measurements
 
 Overview of the averaged absorption spectra for each area.
 
@@ -240,7 +240,7 @@ Relationships between some pigments.
 knitr::include_graphics(pdf2png(here("graphs", "nano_chla_vs_hexanoyloxyfucoxanthin_19.pdf")))
 ```
 
-#### aphy
+### aphy
 
 ```{r}
 knitr::include_graphics(pdf2png(here("graphs", "04_aphy_spectral_profiles_by_area.pdf")))
@@ -252,7 +252,7 @@ We could also assess the goodness of the relationships between total chlorophyll
 knitr::include_graphics(pdf2png(here("graphs", "15_total_chla_vs_aphy443.pdf")))
 ```
 
-#### anap
+### anap
 
 ```{r}
 knitr::include_graphics(pdf2png(here(
@@ -260,7 +260,7 @@ knitr::include_graphics(pdf2png(here(
 )))
 ```
 
-#### atot
+### ap
 
 ```{r}
 knitr::include_graphics(pdf2png(here(
@@ -268,7 +268,7 @@ knitr::include_graphics(pdf2png(here(
 )))
 ```
 
-#### acdom
+### acdom
 
 ```{r}
 knitr::include_graphics(pdf2png(here(
@@ -282,6 +282,8 @@ In this section I am using the same three stations as in @oubelkheir2007 to expl
 
 - For station `C6024000`, `a_p` is lower than `a_cdom` around 400 nm and 550 nm. Should we use this to filter out problematic spectra?
 
+- There are some obvious problems with `a_cdom` measurements. See `C6024000` where there is a bump in absorption around 550 nm.
+
 ```{r}
 knitr::include_graphics(pdf2png(
   here(
@@ -291,9 +293,9 @@ knitr::include_graphics(pdf2png(
 ))
 ```
 
-### Irradiance
+## Irradiance
 
-#### Ed
+### Ed
 
 ```{r}
 knitr::include_graphics(pdf2png(here(
@@ -301,45 +303,45 @@ knitr::include_graphics(pdf2png(here(
 )))
 ```
 
-#### Eu
+### Eu
 
 ```{r}
 knitr::include_graphics(pdf2png(here("graphs", "07_eu_spectral_profiles_by_area.pdf")))
 ```
 
-#### Kd
+### Kd
 
 ```{r}
 knitr::include_graphics(pdf2png(here("graphs", "07_kd_spectral_profiles_by_area.pdf")))
 ```
 
-#### Ku
+### Ku
 
 ```{r}
 knitr::include_graphics(pdf2png(here("graphs", "07_ku_spectral_profiles_by_area.pdf")))
 ```
 
-### Reflectance
+## Reflectance
 
 ```{r}
 knitr::include_graphics(pdf2png(here("graphs", "08_reflectance_profiles_by_area.pdf")))
 ```
 
-### AC9
+## AC9
 
-#### Absorption
+### Absorption
 
 ```{r}
 knitr::include_graphics(pdf2png(here("graphs", "09_ac9_a_spectral_profiles_by_area.pdf")))
 ```
 
-#### Beam attenuation
+### Beam attenuation
 
 ```{r}
 knitr::include_graphics(pdf2png(here("graphs", "09_ac9_c_spectral_profiles_by_area.pdf")))
 ```
 
-#### Backscattering
+### Backscattering
 
 ```{r}
 knitr::include_graphics(pdf2png(here("graphs", "09_ac9_bp_spectral_profiles_by_area.pdf")))
@@ -366,8 +368,8 @@ knitr::include_graphics(pdf2png(here("graphs", "14_compare_spectrofluorimeter_an
 ## Orientation of the paper
 
 -   The data is a mix of temporal and spatial observations, so how should we present the data?
-
--   By `area`?
+    
+    -   By `area`?
 
 ## TODOS
 
