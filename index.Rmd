@@ -407,14 +407,22 @@ knitr::include_graphics(pdf2png(here("graphs", "14_compare_spectrofluorimeter_an
     
     -   By `area`?
 
-## TODOS
+### Journal candidates
+
+-   [Scientific data](https://www.nature.com/sdata/) (I.F: 5.541)
+-   [Earth System Science Data (ESSD)](https://earth-system-science-data.net/) (I.F: 9.197)
+-   [PLOS One](https://journals.plos.org/plosone/) (I.F: 2.740)
+
+## Done
+
+-   [x] Calculate `s_nap` and `s_cdom`. See the method in @Babin2003 where he removes some wavelengths to calculate `s_nap`.
+
+## Todos
 
 -   No absorption for `Med. Sea (Case 1)`. Is it normal?
 
 -   There are a lot of nutrient parameters that have values of zero. Are they true zero or they indicate missing values?
 
 -   There are wavelength gaps in the `AC9`, `irradiance` and `reflectance` data. Is that normal?
-
--   [x] Calculate `s_nap` and `s_cdom`. See the method in Babin where he removes some wavelengths to calculate `s_nap`.
 
 ## References
