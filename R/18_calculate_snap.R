@@ -46,11 +46,29 @@ df
 
 df <- df %>%
   mutate(tidied = map(mod, broom::tidy)) %>%
-  mutate(augmented = map(mod, broom::augment))
+  mutate(augmented = map(mod, broom::augment)) %>%
+  mutate(r2 = map_dbl(
+    augmented,
+    ~ cor(.$a_nap, .$.fitted)^2
+  ))
+
+df
+
+df %>%
+  ggplot(aes(x = r2)) +
+  geom_histogram(binwidth = 0.001)
+
+# Filter out bad spectra --------------------------------------------------
+
+# Use the same r2 criterion as for s_cdom
+min_r2 <- 0.95
+
+df_filtered <- df %>%
+  filter(r2 >= min_r2)
 
 # Visualize some fits -----------------------------------------------------
 
-df %>%
+df_filtered %>%
   slice_sample(n = 49) %>%
   select(station, augmented) %>%
   unnest(augmented) %>%
@@ -61,7 +79,7 @@ df %>%
 
 # Export s_nap ------------------------------------------------------------
 
-res <- df %>%
+res <- df_filtered %>%
   select(station, tidied) %>%
   unnest(tidied) %>%
   filter(term == "s") %>%
