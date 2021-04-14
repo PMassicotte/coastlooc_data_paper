@@ -41,7 +41,7 @@ ggsave(
 
 ac9_clean <- ac9 %>%
   mutate(across(
-    a:c_dissolved,
+    c(a, c, bp),
     ~ case_when(
       . >= 0 ~ .,
       TRUE ~ NA_real_

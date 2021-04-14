@@ -175,12 +175,8 @@ ac9 <- stations %>%
     names_transform = list(wavelength = parse_integer)
   ) %>%
   rename_with(~ str_remove_all(., "_$")) %>%
-  rename(
-    a_dissolved = ad,
-    c_dissolved = cd,
-    remote_sensed_vertical_layer_meter = z1
-  ) %>%
-  relocate(c_dissolved, .after = a_dissolved)
+  select(-ad, -cd) %>%
+  rename(remote_sensed_vertical_layer_meter = z1)
 
 ac9
 
