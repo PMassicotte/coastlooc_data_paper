@@ -383,24 +383,6 @@ knitr::include_graphics(pdf2png(here("graphs", "09_ac9_c_spectral_profiles_by_ar
 knitr::include_graphics(pdf2png(here("graphs", "09_ac9_bp_spectral_profiles_by_area.pdf")))
 ```
 
-## Data validation and diagnostics
-
-In this section, we will explore various diagnostic graphics to validate the data.
-
-### Absorption (AC9 and spectrofluorometer)
-
-In theory, the dissolved absorption measured by the spectrofluorometer `aCDOM` should be comparable with the dissolved absorption measured by the `AC9` (using a filter). The next graphs compare both measurements at common wavelengths for the different areas.
-
-```{r}
-knitr::include_graphics(pdf2png(here("graphs", "14_compare_spectrofluorimeter_and_ac9_absorption_scatterplot.pdf")))
-```
-
-We can also use sina plot as another way to compare the same data.
-
-```{r}
-knitr::include_graphics(pdf2png(here("graphs", "14_compare_spectrofluorimeter_and_ac9_absorption_boxplot.pdf")))
-```
-
 ## Orientation of the paper
 
 -   The data is a mix of temporal and spatial observations, so how should we present the data?
@@ -413,9 +395,27 @@ knitr::include_graphics(pdf2png(here("graphs", "14_compare_spectrofluorimeter_an
 -   [Earth System Science Data (ESSD)](https://earth-system-science-data.net/) (I.F: 9.197)
 -   [PLOS One](https://journals.plos.org/plosone/) (I.F: 2.740)
 
+## Figures for the paper
+
+This section shows the figures that I think should be included in the data paper.
+
+### Figure 1
+
+- Map of the sampling stations.
+
+### Figure 2
+
+Figure 2: Overview of the temporal sampling for the seven areas. The numbers in the circles indicate the number of visited stations each month.
+
+```{r fig02}
+knitr::include_graphics(pdf2png(here("graphs", "fig02.pdf")))
+```
+
 ## Done
 
 -   [x] Calculate `s_nap` and `s_cdom`. See the method in @Babin2003 where he removes some wavelengths to calculate `s_nap`.
+
+-   [x] Removed dissolved `a` and `c` from the AC9 data because there were problems with the filtering procedure during the sampling.
 
 ## Todos
 
@@ -424,5 +424,9 @@ knitr::include_graphics(pdf2png(here("graphs", "14_compare_spectrofluorimeter_an
 -   There are a lot of nutrient parameters that have values of zero. Are they true zero or they indicate missing values?
 
 -   There are wavelength gaps in the `AC9`, `irradiance` and `reflectance` data. Is that normal?
+
+-   Add units to each variable. For example `depth` should becomes `depth_m`.
+
+-   Zoom on geographic ares such as figure 13 in the final report.
 
 ## References

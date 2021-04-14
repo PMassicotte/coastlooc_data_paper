@@ -109,3 +109,10 @@ span.citation {
   padding-bottom: 20px;
 }
 
+p.caption {
+  color: #808080;
+  text-align: center;
+  font-family: Open Sans;
+  font-size: 1em;
+  font-weight: lighter;
+}
