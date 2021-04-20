@@ -9,14 +9,16 @@
 # Setup -------------------------------------------------------------------
 
 library(tidyverse)
-library(here)
+library(stars)
 library(sf)
+library(here)
 library(MBA)
 library(assertr)
 library(glue)
 library(tabulizer)
 library(patchwork)
-library(corrr)
+# library(corrr)
+# library(ggtern)
 
 library(ggpmthemes)
 

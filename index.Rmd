@@ -61,7 +61,7 @@ This section shows the main steps that have been applied to pre-process the raw 
 
 -   Calculated the correlation between the measured and the fitted values.
 
-    -   Fits with R2 than 0.95 were removed from the data.
+    -   Fits with R2 lower than 0.95 were removed from the data.
 
 -   Absorption spectra with any negative values below 500 nm were removed.
 
@@ -167,6 +167,14 @@ There is a total of 424 different stations were sampled during the COASTLOOC exp
 
 ```{r}
 knitr::include_graphics(pdf2png(here("graphs", "02_geographic_map.pdf")))
+```
+
+### Bathymetry
+
+I have extracted the bathymetry at each sampling locations. This boxplot provide a general picture of the bathymetry per area.
+
+```{r}
+knitr::include_graphics(pdf2png(here("graphs", "20_boxplot_bathymetry_by_area.pdf")))
 ```
 
 ### Land-to-sea gradient
@@ -293,6 +301,17 @@ knitr::include_graphics(pdf2png(
 ))
 ```
 
+- This is a ternary plot showing the relative contribution of $a_{\phi}(443)$, $a_{\text{NAP}}(443)$ and $a_{\text{CDOM}}(443)$. I think there are interesting patterns in this graph.
+
+```{r}
+knitr::include_graphics(pdf2png(
+  here(
+    "graphs",
+    "19_ternary_plot_absorption.pdf"
+  )
+))
+```
+
 ### Spectral slopes
 
 This graph compares the spectral slopes of both `CDOM` and `NAP` absorption spectra.
@@ -377,7 +396,7 @@ knitr::include_graphics(pdf2png(here("graphs", "09_ac9_a_spectral_profiles_by_ar
 knitr::include_graphics(pdf2png(here("graphs", "09_ac9_c_spectral_profiles_by_area.pdf")))
 ```
 
-### Backscattering
+### Scattering
 
 ```{r}
 knitr::include_graphics(pdf2png(here("graphs", "09_ac9_bp_spectral_profiles_by_area.pdf")))
@@ -417,6 +436,8 @@ knitr::include_graphics(pdf2png(here("graphs", "fig02.pdf")))
 
 -   [x] Removed dissolved `a` and `c` from the AC9 data because there were problems with the filtering procedure during the sampling.
 
+-   [x] Extract bathymetry at each station.
+
 ## Todos
 
 -   No absorption for `Med. Sea (Case 1)`. Is it normal?
@@ -428,5 +449,13 @@ knitr::include_graphics(pdf2png(here("graphs", "fig02.pdf")))
 -   Add units to each variable. For example `depth` should becomes `depth_m`.
 
 -   Zoom on geographic ares such as figure 13 in the final report.
+
+-   Ternary plot to characterize the contribution of each optically substance to total absorption.
+
+-   True color satellite image to show river plume.
+
+-   I do not have the backscattering data from the BB-4.
+
+-   Some geographical positions are located on land (Adriatic Sea for example).
 
 ## References
