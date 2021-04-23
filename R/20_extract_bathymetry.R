@@ -77,6 +77,10 @@ ggsave(
   height = 5.2
 )
 
+# Average depth across all the station
+mean(df_viz$bathymetry_m)
+range(df_viz$bathymetry_m[df_viz$bathymetry_m < 0])
+
 df_viz %>%
   group_by(area) %>%
   summarise(bathymetry = round(mean(bathymetry_m))) %>%
