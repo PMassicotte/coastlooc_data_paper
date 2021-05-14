@@ -213,7 +213,9 @@ df %>%
 This graph shows an overview of the available variables (excluding radiometric measurements).
 
 ```{r}
-knitr::include_graphics(pdf2png(here("graphs", "06_number_observation_nutrient_by_area.pdf")))
+knitr::include_graphics(pdf2png(
+  here("graphs", "06_number_observation_nutrient_by_area.pdf")
+))
 ```
 
 ## Absorption measurements
@@ -221,13 +223,17 @@ knitr::include_graphics(pdf2png(here("graphs", "06_number_observation_nutrient_b
 Overview of the averaged absorption spectra for each area.
 
 ```{r}
-knitr::include_graphics(pdf2png(here("graphs", "11_average_absorption_spectra_by_area.pdf")))
+knitr::include_graphics(pdf2png(here(
+  "graphs", "11_average_absorption_spectra_by_area.pdf"
+)))
 ```
 
 Comparing `acdom443` for the different areas shows that there is a clear open to coastal gradient.
 
 ```{r}
-knitr::include_graphics(pdf2png(here("graphs", "13_boxplot_acdom443_by_area.pdf")))
+knitr::include_graphics(pdf2png(here(
+  "graphs", "13_boxplot_acdom443_by_area.pdf"
+)))
 ```
 
 We can see that the `DOC` follows the same pattern as `acdom443`.
@@ -317,18 +323,18 @@ knitr::include_graphics(pdf2png(
 This graph compares the spectral slopes of both `CDOM` and `NAP` absorption spectra.
 
 ```{r, fig.align='center'}
-s_cdom <- read_csv(here("data","clean","s_cdom.csv"))
-s_nap <- read_csv(here("data","clean","s_nap.csv"))
-stations <- read_csv(here("data","clean","stations.csv"))
+s_cdom <- read_csv(here("data", "clean", "s_cdom.csv"))
+s_nap <- read_csv(here("data", "clean", "s_nap.csv"))
+stations <- read_csv(here("data", "clean", "stations.csv"))
 
-df <- stations %>% 
-  inner_join(s_cdom, by = "station") %>% 
-  inner_join(s_nap, by = "station") 
+df <- stations %>%
+  inner_join(s_cdom, by = "station") %>%
+  inner_join(s_nap, by = "station")
 
-df %>% 
-  select(station, area, s_cdom, s_nap) %>% 
-  pivot_longer(starts_with("s_")) %>% 
-  ggplot(aes(x = name, y= value, fill = area)) +
+df %>%
+  select(station, area, s_cdom, s_nap) %>%
+  pivot_longer(starts_with("s_")) %>%
+  ggplot(aes(x = name, y = value, fill = area)) +
   geom_boxplot(size = 0.1, outlier.size = 0.25) +
   facet_wrap(~area) +
   scale_fill_manual(
@@ -341,7 +347,9 @@ df %>%
   ) +
   labs(
     x = NULL,
-    y = quote("Spectral slope" ~(nm^{-1}))
+    y = quote("Spectral slope" ~ (nm^{
+      -1
+    }))
   ) +
   theme(
     legend.position = "none"
@@ -428,10 +436,18 @@ knitr::include_graphics(pdf2png(here("graphs", "fig01.pdf")))
 
 ### Figure 2
 
-Figure 2: Overview of the temporal sampling for the seven areas. The numbers in the circles indicate the number of visited stations each month.
+Figure 2: (**A**) Overview of the temporal sampling for the seven areas. The numbers in the circles indicate the number of visited stations each month. (**B**) Boxplot showing the bathymetry at the sampling locations by area.
 
 ```{r fig02}
 knitr::include_graphics(pdf2png(here("graphs", "fig02.pdf")))
+```
+
+### Figure 3
+
+Figure 3: Average total particulate (**A**), non-algal (**B**), phytoplankton (**C**) and chromophoric dissolved organic matter (**D**) absorption spectra in each area.
+
+```{r fig03}
+knitr::include_graphics(pdf2png(here("graphs", "fig03.pdf")))
 ```
 
 ## Done
@@ -461,5 +477,7 @@ knitr::include_graphics(pdf2png(here("graphs", "fig02.pdf")))
 -   I do not have the backscattering data from the BB-4.
 
 -   Some geographical positions are located on land (Adriatic Sea for example).
+
+-   Calculate the apparent visible wavelength index (AVW) and see if it can be exploited in this paper.
 
 ## References

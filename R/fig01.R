@@ -216,7 +216,8 @@ df_viz <- stations_sf %>%
         aspect.ratio = 1,
         panel.grid = element_blank(),
         plot.title = element_text(size = 8, hjust = 0.5),
-        axis.text = element_text(size = 4)
+        axis.text = element_text(size = 4),
+        panel.border = element_rect(size = 0.25, fill = NA)
       )
   }))
 

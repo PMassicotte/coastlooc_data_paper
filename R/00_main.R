@@ -24,7 +24,7 @@ library(ggpmthemes)
 
 # Set default ggplot2 font size and font family
 # devtools::install_github("PMassicotte/ggpmthemes")
-theme_set(theme_light_modified(base_family = "Montserrat Alternates", base_size = 10))
+theme_set(theme_light_modified(base_family = "Montserrat", base_size = 10))
 
 theme_update(
   panel.border = element_blank(),
@@ -52,4 +52,12 @@ source(here("R","14_compare_spectrofluorimeter_and_ac9_absorption.R"))
 source(here("R","15_pigments_vs_absorption.R"))
 source(here("R","16_calculate_station_distance_to_shore.R"))
 source(here("R","17_absorption_partition.R"))
+source(here("R","18_calculate_snap.R"))
+source(here("R","19_ternary_plot_absorption.R"))
+source(here("R","20_extract_bathymetry.R"))
+
+# Figures for the manuscript
+
+source(here("R","fig01.R"))
+source(here("R","fig02.R"))
 
