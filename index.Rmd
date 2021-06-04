@@ -106,6 +106,36 @@ read_csv("data/clean/irradiance.csv") %>%
 
 -   `Ed` is in fact `Ed0-` calculated from `0.94 x ed0+`.
 
+- There are differences in wavelengths among cruises. I have not found any information in the report concerning channel change across the missions.
+
+```{r}
+irradiance <- read_csv("data/clean/irradiance_negative_values_removed.csv") 
+
+irradiance %>% 
+  mutate(cruise = str_sub(station, 1, 2), .after = station) %>% 
+  distinct(cruise, wavelength) %>% 
+  group_nest(cruise) %>% 
+  unnest_wider(data) %>% 
+  pivot_wider(names_from = cruise, values_from = wavelength) %>% 
+  unnest(everything()) %>% 
+  knitr::kable() %>% 
+  kableExtra::kable_styling()
+
+irradiance %>% 
+  mutate(cruise = str_sub(station, 1, 2), .after = station) %>% 
+  distinct(cruise, wavelength) %>% 
+  group_nest(cruise) %>% 
+  unnest_wider(data) %>% 
+  pivot_wider(names_from = cruise, values_from = wavelength) %>% 
+  unnest(everything()) %>% 
+  rowwise() %>% 
+  mutate(u  = length(unique(c_across(everything())))) %>% 
+  filter(u != 1) %>% 
+  select(-u) %>% 
+  knitr::kable() %>% 
+  kableExtra::kable_styling()
+```
+
 ### Reflectance
 
 -   Reflectance values outside the 0-1 range were set to `NA`.
@@ -444,10 +474,18 @@ knitr::include_graphics(pdf2png(here("graphs", "fig02.pdf")))
 
 ### Figure 3
 
-Figure 3: Average total particulate (**A**), non-algal (**B**), phytoplankton (**C**) and chromophoric dissolved organic matter (**D**) absorption spectra in each area.
+Figure 3: Total chlorophyll-a (**A**) and particulate organic carbon (**B**) along the inland-to-ocean aquatic continuum.
 
 ```{r fig03}
 knitr::include_graphics(pdf2png(here("graphs", "fig03.pdf")))
+```
+
+### Figure 4
+
+Figure 4: Average total particulate (**A**), non-algal (**B**), phytoplankton (**C**) and chromophoric dissolved organic matter (**D**) absorption spectra in each area.
+
+```{r fig04}
+knitr::include_graphics(pdf2png(here("graphs", "fig04.pdf")))
 ```
 
 ## Done
@@ -479,5 +517,7 @@ knitr::include_graphics(pdf2png(here("graphs", "fig03.pdf")))
 -   Some geographical positions are located on land (Adriatic Sea for example).
 
 -   Calculate the apparent visible wavelength index (AVW) and see if it can be exploited in this paper.
+
+-   Wait for Frank to correct the bug with the mrg file where the data columns are not alligned correctly.
 
 ## References

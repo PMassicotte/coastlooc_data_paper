@@ -1,102 +1,79 @@
 # <><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><>
 # AUTHOR:       Philippe Massicotte
 #
-# DESCRIPTION:  Average absorption per area.
+# DESCRIPTION:  Figure showing the inland-ocean gradient using some key
+# variables such as DOC, and Chla.
 # <><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><>
 
 rm(list = ls())
 
 source(here("R","zzz.R"))
 
-station <- read_csv(here("data","clean","stations.csv"))
+station <- read_csv(here("data","clean","stations.csv")) %>%
+  select(station, area)
 
-absorption <- vroom::vroom(here("data","clean","absorption.csv")) %>%
-  filter(wavelength >= 350) %>%
-  left_join(station, ., by = "station") %>%
-  group_by(area, wavelength) %>%
-  summarise(across(starts_with("a_"), ~ mean(., na.rm = TRUE))) %>%
-  ungroup()
+surface <- read_csv(here("data","clean","surface.csv"))
 
-df_viz <- absorption %>%
-  group_by(area, wavelength) %>%
-  summarise(across(starts_with("a_"), ~ mean(., na.rm = TRUE))) %>%
-  ungroup()
+surface
 
-df_viz
+surface <- surface %>%
+  inner_join(station, by = "station")
 
-# Plot --------------------------------------------------------------------
+surface %>%
+  ggplot(aes(x = chl_a, y = total_chl_a)) +
+  geom_point() +
+  facet_wrap(~area)
 
-p1 <- df_viz %>%
-  ggplot(aes(x = wavelength, y = a_phy, color = area)) +
-  geom_line() +
+# Total chla --------------------------------------------------------------
+
+p1 <- surface %>%
+  drop_na(total_chl_a) %>%
+  mutate(area = fct_reorder(area, total_chl_a)) %>%
+  ggplot(aes(x = area, y = total_chl_a, color = area)) +
+  geom_boxplot(size = 0.25, outlier.size = 1) +
+  ggbeeswarm::geom_quasirandom(size = 1, groupOnX = TRUE) +
+  scale_y_log10() +
+  scale_x_discrete(labels = function(x) str_wrap(x, 10)) +
   scale_color_manual(
     breaks = area_breaks,
     values = area_colors
   ) +
   labs(
-    x = "Wavelength (nm)",
-    y = quote(a[phi]~(m^{-1}))
+    x = NULL,
+    y = quote("Total chlorophyll-a"~(mg~m^{-3}))
   ) +
   theme(
     legend.position = "none"
   )
 
-p2 <- df_viz %>%
-  ggplot(aes(x = wavelength, y = a_nap, color = area)) +
-  geom_line() +
+p1
+
+# POC ---------------------------------------------------------------------
+
+p2 <- surface %>%
+  drop_na(poc_g_m_3) %>%
+  filter(poc_g_m_3 >= 0.01) %>%
+  mutate(area = fct_reorder(area, poc_g_m_3)) %>%
+  ggplot(aes(x = area, y = poc_g_m_3, color = area)) +
+  geom_boxplot(size = 0.25, outlier.size = 1) +
+  ggbeeswarm::geom_quasirandom(size = 1, groupOnX = TRUE) +
+  scale_y_log10() +
+  scale_x_discrete(labels = function(x) str_wrap(x, 10)) +
   scale_color_manual(
     breaks = area_breaks,
     values = area_colors
   ) +
   labs(
-    x = "Wavelength (nm)",
-    y = quote(a[NAP]~(m^{-1}))
+    x = NULL,
+    y = quote("Particulate organic carbon"~(g~m^{-3}))
   ) +
   theme(
     legend.position = "none"
   )
 
-p3 <- df_viz %>%
-  ggplot(aes(x = wavelength, y = a_p, color = area)) +
-  geom_line() +
-  scale_color_manual(
-    breaks = area_breaks,
-    values = area_colors
-  ) +
-  labs(
-    x = "Wavelength (nm)",
-    y = quote(a[P]~(m^{-1}))
-  ) +
-  theme(
-    legend.position = "none"
-  )
+# Combine plots -----------------------------------------------------------
 
-p4 <- absorption %>%
-  ggplot(aes(x = wavelength, y = a_cdom_modeled, color = area)) +
-  geom_line() +
-  scale_color_manual(
-    breaks = area_breaks,
-    values = area_colors,
-    guide = guide_legend(
-      label.theme = element_text(
-        size = 8,
-        family = "Montserrat"
-      ),
-      override.aes = list(size = 1)
-    )
-  ) +
-  labs(
-    x = "Wavelength (nm)",
-    y = quote(a[CDOM]~(m^{-1}))
-  ) +
-  theme(
-    legend.justification = c(1, 1),
-    legend.position = c(0.9, 0.9),
-    legend.title = element_blank(),
-    legend.key.size = unit(0.4, "cm")
-  )
-
-p <- wrap_plots(p3, p2, p1, p4, ncol = 2) +
+p <- p1 / p2 +
   plot_annotation(
     tag_levels = "A"
   ) &
@@ -109,6 +86,6 @@ file <- here("graphs","fig03.pdf")
 ggsave(
   file,
   device = cairo_pdf,
-  width = 8,
+  width = 6,
   height = 6
 )
