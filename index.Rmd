@@ -474,7 +474,9 @@ knitr::include_graphics(pdf2png(here("graphs", "fig02.pdf")))
 
 ### Figure 3
 
-Figure 3: Total chlorophyll-a (**A**) and particulate organic carbon (**B**) along the inland-to-ocean aquatic continuum.
+Figure 3: (**A**) Total chlorophyll-a and (**B**) particulate organic carbon along the inland-to-ocean aquatic continuum.
+
+- Is it normal there is no data for `Med. Sea (Case 1)`?
 
 ```{r fig03}
 knitr::include_graphics(pdf2png(here("graphs", "fig03.pdf")))
@@ -482,7 +484,9 @@ knitr::include_graphics(pdf2png(here("graphs", "fig03.pdf")))
 
 ### Figure 4
 
-Figure 4: Average total particulate (**A**), non-algal (**B**), phytoplankton (**C**) and chromophoric dissolved organic matter (**D**) absorption spectra in each area.
+Figure 4: (**A**) Average total particulate, (**B**) non-algal, (**C**) phytoplankton and (**D**) chromophoric dissolved organic matter absorption spectra in each area.
+
+- Is it normal there is no data for `Med. Sea (Case 1)`?
 
 ```{r fig04}
 knitr::include_graphics(pdf2png(here("graphs", "fig04.pdf")))
@@ -498,6 +502,15 @@ knitr::include_graphics(pdf2png(here("graphs", "fig04.pdf")))
 
 -   [x] Zoom on geographic areas in Fig. 1 such as figure 13 in the final report.
 
+-   [x] Wait for Frank to correct the bug with the mrg file where the data columns are not aligned correctly.
+
+-   [x] Recode Ed wavelengths as:
+    -   412 -> 411
+    -   510 -> 509
+    -   589 -> 590
+    -   666 -> 665
+    -   780 -> 779
+
 ## Todos
 
 -   No absorption for `Med. Sea (Case 1)`. Is it normal?
@@ -510,14 +523,10 @@ knitr::include_graphics(pdf2png(here("graphs", "fig04.pdf")))
 
 -   Ternary plot to characterize the contribution of each optically substance to total absorption.
 
--   True color satellite image to show river plume?
-
 -   I do not have the backscattering data from the BB-4.
 
 -   Some geographical positions are located on land (Adriatic Sea for example).
 
 -   Calculate the apparent visible wavelength index (AVW) and see if it can be exploited in this paper.
-
--   Wait for Frank to correct the bug with the mrg file where the data columns are not alligned correctly.
 
 ## References

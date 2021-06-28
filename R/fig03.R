@@ -34,6 +34,7 @@ p1 <- surface %>%
   ggbeeswarm::geom_quasirandom(size = 1, groupOnX = TRUE) +
   scale_y_log10() +
   scale_x_discrete(labels = function(x) str_wrap(x, 10)) +
+  annotation_logticks(sides = "l", size = 0.1) +
   scale_color_manual(
     breaks = area_breaks,
     values = area_colors
@@ -59,6 +60,7 @@ p2 <- surface %>%
   ggbeeswarm::geom_quasirandom(size = 1, groupOnX = TRUE) +
   scale_y_log10() +
   scale_x_discrete(labels = function(x) str_wrap(x, 10)) +
+  annotation_logticks(sides = "l", size = 0.1) +
   scale_color_manual(
     breaks = area_breaks,
     values = area_colors
@@ -78,7 +80,7 @@ p <- p1 / p2 +
     tag_levels = "A"
   ) &
   theme(
-    plot.tag = element_text(face = "bold")
+    plot.tag = element_text(face = "bold", margin = margin(r = 5))
   )
 
 file <- here("graphs","fig03.pdf")
@@ -89,3 +91,10 @@ ggsave(
   width = 6,
   height = 6
 )
+
+# Stats for the paper -----------------------------------------------------
+
+surface %>%
+  group_by(area) %>%
+  summarise(across(c(total_chl_a, poc_g_m_3), median, na.rm = TRUE)) %>%
+  arrange(total_chl_a)

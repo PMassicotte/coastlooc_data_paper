@@ -55,6 +55,7 @@ source(here("R","17_absorption_partition.R"))
 source(here("R","18_calculate_snap.R"))
 source(here("R","19_ternary_plot_absorption.R"))
 source(here("R","20_extract_bathymetry.R"))
+source(here("R","21_tidy_spmr_vertical_profiles.R"))
 
 # Figures for the manuscript
 
