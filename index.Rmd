@@ -529,4 +529,33 @@ knitr::include_graphics(pdf2png(here("graphs", "fig04.pdf")))
 
 -   Calculate the apparent visible wavelength index (AVW) and see if it can be exploited in this paper.
 
+- There are duplicated Ed spectra in the data.
+
+```{r}
+stations <- read_csv(here("data/clean/stations.csv"))
+ed <- read_csv(here("data/clean/irradiance_negative_values_removed.csv"))
+
+df <- ed %>% 
+  inner_join(stations) %>% 
+  filter(str_detect(area, "Case"))
+
+df
+
+df %>% 
+  ggplot(aes(x = wavelength, y = ed_wm2_nm1, group = station)) +
+  geom_line() +
+  facet_wrap(~area)
+```
+
+These are the duplicated stations.
+
+```{r}
+df %>% 
+  select(station, date, area, wavelength, ed_wm2_nm1) %>% 
+  pivot_wider(names_from = wavelength, values_from = ed_wm2_nm1) %>% 
+  janitor::get_dupes("411") %>% 
+  rmarkdown::paged_table()
+```
+
+
 ## References
