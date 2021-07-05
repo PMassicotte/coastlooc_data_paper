@@ -539,8 +539,6 @@ df <- ed %>%
   inner_join(stations) %>% 
   filter(str_detect(area, "Case"))
 
-df
-
 df %>% 
   ggplot(aes(x = wavelength, y = ed_wm2_nm1, group = station)) +
   geom_line() +
