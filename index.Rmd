@@ -545,7 +545,7 @@ df %>%
   facet_wrap(~area)
 ```
 
-These are the duplicated stations.
+These are the duplicated Ed stations.
 
 ```{r}
 df %>% 
@@ -555,5 +555,14 @@ df %>%
   rmarkdown::paged_table()
 ```
 
+This is the same for Eu.
+
+```{r}
+df %>% 
+  select(station, date, area, wavelength, eu_wm2_nm1) %>% 
+  pivot_wider(names_from = wavelength, values_from = eu_wm2_nm1) %>% 
+  janitor::get_dupes(matches("\\d{3}")) %>% 
+  rmarkdown::paged_table()
+```
 
 ## References
