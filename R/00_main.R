@@ -17,7 +17,7 @@ library(assertr)
 library(glue)
 library(tabulizer)
 library(patchwork)
-# library(corrr)
+library(corrr)
 # library(ggtern)
 
 library(ggpmthemes)

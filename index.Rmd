@@ -492,6 +492,24 @@ Figure 4: (**A**) Average total particulate, (**B**) non-algal, (**C**) phytopla
 knitr::include_graphics(pdf2png(here("graphs", "fig04.pdf")))
 ```
 
+### Figure 5
+
+```{r fig05}
+knitr::include_graphics(pdf2png(here("graphs", "fig05.pdf")))
+```
+
+### Figure 6
+
+```{r fig06}
+knitr::include_graphics(pdf2png(here("graphs", "fig06.pdf")))
+```
+
+### Figure 7
+
+```{r fig07}
+knitr::include_graphics(pdf2png(here("graphs", "fig07.pdf")))
+```
+
 ## Done
 
 -   [x] Calculate `s_nap` and `s_cdom`. See the method in @Babin2003 where he removes some wavelengths to calculate `s_nap`.
@@ -504,7 +522,7 @@ knitr::include_graphics(pdf2png(here("graphs", "fig04.pdf")))
 
 -   [x] Wait for Frank to correct the bug with the mrg file where the data columns are not aligned correctly.
 
--   [x] Recode Ed wavelengths as:
+-   [x] Recode Ed wavelengths from the SPMR *vertical* profiles as:
     -   412 -> 411
     -   510 -> 509
     -   589 -> 590
@@ -530,6 +548,8 @@ knitr::include_graphics(pdf2png(here("graphs", "fig04.pdf")))
 -   Calculate the apparent visible wavelength index (AVW) and see if it can be exploited in this paper.
 
 - There are duplicated Ed spectra in the data.
+
+- DOC vs aCDOM.
 
 ```{r}
 stations <- read_csv(here("data/clean/stations.csv"))
@@ -564,5 +584,7 @@ df %>%
   janitor::get_dupes(matches("\\d{3}")) %>% 
   rmarkdown::paged_table()
 ```
+
+- There are only two AC9 measurements in the Adriadic Sea. Is it normal?
 
 ## References

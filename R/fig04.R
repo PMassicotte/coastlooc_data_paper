@@ -112,3 +112,17 @@ ggsave(
   width = 8,
   height = 6
 )
+
+
+# Stats for the paper -----------------------------------------------------
+
+## Range of acdom(350) ----
+
+acdom <- vroom::vroom("data/clean/absorption.csv") %>%
+  filter(wavelength == 350) %>%
+  inner_join(stations)
+
+acdom %>%
+  pull(a_cdom_measured) %>%
+  range()
+
