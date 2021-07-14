@@ -77,11 +77,13 @@ p1 <- df_viz %>%
 
 p2 <- df %>%
   drop_na(bathymetry_m) %>%
-  ggplot(aes(x = bathymetry_m, y = area, fill = area)) +
+  ggplot(aes(x = bathymetry_m, y = area, color = area)) +
   geom_boxplot(size = 0.25, outlier.size = 0.5) +
+  ggbeeswarm::geom_quasirandom(size = 0.5, groupOnX = FALSE) +
+  # geom_boxplot(size = 0.25, outlier.size = 0.5) +
   scale_x_log10() +
   annotation_logticks(sides = "b", size = 0.) +
-  scale_fill_manual(
+  scale_color_manual(
     breaks = area_breaks,
     values = area_colors
   ) +

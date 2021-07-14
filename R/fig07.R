@@ -1,81 +1,191 @@
 # <><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><>
 # AUTHOR:       Philippe Massicotte
 #
-# DESCRIPTION:  Relationships between DOC and aCDOM at different wavelengths.
+# DESCRIPTION:  Show bivariate relationships for various variables.
 # <><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><>
 
 rm(list = ls())
 
-doc <- read_csv(here("data","clean","surface.csv")) %>%
-  select(station, doc_um) %>%
-  drop_na()
-
-acdom <- vroom::vroom(here("data","clean","absorption.csv"))
+source(here("R","zzz.R"))
 
 stations <- read_csv(here("data","clean","stations.csv")) %>%
   select(station, area)
 
-df <- doc %>%
-  inner_join(acdom, by = "station") %>%
-  inner_join(stations, by = "station")
+poc <- read_csv(here("data","clean","surface.csv")) %>%
+  select(station, total_chl_a, poc_g_m_3)
 
-df %>%
-  filter(wavelength == 355) %>%
-  drop_na(doc_um, a_cdom_measured) %>%
-  ggplot(aes(x = doc_um, y = a_cdom_measured)) +
-  geom_point(aes(color = area)) +
+df <- inner_join(stations, poc, by = "station")
+
+# Chla vs poc -------------------------------------------------------------
+
+p1 <- df %>%
+  filter(poc_g_m_3 >= 0.01) %>%
+  drop_na() %>%
+  ggplot(aes(x = total_chl_a, y = poc_g_m_3)) +
+  geom_point(aes(color = area), size = 1) +
+  scale_color_manual(
+    breaks = area_breaks,
+    values = area_colors,
+    guide = guide_legend(
+      label.theme = element_text(
+        size = 8,
+        family = "Montserrat"
+      ),
+      override.aes = list(size = 2)
+    )
+  ) +
   scale_x_log10() +
   scale_y_log10() +
-  annotation_logticks(sides = "bl") +
-  geom_smooth(method = "lm")
-
-df %>%
-  drop_na(doc_um, a_cdom_measured) %>%
-  filter(wavelength %in% seq(350, 600, by = 10)) %>%
-  filter(a_cdom_measured > 0) %>%
-  ggplot(aes(x = doc_um, y = a_cdom_measured)) +
-  geom_point(aes(color = area)) +
-  scale_x_log10() +
-  scale_y_log10() +
-  geom_smooth(method = "lm") +
-  annotation_logticks(sides = "bl") +
-  facet_wrap(~wavelength, scales = "free")
-
-df_lm <- df %>%
-  drop_na(doc_um, a_cdom_measured) %>%
-  filter(wavelength <= 500) %>%
-  filter(a_cdom_measured > 0) %>%
-  group_nest(wavelength) %>%
-  mutate(n = map_int(data, nrow)) %>%
-  filter(n >= 50) %>%
-  mutate(model = map(data, ~lm(log10(a_cdom_measured) ~ log10(doc_um), data = .))) %>%
-  mutate(r2 = map_dbl(model, ~summary(.)["r.squared"][[1]]))
-
-# R2 as a function of wavelength ------------------------------------------
-
-p <- df_lm %>%
-  ggplot(aes(x = wavelength, y = r2)) +
-  geom_point(color = "#3c3c3c") +
-  scale_y_continuous(limits = c(0, NA)) +
-  geom_smooth(method = "gam", size = 0.5, color = "#D7263D") +
+  annotation_logticks(sides = "bl", size = 0.1) +
+  geom_smooth(method = "lm", color = "#D7263D") +
   labs(
-    x = "Wavelength (nm)",
-    y = quote("Determination coefficient" ~ (R^2))
+    x = quote("Total chlorophyll-a"~(mg~m^{-3})),
+    y = quote("Particulate organic carbon"~(g~m^{-3}))
+  ) +
+  theme(
+    legend.title = element_blank(),
+    legend.justification = c(0, 1),
+    legend.position = c(0.02, 0.99),
+    legend.key.size = unit(0.4, "cm")
   )
 
+# Find out interesting correlations to show -------------------------------
+
+stations <- read_csv(here("data","clean","stations.csv")) %>%
+  select(station, area)
+
+surface <- read_csv(here("data","clean","surface.csv"))
+
+absorption <- vroom::vroom(here("data","clean","absorption.csv")) %>%
+  filter(wavelength == 443)
+
+df <- surface %>%
+  inner_join(stations, by = "station") %>%
+  inner_join(absorption, by = "station")
+
+df
+
+df %>%
+  select(where(is.numeric)) %>%
+  correlate() %>%
+  stretch() %>%
+  drop_na() %>%
+  arrange(desc(abs(r)))
+
+df %>%
+  select(where(is.numeric)) %>%
+  correlate() %>%
+  stretch() %>%
+  drop_na() %>%
+  filter(abs(r) >= 0.5) %>%
+  retract() %>%
+  rplot(print_cor = TRUE) +
+  theme(axis.text.x = element_text(angle = 45, vjust = 1, hjust = 1))
+
+# Because CDOM and SPM do not necessary co-variate with chlorophyll-a and can
+# mask the signal from the phytoplankton (Sathyendranath2000).
+
+# Total chla vs aphy ------------------------------------------------------
+
+p2 <- df %>%
+  ggplot(aes(x = total_chl_a, y = a_phy)) +
+  geom_point(aes(color = area), size = 1) +
+  scale_x_log10() +
+  scale_y_log10() +
+  annotation_logticks(sides = "bl", size = 0.1) +
+  geom_smooth(method = "lm", color = "#D7263D") +
+  scale_color_manual(
+    breaks = area_breaks,
+    values = area_colors
+  ) +
+  labs(
+    x = quote("Total chlorophyll-a"~(mg~m^{-3})),
+    y = quote(a[phi](443)~(m^{-1}))
+  ) +
+  theme(
+    legend.position = "none"
+  )
+
+# POC vs Kd ---------------------------------------------------------------
+
+stations <- read_csv(here("data","clean","stations.csv")) %>%
+  select(station, area)
+
+poc <- read_csv(here("data","clean","surface.csv")) %>%
+  select(station, total_chl_a, poc_g_m_3)
+
+irradiance <- read_csv(here("data","clean","irradiance_negative_values_removed.csv"))
+
+df <- stations %>%
+  inner_join(poc, by = "station") %>%
+  inner_join(irradiance, by = "station") %>%
+  filter(wavelength == 443)
+
+p3 <- df %>%
+  filter(poc_g_m_3 > 0.01) %>%
+  ggplot(aes(x = kd_m1, y = poc_g_m_3)) +
+  geom_point(aes(color = area), size = 1) +
+  scale_x_log10() +
+  scale_y_log10() +
+  annotation_logticks(sides = "bl", size = 0.1) +
+  geom_smooth(method = "lm", color = "#D7263D") +
+  scale_color_manual(
+    breaks = area_breaks,
+    values = area_colors
+  ) +
+  labs(
+    x = quote("Particulate organic carbon"~(g~m^{-3})),
+    y = quote(K[d](443)~(m^{-1}))
+  ) +
+  theme(
+    legend.position = "none"
+  )
+
+# POC vs bp ---------------------------------------------------------------
+
+stations <- read_csv(here("data","clean","stations.csv"))
+ac9 <- read_csv(here("data","clean","ac9_negative_values_removed.csv"))
+surface <- read_csv(here("data","clean","surface.csv"))
+
+df <- inner_join(stations, ac9, by = "station") %>%
+  inner_join(surface, by = "station") %>%
+  drop_na(poc_g_m_3, bp)
+
+unique(df$wavelength)
+
+p4 <- df %>%
+  filter(wavelength == 440) %>%
+  ggplot(aes(x = poc_g_m_3, y = bp)) +
+  geom_point(aes(color = area), size = 1) +
+  scale_x_log10() +
+  scale_y_log10() +
+  annotation_logticks(sides = "bl", size = 0.1) +
+  geom_smooth(method = "lm", color = "#D7263D") +
+  scale_color_manual(
+    breaks = area_breaks,
+    values = area_colors,
+    guide = guide_legend(
+      override.aes = list(alpha = 1, stroke = 1, size = 3)
+    )
+  ) +
+  labs(
+    x = quote("Particulate organic carbon" ~ (g~m^{-3})),
+    y = quote(italic(b)[p](440)~(m^{-1}))
+  ) +
+  theme(
+    legend.position = "none",
+    legend.title = element_blank()
+  )
+
+# Combine plots -----------------------------------------------------------
+
+p <- wrap_plots(p1, p2, p3, p4, ncol = 2) +
+  plot_annotation(tag_levels = "A") &
+  theme(plot.tag = element_text(face = "bold", margin = margin(r = 5)))
+
 ggsave(
-  here("graphs/fig07.pdf"),
+  here("graphs", "fig07.pdf"),
   device = cairo_pdf,
-  width = 5,
-  height = 4
+  width = 10,
+  height = 8
 )
-
-# Confidence intervals of estimated slopes --------------------------------
-
-df_lm %>%
-  mutate(tidied = map(model, ~broom::tidy(., conf.int = TRUE))) %>%
-  unnest(tidied) %>%
-  filter(term != "(Intercept)") %>%
-  ggplot(aes(x = wavelength, y = estimate)) +
-  geom_point() +
-  geom_errorbar(aes(ymin = conf.low, ymax = conf.high), alpha = 0.5)

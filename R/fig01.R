@@ -223,7 +223,6 @@ df_viz <- stations_sf %>%
 
 p2 <- wrap_plots(df_viz$p, ncol = 3)
 
-
 p2
 
 # Combine plots -----------------------------------------------------------

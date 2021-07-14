@@ -104,25 +104,24 @@ p <- wrap_plots(p3, p2, p1, p4, ncol = 2) +
     plot.tag = element_text(face = "bold")
   )
 
-file <- here("graphs","fig04.pdf")
-
 ggsave(
-  file,
+  here("graphs","fig04.pdf"),
   device = cairo_pdf,
   width = 8,
   height = 6
 )
 
-
 # Stats for the paper -----------------------------------------------------
 
 ## Range of acdom(350) ----
 
-acdom <- vroom::vroom("data/clean/absorption.csv") %>%
-  filter(wavelength == 350) %>%
-  inner_join(stations)
+absorption <- vroom::vroom("data/clean/absorption.csv") %>%
+  filter(wavelength == 443) %>%
+  inner_join(station)
 
-acdom %>%
-  pull(a_cdom_measured) %>%
-  range()
-
+absorption %>%
+  summarise(across(starts_with("a_"), list(
+    min = ~ min(., na.rm = TRUE),
+    max = ~ max(., na.rm = TRUE)
+  ))) %>%
+  pivot_longer(everything())

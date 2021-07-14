@@ -20,6 +20,8 @@ library(patchwork)
 library(corrr)
 # library(ggtern)
 
+# devtools::install_github("ropensci/rnaturalearthhires")
+
 library(ggpmthemes)
 
 # Set default ggplot2 font size and font family
@@ -61,4 +63,9 @@ source(here("R","21_tidy_spmr_vertical_profiles.R"))
 
 source(here("R","fig01.R"))
 source(here("R","fig02.R"))
+source(here("R","fig03.R"))
+source(here("R","fig04.R"))
+source(here("R","fig05.R"))
+source(here("R","fig06.R"))
+source(here("R","fig07.R"))
 
