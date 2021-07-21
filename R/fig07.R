@@ -56,7 +56,7 @@ stations <- read_csv(here("data","clean","stations.csv")) %>%
 
 surface <- read_csv(here("data","clean","surface.csv"))
 
-absorption <- vroom::vroom(here("data","clean","absorption.csv")) %>%
+absorption <- read_csv(here("data","clean","absorption.csv")) %>%
   filter(wavelength == 443)
 
 df <- surface %>%

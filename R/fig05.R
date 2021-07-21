@@ -45,7 +45,7 @@ p1 <- df %>%
 
 # Boxplot of absorption at 443 nm -----------------------------------------
 
-absorption <- vroom::vroom("data/clean/absorption.csv") %>%
+absorption <- read_csv("data/clean/absorption.csv") %>%
   filter(wavelength == 443) %>%
   inner_join(stations, by = "station")
 

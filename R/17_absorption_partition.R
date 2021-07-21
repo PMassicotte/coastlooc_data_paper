@@ -9,7 +9,7 @@
 
 rm(list = ls())
 
-absorption <- vroom::vroom(here("data", "clean", "absorption.csv")) %>%
+absorption <- read_csv(here("data", "clean", "absorption.csv")) %>%
   select(-a_phy_specific, -r2)
 
 # Select the same three stations as in Oubelkheir 2007.

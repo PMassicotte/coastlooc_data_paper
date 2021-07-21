@@ -8,9 +8,9 @@ rm(list = ls())
 
 source(here("R","zzz.R"))
 
-irradiance <- vroom::vroom(here("data","clean","irradiance_negative_values_removed.csv"))
-stations <- vroom::vroom(here("data","clean","stations.csv"))
-surface <- vroom::vroom(here("data","clean","surface.csv"))
+irradiance <- read_csv(here("data","clean","irradiance_negative_values_removed.csv"))
+stations <- read_csv(here("data","clean","stations.csv"))
+surface <- read_csv(here("data","clean","surface.csv"))
 
 df <- irradiance %>%
   inner_join(stations, by = "station") %>%

@@ -5,7 +5,7 @@ station <- read_csv(here("data","clean","stations.csv"))
 
 # acdom -------------------------------------------------------------------
 
-acdom <- vroom::vroom(here("data","clean","absorption.csv")) %>%
+acdom <- read_csv(here("data","clean","absorption.csv")) %>%
   left_join(station, ., by = "station")
 
 p <- acdom %>%
@@ -39,7 +39,7 @@ ggsave(
 
 # aphy --------------------------------------------------------------------
 
-aphy <- vroom::vroom(here("data","clean","absorption.csv")) %>%
+aphy <- read_csv(here("data","clean","absorption.csv")) %>%
   left_join(station, ., by = "station")
 
 aphy %>%

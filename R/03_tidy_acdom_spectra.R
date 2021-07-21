@@ -226,7 +226,7 @@ df_filtered
 df_filtered <- df_filtered %>%
   select(-area)
 
-absorption <- vroom::vroom(here("data","clean","absorption_without_acdom.csv"))
+absorption <- read_csv(here("data","clean","absorption_without_acdom.csv"))
 
 absorption_merged <- absorption %>%
   full_join(df_filtered, by = c("station", "wavelength")) %>%

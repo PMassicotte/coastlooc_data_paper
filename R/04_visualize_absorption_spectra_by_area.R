@@ -9,7 +9,7 @@ rm(list = ls())
 source("R/zzz.R")
 source("R/ggspectral.R")
 
-absorption <- vroom::vroom(here("data","clean","absorption.csv"))
+absorption <- read_csv(here("data","clean","absorption.csv"))
 
 stations <- read_csv(here("data","clean","stations.csv"))
 

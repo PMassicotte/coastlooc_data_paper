@@ -10,7 +10,7 @@ source(here("R","zzz.R"))
 
 station <- read_csv(here("data","clean","stations.csv"))
 
-absorption <- vroom::vroom(here("data","clean","absorption.csv")) %>%
+absorption <- read_csv(here("data","clean","absorption.csv")) %>%
   filter(wavelength >= 350) %>%
   left_join(station, ., by = "station") %>%
   group_by(area, wavelength) %>%
@@ -115,7 +115,7 @@ ggsave(
 
 ## Range of acdom(350) ----
 
-absorption <- vroom::vroom("data/clean/absorption.csv") %>%
+absorption <- read_csv(here("data","clean","absorption.csv")) %>%
   filter(wavelength == 443) %>%
   inner_join(station)
 

@@ -9,7 +9,7 @@
 
 rm(list = ls())
 
-anap <- vroom::vroom(here("data","clean","absorption.csv")) %>%
+anap <- read_csv(here("data","clean","absorption.csv")) %>%
   select(station, wavelength, a_nap)
 
 anap
