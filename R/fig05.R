@@ -51,37 +51,37 @@ absorption <- read_csv("data/clean/absorption.csv") %>%
 
 absorption
 
-p2 <- absorption %>%
-  drop_na(a_phy_specific) %>%
-  mutate(area = fct_reorder(area, a_phy_specific)) %>%
-  ggplot(aes(x = area, y = a_phy_specific, color = area)) +
-  geom_boxplot(size = 0.25, outlier.size = 1) +
-  ggbeeswarm::geom_quasirandom(size = 0.5, groupOnX = TRUE) +
-  scale_color_manual(
-    breaks = area_breaks,
-    values = area_colors,
-  ) +
-  scale_y_log10() +
-  scale_x_discrete(labels = function(x) str_wrap(x, 10)) +
-  annotation_logticks(sides = "l", size = 0.1) +
-  labs(
-    x = NULL,
-    y = quote(italic(a)[phi]^"*"*(443)~(m^2~mg^{-1}))
-  ) +
-  theme(
-    legend.position = "none"
-  )
+# p2 <- absorption %>%
+#   drop_na(a_phy_specific) %>%
+#   mutate(area = fct_reorder(area, a_phy_specific)) %>%
+#   ggplot(aes(x = area, y = a_phy_specific, color = area)) +
+#   geom_boxplot(size = 0.25, outlier.size = 1) +
+#   ggbeeswarm::geom_quasirandom(size = 0.5, groupOnX = TRUE) +
+#   scale_color_manual(
+#     breaks = area_breaks,
+#     values = area_colors,
+#   ) +
+#   scale_y_log10() +
+#   scale_x_discrete(labels = function(x) str_wrap(x, 10)) +
+#   annotation_logticks(sides = "l", size = 0.1) +
+#   labs(
+#     x = NULL,
+#     y = quote(italic(a)[phi]^"*"*(443)~(m^2~mg^{-1}))
+#   ) +
+#   theme(
+#     legend.position = "none"
+#   )
 
 # Combine plots -----------------------------------------------------------
 
-p <- p1 / p2 +
-  plot_layout(heights = c(0.75, 1)) +
-  plot_annotation(tag_levels = "A") &
-  theme(plot.tag = element_text(face = "bold"))
+# p <- p1 / p2 +
+#   plot_layout(heights = c(0.75, 1)) +
+#   plot_annotation(tag_levels = "A") &
+#   theme(plot.tag = element_text(face = "bold"))
 
 ggsave(
   here("graphs", "fig05.pdf"),
   device = cairo_pdf,
   width = 6,
-  height = 6
+  height = 3
 )
