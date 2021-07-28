@@ -98,3 +98,41 @@ surface %>%
   group_by(area) %>%
   summarise(across(c(total_chl_a, poc_g_m_3), median, na.rm = TRUE)) %>%
   arrange(total_chl_a)
+
+## Trophic status ----
+
+# Antoine, David; André, Jean-Michel; Morel, André (1996). Oceanic primary
+# production: 2. Estimation at global scale from satellite (Coastal Zone Color
+# Scanner) chlorophyll. Global Biogeochemical Cycles, 10(1), 57–69.
+# doi:10.1029/95gb02832
+
+surface %>%
+  drop_na(total_chl_a) %>%
+  mutate(zone = case_when(
+    total_chl_a <= 0.1 ~ "oligotrophic",
+    between(total_chl_a, 0.1, 1) ~ "mesotrophic",
+    total_chl_a > 1 ~ "eutrophic"
+  )) %>%
+  count(zone)
+
+## POC and distance to shore ----
+
+# Baltic sea has the highest POC and Med. Sea (case 2) the lowest POC. Check
+# what is the median distance of the sampled station to the nearest shoreline.
+
+distances <- read_csv(here("data","clean","distances_to_shore.csv")) %>%
+  inner_join(station, by = "station")
+
+distances
+
+# Only few km difference. I do not think that distance is a factor. Maybe some
+# large tributaries draining the Baltic watershed?
+
+distances %>%
+  group_by(area) %>%
+  summarise(across(distance_to_shore_m, .fns = list(mean = mean, median = median)))
+
+## Range of presented variables ----
+
+range(surface$total_chl_a, na.rm = TRUE)
+range(surface$poc_g_m_3, na.rm = TRUE)

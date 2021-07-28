@@ -494,7 +494,7 @@ knitr::include_graphics(pdf2png(here("graphs", "fig04.pdf")))
 
 ### Figure 5
 
-Figure 5: (**A**) Particulate scattering coefficient at 440 nm ($b_{b}(440)$) measured by the AC9 and (**B**) phytoplankton specific absorption at 443 nm ($a_{\phi}^*(443)$) across the sampled areas.
+Figure 5: (**A**) Particulate scattering coefficient at 440 nm ($b_{b}(440)$) and (**B**) attenuation coefficient for downward irradiance at 443 nm ($K_{d}(443)$) across the sampled areas.
 
 ```{r fig05}
 knitr::include_graphics(pdf2png(here("graphs", "fig05.pdf")))
@@ -502,18 +502,10 @@ knitr::include_graphics(pdf2png(here("graphs", "fig05.pdf")))
 
 ### Figure 6
 
-Figure 6: Distribution of (**A**) downward irradiance at 443 nm ($E_{d}(443)$) and (**B**) attenuation coefficient for downward irradiance at 443 nm ($K_{d}(443)$) across the sampled areas.
-
-```{r fig06}
-knitr::include_graphics(pdf2png(here("graphs", "fig06.pdf")))
-```
-
-### Figure 7
-
 Scatterplots showing relationships among different selected variables. (**A**) Particulate organic carbon (POC) and (**B**) phytoplankton absorption at 443 nm ($a_{\phi}(443)$) against total chlorophyll-a. (**C**) Downward irradiance at 443 nm ($E_{d}(443)$) and (**D**) particulate scattering at 440 nm ($b_{b}(440)$ against particulate organic carbon.
 
 ```{r fig07}
-knitr::include_graphics(pdf2png(here("graphs", "fig07.pdf")))
+knitr::include_graphics(pdf2png(here("graphs", "fig06.pdf")))
 ```
 
 ## Done
@@ -556,6 +548,8 @@ knitr::include_graphics(pdf2png(here("graphs", "fig07.pdf")))
 - There are duplicated Ed spectra in the data.
 
 - DOC vs aCDOM.
+
+- Same point size for outliers and observations in boxplots.
 
 ```{r}
 stations <- read_csv(here("data/clean/stations.csv"))
