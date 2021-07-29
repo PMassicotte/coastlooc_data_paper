@@ -67,5 +67,4 @@ source(here("R","fig03.R"))
 source(here("R","fig04.R"))
 source(here("R","fig05.R"))
 source(here("R","fig06.R"))
-source(here("R","fig07.R"))
 

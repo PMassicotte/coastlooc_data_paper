@@ -484,7 +484,7 @@ knitr::include_graphics(pdf2png(here("graphs", "fig03.pdf")))
 
 ### Figure 4
 
-Figure 4: (**A**) Average total particulate ($a_\text{p}$), (**B**) non-algal ($a_\text{NAP}$), (**C**) phytoplankton ($a_{\phi}$) and (**D**) chromophoric dissolved organic matter ($a_\text{CDOM}$) absorption spectra in each area.
+Figure 4: (**A**) Average total particulate ($a_\text{p}$), (**B**) non-algal ($a_\text{NAP}$), (**C**) phytoplankton ($a_{\phi}$) and (**D**) chromophoric dissolved organic matter ($a_\text{CDOM}$) absorption spectra in each area. (**E**) $a_\text{CDOM}(350)$ along the westernmost transect in the North Sea (see Fig. 1B).
 
 - Is it normal there is no data for `Med. Sea (Case 1)`?
 
