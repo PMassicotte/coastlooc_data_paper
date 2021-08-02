@@ -28,7 +28,7 @@ p1 <- ac9 %>%
   drop_na(bp) %>%
   mutate(area = fct_reorder(area, bp)) %>%
   ggplot(aes(x = area, y = bp, color = area)) +
-  geom_boxplot(size = 0.25, outlier.size = 1) +
+  geom_boxplot(size = 0.25, outlier.size = 0.5) +
   ggbeeswarm::geom_quasirandom(size = 0.5, groupOnX = TRUE) +
   scale_y_log10() +
   scale_x_discrete(labels = function(x) str_wrap(x, 10)) +
@@ -60,7 +60,7 @@ p2 <- irradiance %>%
   drop_na(kd_m1) %>%
   mutate(area = fct_reorder(area, kd_m1)) %>%
   ggplot(aes(x = area, y = kd_m1, color = area)) +
-  geom_boxplot(size = 0.25, outlier.size = 1) +
+  geom_boxplot(size = 0.25, outlier.size = 0.5) +
   ggbeeswarm::geom_quasirandom(size = 0.5, groupOnX = TRUE) +
   scale_y_log10() +
   scale_x_discrete(labels = function(x) str_wrap(x, 10)) +
