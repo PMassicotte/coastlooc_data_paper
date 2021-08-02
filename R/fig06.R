@@ -173,10 +173,18 @@ p3 <- df %>%
     legend.position = "none"
   )
 
+df %>%
+  filter(poc_g_m_3 > 0.01) %>%
+  drop_na(poc_g_m_3, kd_m1) %>%
+  select(poc_g_m_3, kd_m1) %>%
+  mutate(across(everything(), log10)) %>%
+  correlate()
+
 # POC vs bp ---------------------------------------------------------------
 
 stations <- read_csv(here("data","clean","stations.csv"))
-ac9 <- read_csv(here("data","clean","ac9_negative_values_removed.csv"))
+ac9 <- read_csv(here("data","clean","ac9_negative_values_removed.csv")) %>%
+  filter(wavelength == 440)
 surface <- read_csv(here("data","clean","surface.csv"))
 
 df <- inner_join(stations, ac9, by = "station") %>%
@@ -186,7 +194,6 @@ df <- inner_join(stations, ac9, by = "station") %>%
 unique(df$wavelength)
 
 p4 <- df %>%
-  filter(wavelength == 440) %>%
   ggplot(aes(x = poc_g_m_3, y = bp)) +
   geom_point(aes(color = area), size = 1) +
   scale_x_log10() +
@@ -208,6 +215,13 @@ p4 <- df %>%
     legend.position = "none",
     legend.title = element_blank()
   )
+
+df %>%
+  filter(poc_g_m_3 > 0.01) %>%
+  drop_na(poc_g_m_3, bp) %>%
+  select(poc_g_m_3, bp) %>%
+  mutate(across(everything(), log10)) %>%
+  correlate()
 
 # Combine plots -----------------------------------------------------------
 
