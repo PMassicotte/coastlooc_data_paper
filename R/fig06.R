@@ -49,7 +49,24 @@ p1 <- df %>%
     legend.key.size = unit(0.4, "cm")
   )
 
-# Find out interesting correlations to show -------------------------------
+# Show that the correlation is highly variable across the area
+
+df %>%
+  filter(poc_g_m_3 >= 0.01) %>%
+  drop_na() %>%
+  select(total_chl_a, poc_g_m_3) %>%
+  mutate(across(everything(), log10)) %>%
+  correlate()
+
+df %>%
+  filter(poc_g_m_3 >= 0.01) %>%
+  drop_na() %>%
+  mutate(across(c(total_chl_a, poc_g_m_3), log10)) %>%
+  group_by(area) %>%
+  summarise(correlation = cor(total_chl_a, poc_g_m_3), n = n()) %>%
+  arrange(correlation)
+
+  # Find out interesting correlations to show -------------------------------
 
 stations <- read_csv(here("data","clean","stations.csv")) %>%
   select(station, area)
@@ -105,6 +122,21 @@ p2 <- df %>%
   theme(
     legend.position = "none"
   )
+
+# Show that the correlation is highly variable across the area
+
+df %>%
+  drop_na(total_chl_a, a_phy) %>%
+  select(total_chl_a, a_phy) %>%
+  mutate(across(everything(), log10)) %>%
+  correlate()
+
+df %>%
+  drop_na(total_chl_a, a_phy) %>%
+  mutate(across(c(total_chl_a, a_phy), log10)) %>%
+  group_by(area) %>%
+  summarise(correlation = cor(total_chl_a, a_phy), n = n()) %>%
+  arrange(correlation)
 
 # POC vs Kd ---------------------------------------------------------------
 
