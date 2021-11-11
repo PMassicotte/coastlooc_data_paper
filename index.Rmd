@@ -502,10 +502,20 @@ knitr::include_graphics(pdf2png(here("graphs", "fig05.pdf")))
 
 ### Figure 6
 
+Figure 6: Spectra of downward irradiance measured at the surface across the sampled areas. The tick lines represent the average spectra.
+
+- Dot not forget to find out why there are duplicated spectra in Med. Sea.
+
+```{r fig06}
+knitr::include_graphics(pdf2png(here("graphs", "fig06.pdf")))
+```
+
+### Figure 7
+
 Scatterplots showing relationships among different selected variables. (**A**) Particulate organic carbon (POC) and (**B**) phytoplankton absorption at 443 nm ($a_{\phi}(443)$) against total chlorophyll-a. (**C**) Downward irradiance at 443 nm ($E_{d}(443)$) and (**D**) particulate scattering at 440 nm ($b_{b}(440)$ against particulate organic carbon. The red lines show the linear relationships between the variables. The shaded gray areas represent the 95% confidence intervals around the fitted models.
 
 ```{r fig07}
-knitr::include_graphics(pdf2png(here("graphs", "fig06.pdf")))
+knitr::include_graphics(pdf2png(here("graphs", "fig07.pdf")))
 ```
 
 ## Done
@@ -537,19 +547,9 @@ knitr::include_graphics(pdf2png(here("graphs", "fig06.pdf")))
 
 -   Add units to each variable. For example `depth` should becomes `depth_m`.
 
--   Ternary plot to characterize the contribution of each optically substance to total absorption.
-
--   I do not have the backscattering data from the BB-4.
-
 -   Some geographical positions are located on land (Adriatic Sea for example).
 
--   Calculate the apparent visible wavelength index (AVW) and see if it can be exploited in this paper.
-
 - There are duplicated Ed spectra in the data.
-
-- DOC vs aCDOM.
-
-- Same point size for outliers and observations in boxplots.
 
 ```{r}
 stations <- read_csv(here("data/clean/stations.csv"))
@@ -586,5 +586,7 @@ df %>%
 ```
 
 - There are only two AC9 measurements in the Adriadic Sea. Is it normal?
+
+- Add graphics for the section 4.1.3 Apparent optical properties (AOPs).
 
 ## References
