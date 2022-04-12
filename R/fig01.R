@@ -7,7 +7,7 @@
 
 rm(list = ls())
 
-source("R/zzz.R")
+source(here("R", "zzz.R"))
 
 stations <- read_csv(here("data", "clean", "stations.csv"))
 
@@ -106,17 +106,15 @@ p1 <- ggplot() +
     oob = scales::squish,
     guide = guide_legend(
       label.position = "top",
-      title = "Depth (m)",
-      title.position = "top",
-      title.hjust = 0.5,
-      title.theme = element_text(face = "bold", size = 8, family = "Open Sans"),
-      label.theme = element_text(size = 6, family = "Open Sans"),
-      keyheight = unit(0.25, "cm"),
-      keywidth = unit(0.75, "cm"),
+      title = NULL,
+      label.theme = element_text(size = 6, family = "Montserrat", color = "white"),
+      keyheight = unit(0.2, "cm"),
+      keywidth = unit(1, "cm"),
       byrow = TRUE,
-      nrow = 1
+      ncol = 1
     ),
-    breaks = -seq(0, 8000, by = 500)
+    breaks = -seq(0, 8000, by = 1000),
+    labels = function(x) {paste(x, "m")}
   ) +
   geom_sf(data = ne_land, size = 0.1, fill = "gray85") +
   geom_sf(data = ne_river, size = 0.1, color = "gray70") +
@@ -125,7 +123,8 @@ p1 <- ggplot() +
     data = stations_sf,
     size = 0.5,
     key_glyph = "rect",
-    aes(color = area)
+    aes(color = area),
+    show.legend = FALSE
   ) +
   scale_color_manual(
     breaks = area_breaks,
@@ -136,7 +135,7 @@ p1 <- ggplot() +
       label.theme = element_text(
         size = 6,
         margin = margin(b = unit(-2, "cm")),
-        family = "Open Sans"
+        family = "Montserrat"
       ),
       nrow = 1,
       keywidth = unit(2, "cm"),
@@ -153,7 +152,7 @@ p1 <- ggplot() +
       line_width = 0.1,
       line_col = "white",
       text_col = "white",
-      text_family = "Open Sans"
+      text_family = "Montserrat"
     )
   ) +
   ggspatial::annotation_scale(
@@ -161,7 +160,7 @@ p1 <- ggplot() +
     width_hint = 0.25,
     height = unit(0.1, "cm"),
     line_width = 0.25,
-    text_family = "Open Sans"
+    text_family = "Montserrat"
   ) +
   coord_sf(
     xlim = c(1680000, 5100000),
@@ -171,12 +170,14 @@ p1 <- ggplot() +
   ) +
   scale_x_continuous(breaks = seq(-180, 180, by = 5)) +
   theme(
-    panel.border = element_blank(),
     axis.ticks = element_blank(),
+    panel.border = element_blank(),
     panel.grid = element_line(size = 0.1),
-    legend.position = "top",
+    legend.justification = c(0, 1),
+    legend.position = c(0.01, 0.75),
     legend.box = "vertical",
     legend.background = element_rect(fill = "transparent"),
+    legend.key = element_rect(size = 0.1, color = "white"),
     panel.background = element_rect(fill = "#B9DDF1"),
     axis.title = element_blank(),
     plot.margin = margin(b = 0)
@@ -215,7 +216,7 @@ df_viz <- stations_sf %>%
         legend.position = "none",
         aspect.ratio = 1,
         panel.grid = element_blank(),
-        plot.title = element_text(size = 8, hjust = 0.5),
+        plot.title = element_text(size = 6, hjust = 0.5),
         axis.text = element_text(size = 4),
         panel.border = element_rect(size = 0.25, fill = NA)
       )
@@ -223,20 +224,22 @@ df_viz <- stations_sf %>%
 
 p2 <- wrap_plots(df_viz$p, ncol = 3)
 
-p2
+# p2 <- {p2[[1]] +  p2[[2]] + p2[[3]] + p2[[4]] + p2[[5]] + p2[[6]]} +
+#   plot_layout(nrow = 2)
 
 # Combine plots -----------------------------------------------------------
 
-p <- p1 / p2
+p <- p1 / p2 +
+  plot_layout(heights = c(1, 0.75))
 
 outfile <- here("graphs", "fig01.pdf")
 
 ggsave(
   outfile,
   device = cairo_pdf,
-  width = 12,
-  height = 12
+  width = 190,
+  height = 190,
+  units = "mm"
 )
 
 knitr::plot_crop(outfile)
-

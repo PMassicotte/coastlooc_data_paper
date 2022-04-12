@@ -20,12 +20,20 @@ library(patchwork)
 library(corrr)
 # library(ggtern)
 
-# devtools::install_github("ropensci/rnaturalearthhires")
+# renv::install("MilesMcBain/breakerofchains")
+# renv::install("mcguinlu/pathformatr")
+
+# renv::install("ropensci/rnaturalearthdata")
+# renv::install("ropensci/rnaturalearthhires")
+
+# Set default ggplot2 font size and font family
+# renv::install("PMassicotte/ggpmthemes")
+
+# remotes::install_github(c("ropensci/tabulizerjars", "ropensci/tabulizer"), INSTALL_opts = "--no-multiarch")
 
 library(ggpmthemes)
 
 # Set default ggplot2 font size and font family
-# devtools::install_github("PMassicotte/ggpmthemes")
 theme_set(theme_light_modified(base_family = "Montserrat", base_size = 10))
 
 theme_update(
@@ -37,34 +45,34 @@ theme_update(
 
 # Scripts -----------------------------------------------------------------
 
-source(here("R","01_tidy_data.R"))
-source(here("R","02_geographic_map.R"))
-source(here("R","03_tidy_acdom_spectra.R"))
-source(here("R","04_visualize_absorption_spectra_by_area.R"))
-source(here("R","05_extract_ferrari_2000_extra_data.R"))
-source(here("R","06_clean_nutrient.R"))
-source(here("R","07_clean_irradiance.R"))
-source(here("R","08_clean_reflectance.R"))
-source(here("R","09_clean_ac9.R"))
-source(here("R","10_valente_2019.R"))
-source(here("R","11_average_absorption_spectra_by_area.R"))
-source(here("R","12_boxplot_doc_by_area.R"))
-source(here("R","13_boxplot_acdom_by_area.R"))
-source(here("R","14_compare_spectrofluorimeter_and_ac9_absorption.R"))
-source(here("R","15_pigments_vs_absorption.R"))
-source(here("R","16_calculate_station_distance_to_shore.R"))
-source(here("R","17_absorption_partition.R"))
-source(here("R","18_calculate_snap.R"))
-source(here("R","19_ternary_plot_absorption.R"))
-source(here("R","20_extract_bathymetry.R"))
-source(here("R","21_tidy_spmr_vertical_profiles.R"))
+source(here("R", "01_tidy_data.R"))
+source(here("R", "02_geographic_map.R"))
+source(here("R", "03_tidy_acdom_spectra.R"))
+source(here("R", "04_visualize_absorption_spectra_by_area.R"))
+source(here("R", "05_extract_ferrari_2000_extra_data.R"))
+source(here("R", "06_clean_nutrient.R"))
+source(here("R", "07_clean_irradiance.R"))
+source(here("R", "08_clean_reflectance.R"))
+source(here("R", "09_clean_ac9.R"))
+source(here("R", "10_valente_2019.R"))
+source(here("R", "11_average_absorption_spectra_by_area.R"))
+source(here("R", "12_boxplot_doc_by_area.R"))
+source(here("R", "13_boxplot_acdom_by_area.R"))
+source(here("R", "14_compare_spectrofluorimeter_and_ac9_absorption.R"))
+source(here("R", "15_pigments_vs_absorption.R"))
+source(here("R", "16_calculate_station_distance_to_shore.R"))
+source(here("R", "17_absorption_partition.R"))
+source(here("R", "18_calculate_snap.R"))
+source(here("R", "19_ternary_plot_absorption.R"))
+source(here("R", "20_extract_bathymetry.R"))
+source(here("R", "21_tidy_spmr_vertical_profiles.R"))
+source(here("R", "22_corrr_pigments.R"))
 
 # Figures for the manuscript
 
-source(here("R","fig01.R"))
-source(here("R","fig02.R"))
-source(here("R","fig03.R"))
-source(here("R","fig04.R"))
-source(here("R","fig05.R"))
-source(here("R","fig06.R"))
-
+source(here("R", "fig01.R"))
+source(here("R", "fig02.R"))
+source(here("R", "fig03.R"))
+source(here("R", "fig04.R"))
+source(here("R", "fig05.R"))
+source(here("R", "fig06.R"))

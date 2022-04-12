@@ -180,8 +180,9 @@ p <- wrap_plots(p3, p2, p1, p4, ncol = 2) / p5 +
 ggsave(
   here("graphs","fig04.pdf"),
   device = cairo_pdf,
-  width = 8,
-  height = 8
+  width = 180,
+  height = 220,
+  units = "mm"
 )
 
 # Stats for the paper -----------------------------------------------------

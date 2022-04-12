@@ -362,5 +362,10 @@ surface <- surface %>%
 
 names(surface)
 
+# There is one very low POC value below 0.01, remove it
+
+surface <- surface %>%
+  mutate(poc_g_m_3 = replace(poc_g_m_3, poc_g_m_3 < 0.01, NA_real_))
+
 write_csv(surface, here("data","clean","surface.csv"))
 

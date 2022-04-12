@@ -88,8 +88,9 @@ file <- here("graphs","fig03.pdf")
 ggsave(
   file,
   device = cairo_pdf,
-  width = 6,
-  height = 6
+  width = 180,
+  height = 180,
+  units = "mm"
 )
 
 # Stats for the paper -----------------------------------------------------
@@ -136,3 +137,14 @@ distances %>%
 
 range(surface$total_chl_a, na.rm = TRUE)
 range(surface$poc_g_m_3, na.rm = TRUE)
+
+surface %>%
+  ggplot(aes(x = total_chl_a, y = poc_g_m_3)) +
+  geom_point() +
+  scale_x_log10() +
+  scale_y_log10()
+
+surface %>%
+  select(total_chl_a, poc_g_m_3) %>%
+  mutate(across(everything(), log10)) %>%
+  correlate()

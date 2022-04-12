@@ -86,8 +86,9 @@ p <- p1 / p2 +
 ggsave(
   here("graphs", "fig05.pdf"),
   device = cairo_pdf,
-  width = 6,
-  height = 6
+  width = 180,
+  height = 220,
+  units = "mm"
 )
 
 # Stats for the paper -----------------------------------------------------
@@ -102,3 +103,9 @@ ac9 %>%
   group_by(area) %>%
   summarise(median_bp = median(bp, na.rm = TRUE)) %>%
   arrange(median_bp)
+
+irradiance %>%
+  filter(wavelength == 443) %>%
+  group_by(area) %>%
+  summarise(median_kd = median(kd_m1, na.rm = TRUE)) %>%
+  arrange(median_kd)

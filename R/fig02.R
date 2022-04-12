@@ -62,7 +62,7 @@ p1 <- df_viz %>%
   ) +
   scale_size(range = c(4, 10)) +
   scale_x_date(
-    date_breaks = "2 months",
+    date_breaks = "3 months",
     date_labels = "%Y-%b"
   ) +
   labs(
@@ -108,6 +108,7 @@ p <- p1 + p2 +
 ggsave(
   here("graphs","fig02.pdf"),
   device = cairo_pdf,
-  width = 10,
-  height = 5
+  width = 200,
+  height = 120,
+  units = "mm"
 )
