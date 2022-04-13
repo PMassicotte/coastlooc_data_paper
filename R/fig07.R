@@ -41,6 +41,19 @@ p1 <- df %>%
     x = quote("Total chlorophyll-a"~(mg~m^{-3})),
     y = quote("Particulate organic carbon"~(g~m^{-3}))
   ) +
+  ggpmisc::stat_correlation(
+    label.y = 0.12,
+    label.x = 0.97,
+    size = 2.5,
+    family = "Montserrat"
+  ) +
+  ggpmisc::stat_correlation(
+    aes(label = ..n.label..),
+    label.y = 0.05,
+    label.x = 0.97,
+    size = 2.5,
+    family = "Montserrat"
+  ) +
   theme(
     legend.title = element_blank(),
     legend.justification = c(0, 1),
@@ -48,21 +61,6 @@ p1 <- df %>%
     legend.key.size = unit(0.4, "cm"),
     legend.background = element_blank()
   )
-
-# Show that the correlation is highly variable across the area
-
-df %>%
-  drop_na() %>%
-  select(total_chl_a, poc_g_m_3) %>%
-  mutate(across(everything(), log10)) %>%
-  correlate()
-
-df %>%
-  drop_na() %>%
-  mutate(across(c(total_chl_a, poc_g_m_3), log10)) %>%
-  group_by(area) %>%
-  summarise(correlation = cor(total_chl_a, poc_g_m_3), n = n()) %>%
-  arrange(correlation)
 
   # Find out interesting correlations to show -------------------------------
 
@@ -79,23 +77,6 @@ df <- surface %>%
   inner_join(absorption, by = "station")
 
 df
-
-df %>%
-  select(where(is.numeric)) %>%
-  correlate() %>%
-  stretch() %>%
-  drop_na() %>%
-  arrange(desc(abs(r)))
-
-df %>%
-  select(where(is.numeric)) %>%
-  correlate() %>%
-  stretch() %>%
-  drop_na() %>%
-  filter(abs(r) >= 0.5) %>%
-  retract() %>%
-  rplot(print_cor = TRUE) +
-  theme(axis.text.x = element_text(angle = 45, vjust = 1, hjust = 1))
 
 # Because CDOM and SPM do not necessary co-variate with chlorophyll-a and can
 # mask the signal from the phytoplankton (Sathyendranath2000).
@@ -116,6 +97,19 @@ p2 <- df %>%
   labs(
     x = quote("Total chlorophyll-a"~(mg~m^{-3})),
     y = quote(a[phi](443)~(m^{-1}))
+  ) +
+  ggpmisc::stat_correlation(
+    label.y = 0.12,
+    label.x = 0.97,
+    size = 2.5,
+    family = "Montserrat"
+  ) +
+  ggpmisc::stat_correlation(
+    aes(label = ..n.label..),
+    label.y = 0.05,
+    label.x = 0.97,
+    size = 2.5,
+    family = "Montserrat"
   ) +
   theme(
     legend.position = "none"
@@ -166,6 +160,19 @@ p3 <- df %>%
     x = quote("Particulate organic carbon"~(g~m^{-3})),
     y = quote(K[d](443)~(m^{-1}))
   ) +
+  ggpmisc::stat_correlation(
+    label.y = 0.12,
+    label.x = 0.97,
+    size = 2.5,
+    family = "Montserrat"
+  ) +
+  ggpmisc::stat_correlation(
+    aes(label = ..n.label..),
+    label.y = 0.05,
+    label.x = 0.97,
+    size = 2.5,
+    family = "Montserrat"
+  ) +
   theme(
     legend.position = "none"
   )
@@ -206,6 +213,19 @@ p4 <- df %>%
   labs(
     x = quote("Particulate organic carbon" ~ (g~m^{-3})),
     y = quote(italic(b)[p](440)~(m^{-1}))
+  ) +
+  ggpmisc::stat_correlation(
+    label.y = 0.12,
+    label.x = 0.97,
+    size = 2.5,
+    family = "Montserrat"
+  ) +
+  ggpmisc::stat_correlation(
+    aes(label = ..n.label..),
+    label.y = 0.05,
+    label.x = 0.97,
+    size = 2.5,
+    family = "Montserrat"
   ) +
   theme(
     legend.position = "none",
