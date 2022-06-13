@@ -49,7 +49,6 @@ massimo <- bind_rows(df1, df2) %>%
 
 massimo
 
-
 # Export data -------------------------------------------------------------
 
 surface <- read_csv(here("data","clean","surface.csv"))

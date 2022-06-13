@@ -6,17 +6,17 @@
 
 rm(list = ls())
 
-source("R/zzz.R")
-source("R/ggspectral.R")
+source(here("R", "zzz.R"))
+source(here("R", "ggspectral.R"))
 
-absorption <- read_csv(here("data","clean","absorption.csv"))
+absorption <- read_csv(here("data", "clean", "absorption.csv"))
 
-stations <- read_csv(here("data","clean","stations.csv"))
+stations <- read_csv(here("data", "clean", "stations.csv"))
 
-absorption <- absorption %>%
-  full_join(stations, by = "station") %>%
-  add_count(station, area, wavelength) %>%
-  assertr::verify(n == 1) %>%
+absorption <- absorption |>
+  full_join(stations, by = "station") |>
+  add_count(station, area, wavelength) |>
+  assertr::verify(n == 1) |>
   select(-n)
 
 p_a_phy <- ggspectral(drop_na(absorption, a_phy), a_phy, "a[phy]~(m^{-1})")

@@ -1,9 +1,9 @@
 
 #' Plot spectral profiles by area.
 #'
-#' @param df Dataframe.
+#' @param df A data frame.
 #' @param variable Which variable to plot.
-#' @param ylab Name of the y axes.
+#' @param ylab Title of the y axes.
 #'
 #' @return
 #' @export
@@ -33,10 +33,6 @@ ggspectral <- function(df, variable, ylab) {
 }
 
 save_fun <- function(p, filename) {
-
-  # fname <- deparse(substitute(p)) %>%
-  #   str_remove("p_")
-
   ggsave(
     here(filename),
     plot = p,

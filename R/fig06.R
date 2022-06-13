@@ -8,28 +8,28 @@ rm(list = ls())
 
 source(here("R", "zzz.R"))
 
-stations <- read_csv(here("data", "clean", "stations.csv")) %>%
+stations <- read_csv(here("data", "clean", "stations.csv")) |>
   select(station, area)
 
 irradiance <- read_csv(here("data", "clean", "irradiance_negative_values_removed.csv"))
 
 irradiance
 
-irradiance <- irradiance %>%
-  drop_na(ed_wm2_nm1) %>%
+irradiance <- irradiance |>
+  drop_na(ed_wm2_nm1) |>
   inner_join(stations, by = "station")
 
 # There are NAs at some wavelengths due to the usage of different devices. For
 # visualization, I will remove mean values that were computed with a limited
 # number of observations.
 
-irradiance_mean <- irradiance %>%
-  group_by(area, wavelength) %>%
-  summarise(ed_wm2_nm1 = mean(ed_wm2_nm1, na.rm = TRUE), n = n()) %>%
-  ungroup() %>%
+irradiance_mean <- irradiance |>
+  group_by(area, wavelength) |>
+  summarise(ed_wm2_nm1 = mean(ed_wm2_nm1, na.rm = TRUE), n = n()) |>
+  ungroup() |>
   filter(n >= 10)
 
-irradiance %>%
+irradiance |>
   ggplot(aes(
     x = wavelength,
     y = ed_wm2_nm1,

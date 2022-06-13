@@ -15,9 +15,9 @@ stations
 
 map_crs <- 3035
 
-stations_sf <- stations %>%
-  drop_na(longitude, latitude) %>%
-  st_as_sf(coords = c("longitude", "latitude"), crs = 4326) %>%
+stations_sf <- stations |>
+  drop_na(longitude, latitude) |>
+  st_as_sf(coords = c("longitude", "latitude"), crs = 4326) |>
   st_transform(map_crs)
 
 st_bbox(stations_sf)
@@ -29,8 +29,8 @@ bbox_4326 <- st_bbox(c(
   ymin = 25
 ), crs = st_crs(4326))
 
-stations_sf %>%
-  st_as_sf() %>%
+stations_sf |>
+  st_as_sf() |>
   ggplot() +
   geom_sf()
 
@@ -42,8 +42,8 @@ ne_land <-
     type = "land",
     returnclass = "sf",
     scale = "large"
-  ) %>%
-  st_crop(bbox_4326) %>%
+  ) |>
+  st_crop(bbox_4326) |>
   st_transform(map_crs)
 
 # Country data ------------------------------------------------------------
@@ -52,8 +52,8 @@ ne_country <-
   rnaturalearth::ne_countries(
     returnclass = "sf",
     scale = "large"
-  ) %>%
-  st_crop(bbox_4326) %>%
+  ) |>
+  st_crop(bbox_4326) |>
   st_transform(map_crs)
 
 # River network -----------------------------------------------------------
@@ -63,26 +63,33 @@ ne_river <- rnaturalearth::ne_download(
   category = "physical",
   type = "rivers_lake_centerlines",
   returnclass = "sf"
-) %>%
-  st_crop(bbox_4326) %>%
+) |>
+  st_crop(bbox_4326) |>
   st_transform(map_crs)
 
 # Prepare bathymetry data -------------------------------------------------
 
-bathy <- raster::raster(
-  "data/raw/bathymetry/GEBCO_2020_10_Feb_2021_68bf33d96a7a/gebco_2020_n70.0_s20.0_w-30.0_e30.0.tif"
-) %>%
-  raster::sampleRegular(size = 1e5, asRaster = TRUE) %>%
-  raster::projectRaster(crs = "+proj=laea +lat_0=52 +lon_0=10 +x_0=4321000 +y_0=3210000 +ellps=GRS80 +towgs84=0,0,0,0,0,0,0 +units=m +no_defs") %>%
-  raster::rasterToPoints() %>%
-  as_tibble() %>%
+bathy <-
+  rast(
+    here(
+      "data",
+      "raw",
+      "bathymetry",
+      "GEBCO_2020_10_Feb_2021_68bf33d96a7a",
+      "gebco_2020_n70.0_s20.0_w-30.0_e30.0.tif"
+    )
+  ) |>
+  spatSample(size = 1e5, as.raster = TRUE, method = "regular") |>
+  project("EPSG:3035") |>
+  as.data.frame(xy = TRUE) |>
+  as_tibble() |>
   rename(z = 3)
 
-bathy_interpolated <- bathy %>%
-  mba.surf(no.X = 600, no.Y = 600, sp = TRUE) %>%
-  as.data.frame() %>%
-  as_tibble() %>%
-  mutate(xyz.est.z = ifelse(xyz.est.z >= 0, 0, xyz.est.z)) %>%
+bathy_interpolated <- bathy |>
+  mba.surf(no.X = 600, no.Y = 600, sp = TRUE) |>
+  as.data.frame() |>
+  as_tibble() |>
+  mutate(xyz.est.z = ifelse(xyz.est.z >= 0, 0, xyz.est.z)) |>
   drop_na()
 
 range(bathy_interpolated$xyz.est.z, na.rm = TRUE)
@@ -114,7 +121,9 @@ p1 <- ggplot() +
       ncol = 1
     ),
     breaks = -seq(0, 8000, by = 1000),
-    labels = function(x) {paste(x, "m")}
+    labels = function(x) {
+      paste(x, "m")
+    }
   ) +
   geom_sf(data = ne_land, size = 0.1, fill = "gray85") +
   geom_sf(data = ne_river, size = 0.1, color = "gray70") +
@@ -185,13 +194,12 @@ p1 <- ggplot() +
 
 # Plot per area -----------------------------------------------------------
 
-df_viz <- stations_sf %>%
-  filter(area != "Atlantic Ocean") %>%
-  group_by(area) %>%
-  summarise(geometry = st_union(geometry)) %>%
-  group_nest(area, keep = TRUE) %>%
+df_viz <- stations_sf |>
+  filter(area != "Atlantic Ocean") |>
+  group_by(area) |>
+  summarise(geometry = st_union(geometry)) |>
+  group_nest(area, keep = TRUE) |>
   mutate(p = map(data, function(df, land = ne_land, river = ne_river) {
-
     bbox <- st_bbox(st_buffer(df, 50000))
     land <- st_crop(land, bbox)
     river <- st_crop(river, bbox)

@@ -1,7 +1,7 @@
 
-source("R/zzz.R")
+source(here("R", "zzz.R"))
 
-station <- read_csv(here("data","clean","stations.csv"))
+station <- read_csv(here("data", "clean", "stations.csv"))
 
 # acdom -------------------------------------------------------------------
 

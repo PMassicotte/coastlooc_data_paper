@@ -1,18 +1,18 @@
-source("R/zzz.R")
+source(here("R", "zzz.R"))
 
-station <- read_csv(here("data","clean","stations.csv"))
+station <- read_csv(here("data", "clean", "stations.csv"))
 
-doc <- read_csv(here("data","clean","surface.csv")) %>%
+doc <- read_csv(here("data", "clean", "surface.csv")) |>
   select(station, doc_um, salinity)
 
-df <- station %>%
+df <- station |>
   left_join(doc, by = "station")
 
 # Plot --------------------------------------------------------------------
 
-p <- df %>%
-  drop_na(doc_um) %>%
-  mutate(area = fct_reorder(area, doc_um)) %>%
+p <- df |>
+  drop_na(doc_um) |>
+  mutate(area = fct_reorder(area, doc_um)) |>
   ggplot(aes(x = area, y = doc_um, fill = area)) +
   geom_boxplot(size = 0.1, outlier.size = 1) +
   scale_fill_manual(
@@ -21,13 +21,13 @@ p <- df %>%
   ) +
   labs(
     x = NULL,
-    y = quote(DOC~(mu*MC))
+    y = quote(DOC ~ (mu * MC))
   ) +
   theme(
     legend.position = "none"
   )
 
-file <- here("graphs","12_boxplot_doc_by_area.pdf")
+file <- here("graphs", "12_boxplot_doc_by_area.pdf")
 
 ggsave(
   file,

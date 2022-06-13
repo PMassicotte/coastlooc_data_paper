@@ -6,20 +6,20 @@
 
 rm(list = ls())
 
-source("R/zzz.R")
+source(here("R", "zzz.R"))
 
-absorption <- read_csv(here("data","clean","absorption.csv"))
-pigments <- read_csv(here("data","clean","surface.csv"))
-stations <- read_csv(here("data","clean","stations.csv"))
+absorption <- read_csv(here("data", "clean", "absorption.csv"))
+pigments <- read_csv(here("data", "clean", "surface.csv"))
+stations <- read_csv(here("data", "clean", "stations.csv"))
 
-df <- absorption %>%
-  inner_join(pigments, by = "station") %>%
+df <- absorption |>
+  inner_join(pigments, by = "station") |>
   inner_join(stations, by = "station")
 
 df
 
-p <- df %>%
-  filter(wavelength == 443) %>%
+p <- df |>
+  filter(wavelength == 443) |>
   ggplot(aes(x = a_phy, y = total_chl_a, color = area)) +
   geom_point(size = 0.5) +
   geom_smooth(method = "lm", show.legend = FALSE, size = 0.25) +
@@ -32,15 +32,15 @@ p <- df %>%
     values = area_colors
   ) +
   labs(
-    x = quote(a[phi]~("443 nm")~(m^{-1})),
-    y = quote("TChla" ~(mg~m^{-3}))
+    x = quote(a[phi] ~ ("443 nm") ~ (m^{-1})),
+    y = quote("TChla" ~ (mg ~ m^{-3}))
   ) +
   theme(
     legend.position = "none"
   )
 
 ggsave(
-  here("graphs","15_total_chla_vs_aphy443.pdf"),
+  here("graphs", "15_total_chla_vs_aphy443.pdf"),
   device = cairo_pdf,
   width = 6.9,
   height = 4.45

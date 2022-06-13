@@ -7,14 +7,13 @@
 
 rm(list = ls())
 
-files <- fs::dir_ls(here("data","clean"), glob = "*.csv")
+files <- fs::dir_ls(here("data", "clean"), glob = "*.csv")
 
-df <- map(files, data.table::fread) %>%
-  map(., names) %>%
-  map(., enframe, value = "variable", name = NULL) %>%
-  bind_rows(.id = "source_file") %>%
-  mutate(source_file = basename(source_file)) %>%
+df <- map(files, data.table::fread) |>
+  map(.x = _, names) |>
+  map(.x = _, enframe, value = "variable", name = NULL) |>
+  bind_rows(.id = "source_file") |>
+  mutate(source_file = basename(source_file)) |>
   distinct(variable, .keep_all = TRUE)
 
 df
-

@@ -1,8 +1,8 @@
-source("R/zzz.R")
+source(here("R", "zzz.R"))
 
-station <- read_csv(here("data","clean","stations.csv"))
+station <- read_csv(here("data", "clean", "stations.csv"))
 
-absorption <- read_csv(here("data","clean","absorption.csv")) %>%
+absorption <- read_csv(here("data", "clean", "absorption.csv")) %>%
   filter(wavelength >= 350) %>%
   left_join(station, ., by = "station") %>%
   group_by(area, wavelength) %>%

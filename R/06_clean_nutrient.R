@@ -6,15 +6,15 @@
 
 rm(list = ls())
 
-source("R/zzz.R")
+source(here("R", "zzz.R"))
 
-station <- read_csv(here("data","clean","stations.csv")) %>%
+station <- read_csv(here("data", "clean", "stations.csv")) %>%
   select(station, area)
 
 station %>%
   distinct(area)
 
-nutrient <- read_csv(here("data","clean","surface.csv"))
+nutrient <- read_csv(here("data", "clean", "surface.csv"))
 
 nutrient
 
@@ -75,7 +75,6 @@ p <- nutrient %>%
   filter(value != 0) %>%
   group_by(area, name) %>%
   summarise(n = n()) %>%
-  # mutate(name = fct_rev(factor(name))) %>%
   ggplot(aes(x = n, y = name, fill = area)) +
   geom_col() +
   geom_text(aes(label = n), hjust = -0.5, color = "#3c3c3c", size = 2.5) +
@@ -98,7 +97,7 @@ p <- nutrient %>%
     plot.title.position = "plot"
   )
 
-file <- here("graphs","06_number_observation_nutrient_by_area.pdf")
+file <- here("graphs", "06_number_observation_nutrient_by_area.pdf")
 
 ggsave(
   file,

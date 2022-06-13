@@ -8,7 +8,7 @@ rm(list = ls())
 
 # Absorption data ---------------------------------------------------------
 
-absorption <- data.table::fread(here("data","raw","all_abs_transpose.txt"),
+absorption <- data.table::fread(here("data", "raw", "all_abs_transpose.txt"),
   na.strings = "9.999900000"
 ) %>%
   as_tibble() %>%
@@ -59,7 +59,7 @@ absorption <- absorption %>%
 
 # Stations information ----------------------------------------------------
 
-file <- here("data","raw","SurfaceData5(C4corr).txt")
+file <- here("data", "raw", "SurfaceData5(C4corr).txt")
 
 header_names <- read_lines(file, n_max = 1) %>%
   str_split(",") %>%
@@ -111,7 +111,7 @@ station_metadata %>%
 
 # Export the clean metadata
 station_metadata %>%
-  write_csv(here("data","clean","stations.csv"))
+  write_csv(here("data", "clean", "stations.csv"))
 
 stations <- stations %>%
   select(-c(date, depth, lat, lon, area, system, gm_ttime))
@@ -167,7 +167,7 @@ ac9 <- stations %>%
     matches("^z1_\\d{3}$"),
     matches("^cd\\d{3}$")
   ) %>%
-  rename_with(~str_remove(., "_or.*"), contains("_for_")) %>%
+  rename_with(~ str_remove(., "_or.*"), contains("_for_")) %>%
   pivot_longer(
     -station,
     names_pattern = c("(.*)_?(\\d{3})"),
@@ -288,10 +288,10 @@ irradiance <- irradiance %>%
 reflectance <- reflectance %>%
   filter(!if_all(-c(station, wavelength), ~ is.na(.)))
 
-write_csv(absorption, here("data","clean","absorption_without_acdom.csv"))
-write_csv(ac9, here("data","clean","ac9.csv"))
-write_csv(irradiance, here("data","clean","irradiance.csv"))
-write_csv(reflectance, here("data","clean","reflectance.csv"))
+write_csv(absorption, here("data", "clean", "absorption_without_acdom.csv"))
+write_csv(ac9, here("data", "clean", "ac9.csv"))
+write_csv(irradiance, here("data", "clean", "irradiance.csv"))
+write_csv(reflectance, here("data", "clean", "reflectance.csv"))
 
 absorption
 ac9
@@ -367,5 +367,4 @@ names(surface)
 surface <- surface %>%
   mutate(poc_g_m_3 = replace(poc_g_m_3, poc_g_m_3 < 0.01, NA_real_))
 
-write_csv(surface, here("data","clean","surface.csv"))
-
+write_csv(surface, here("data", "clean", "surface.csv"))

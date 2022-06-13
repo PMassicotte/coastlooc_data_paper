@@ -6,14 +6,14 @@
 
 rm(list = ls())
 
-source(here("R","zzz.R"))
+source(here("R", "zzz.R"))
 
-stations <- read_csv(here("data","clean","stations.csv"))
-bathymetry <- read_csv(here("data","clean","bathymetry.csv"))
+stations <- read_csv(here("data", "clean", "stations.csv"))
+bathymetry <- read_csv(here("data", "clean", "bathymetry.csv"))
 
-df <- stations %>%
-  left_join(bathymetry, by = "station") %>%
-  mutate(bathymetry_m = -bathymetry_m) %>%
+df <- stations |>
+  left_join(bathymetry, by = "station") |>
+  mutate(bathymetry_m = -bathymetry_m) |>
   mutate(area = fct_reorder(
     area,
     bathymetry_m,
@@ -22,27 +22,27 @@ df <- stations %>%
     .desc = TRUE
   ))
 
-df %>%
-  group_by(area) %>%
+df |>
+  group_by(area) |>
   summarise(mean(bathymetry_m))
 
 # Plot number of observation per area -------------------------------------
 
-df_viz <- df %>%
+df_viz <- df |>
   mutate(
     date_month = clock::date_group(date, precision = "month"),
     .after = date
-  ) %>%
-  count(area, date_month) %>%
+  ) |>
+  count(area, date_month) |>
   assertr::verify(sum(n) == 424)
 
 df_viz
 
-df_line <- df_viz %>%
-  group_by(area) %>%
+df_line <- df_viz |>
+  group_by(area) |>
   summarise(across(date_month, .fns = list("min" = min, "max" = max)))
 
-p1 <- df_viz %>%
+p1 <- df_viz |>
   ggplot(aes(x = date_month, y = area)) +
   geom_segment(
     data = df_line,
@@ -75,15 +75,25 @@ p1 <- df_viz %>%
 
 # Plot average bathymetry per area ----------------------------------------
 
-p2 <- df %>%
-  drop_na(bathymetry_m) %>%
+p2 <- df |>
+  drop_na(bathymetry_m) |>
   ggplot(aes(x = bathymetry_m, y = area, color = area)) +
   geom_boxplot(size = 0.25, outlier.size = 0.5) +
-  ggbeeswarm::geom_quasirandom(size = 0.5, groupOnX = FALSE) +
-  # geom_boxplot(size = 0.25, outlier.size = 0.5) +
+  ggbeeswarm::geom_quasirandom(
+    aes(fill = area),
+    size = 1,
+    groupOnX = FALSE,
+    alpha = 0.5,
+    stroke = 0.1,
+    pch = 21
+  ) +
   scale_x_log10() +
   annotation_logticks(sides = "b", size = 0.) +
   scale_color_manual(
+    breaks = area_breaks,
+    values = area_colors
+  ) +
+  scale_fill_manual(
     breaks = area_breaks,
     values = area_colors
   ) +
@@ -106,7 +116,7 @@ p <- p1 + p2 +
   )
 
 ggsave(
-  here("graphs","fig02.pdf"),
+  here("graphs", "fig02.pdf"),
   device = cairo_pdf,
   width = 200,
   height = 120,
