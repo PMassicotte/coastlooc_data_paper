@@ -29,8 +29,10 @@ area_colors <-
     "#586f7cFF"
   )
 
-pdf2png <- function(pdf_file, dpi = 300) {
+# area_colors <- as.vector(palette.colors(length(area_breaks), "Okabe-Ito"))
+# area_colors <- as.vector(paletteer::paletteer_d("nbapalettes::nuggets_city2"))
 
+pdf2png <- function(pdf_file, dpi = 300) {
   png_file <- fs::path_ext_set(fs::path_file(pdf_file), "png")
   png_folder <- "graphs/png/"
 

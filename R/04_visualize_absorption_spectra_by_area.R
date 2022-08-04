@@ -19,10 +19,10 @@ absorption <- absorption |>
   assertr::verify(n == 1) |>
   select(-n)
 
-p_a_phy <- ggspectral(drop_na(absorption, a_phy), a_phy, "a[phy]~(m^{-1})")
-p_a_nap <- ggspectral(drop_na(absorption, a_nap), a_nap, "a[nap]~(m^{-1})")
-p_a_p <- ggspectral(drop_na(absorption, a_p), a_p, "a[p]~(m^{-1})")
-p_a_cdom <- ggspectral(drop_na(absorption, a_cdom_modeled), a_cdom_modeled, "a[cdom]~(m^{-1})")
+p_a_phy <- ggspectral(drop_na(absorption, a_phy_m1), a_phy_m1, "a[phy]~(m^{-1})")
+p_a_nap <- ggspectral(drop_na(absorption, a_nap_m1), a_nap_m1, "a[nap]~(m^{-1})")
+p_a_p <- ggspectral(drop_na(absorption, a_p_m1), a_p_m1, "a[p]~(m^{-1})")
+p_a_cdom <- ggspectral(drop_na(absorption, a_cdom_modeled_m1), a_cdom_modeled_m1, "a[cdom]~(m^{-1})")
 
 save_fun(p_a_phy, here("graphs", "04_aphy_spectral_profiles_by_area.pdf"))
 save_fun(p_a_nap, here("graphs", "04_anap_spectral_profiles_by_area.pdf"))

@@ -8,48 +8,48 @@ rm(list = ls())
 
 source(here("R", "zzz.R"))
 
-station <- read_csv(here("data", "clean", "stations.csv")) %>%
+station <- read_csv(here("data", "clean", "stations.csv")) |>
   select(station, area)
 
-station %>%
+station |>
   distinct(area)
 
 nutrient <- read_csv(here("data", "clean", "surface.csv"))
 
 nutrient
 
-nutrient %>%
-  anti_join(station, by = "station") %>%
+nutrient |>
+  anti_join(station, by = "station") |>
   distinct(station)
 
-nutrient <- nutrient %>%
-  inner_join(station, by = "station") %>%
+nutrient <- nutrient |>
+  inner_join(station, by = "station") |>
   relocate(area, .after = station)
 
 # There are a lot of nutrient parameters that have values of zero. Are they true
 # zero or indicate missing values?
 
-nutrient %>%
-  pivot_longer(-c(station, area)) %>%
-  drop_na() %>%
-  filter(value != 0) %>%
-  add_count(name) %>%
-  mutate(name = glue("{name} (n = {n})")) %>%
-  mutate(name = fct_reorder(name, n)) %>%
+nutrient |>
+  pivot_longer(-c(station, area)) |>
+  drop_na() |>
+  filter(value != 0) |>
+  add_count(name) |>
+  mutate(name = glue("{name} (n = {n})")) |>
+  mutate(name = fct_reorder(name, n)) |>
   ggplot(aes(x = value)) +
   geom_histogram() +
   facet_wrap(~name, scales = "free")
 
 # Test for negative values ------------------------------------------------
 
-nutrient <- nutrient %>%
+nutrient <- nutrient |>
   assert(
     within_bounds(0, Inf),
     c(
       contains("chl"),
       contains("xanthin"),
-      poc_g_m_3,
-      spm:poc_g_m_3,
+      poc_g_m3,
+      spm:poc_g_m3,
       al:micro,
       doc_um
     )
@@ -59,22 +59,22 @@ nutrient <- nutrient %>%
 
 names(nutrient)
 
-p <- nutrient %>%
+p <- nutrient |>
   select(
     station,
     area,
     contains("chl"),
     contains("xanthin"),
-    poc_g_m_3,
-    spm:poc_g_m_3,
+    poc_g_m3,
+    spm:poc_g_m3,
     al:micro,
     doc_um
-  ) %>%
-  pivot_longer(-c(station, area)) %>%
-  drop_na() %>%
-  filter(value != 0) %>%
-  group_by(area, name) %>%
-  summarise(n = n()) %>%
+  ) |>
+  pivot_longer(-c(station, area)) |>
+  drop_na() |>
+  filter(value != 0) |>
+  group_by(area, name) |>
+  summarise(n = n()) |>
   ggplot(aes(x = n, y = name, fill = area)) +
   geom_col() +
   geom_text(aes(label = n), hjust = -0.5, color = "#3c3c3c", size = 2.5) +

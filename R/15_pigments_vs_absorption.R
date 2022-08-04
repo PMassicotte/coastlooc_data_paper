@@ -20,7 +20,7 @@ df
 
 p <- df |>
   filter(wavelength == 443) |>
-  ggplot(aes(x = a_phy, y = total_chl_a, color = area)) +
+  ggplot(aes(x = a_phy_m1, y = total_chl_a, color = area)) +
   geom_point(size = 0.5) +
   geom_smooth(method = "lm", show.legend = FALSE, size = 0.25) +
   scale_y_log10() +
@@ -32,8 +32,12 @@ p <- df |>
     values = area_colors
   ) +
   labs(
-    x = quote(a[phi] ~ ("443 nm") ~ (m^{-1})),
-    y = quote("TChla" ~ (mg ~ m^{-3}))
+    x = quote(a[phi] ~ ("443 nm") ~ (m^{
+      -1
+    })),
+    y = quote("TChla" ~ (mg ~ m^{
+      -3
+    }))
   ) +
   theme(
     legend.position = "none"

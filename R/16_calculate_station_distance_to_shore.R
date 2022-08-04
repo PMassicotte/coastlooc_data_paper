@@ -8,26 +8,26 @@
 
 rm(list = ls())
 
-source(here("R","zzz.R"))
+source(here("R", "zzz.R"))
 
-stations <- read_csv(here("data","clean","stations.csv")) %>%
-  drop_na(longitude, latitude) %>%
+stations <- read_csv(here("data", "clean", "stations.csv")) |>
+  drop_na(longitude, latitude) |>
   st_as_sf(coords = c("longitude", "latitude"), crs = 4326)
 
 stations
 
 ne_land <- rnaturalearth::ne_download(
-    category = "physical",
-    type = "land",
-    returnclass = "sf",
-    scale = "medium"
-  ) %>%
+  category = "physical",
+  type = "land",
+  returnclass = "sf",
+  scale = "medium"
+) |>
   st_union()
 
 # This is a workaround because some distances were calculated as 0. See the
 # stackoverflow question for more information.
 
-# st_nearest_points(stations, ne_land) %>%
+# st_nearest_points(stations, ne_land)  |>
 #   st_length()
 
 # Plot --------------------------------------------------------------------
@@ -54,7 +54,7 @@ p <- ggplot() +
     plot.title.position = "plot"
   )
 
-outfile <- here("graphs","16_geographical_map_stations_shortest_distances.pdf")
+outfile <- here("graphs", "16_geographical_map_stations_shortest_distances.pdf")
 
 ggsave(
   outfile,
@@ -72,16 +72,16 @@ knitr::plot_crop(outfile)
 
 # Calculate the distances -------------------------------------------------
 
-stations <- stations %>%
+stations <- stations |>
   mutate(distance_to_shore_m = as.vector(st_distance(stations, ne_land)))
 
 # TODO: Some distances are calculated as 0. Try to figure out why (see
 # stackoverflow).
 
-stations %>%
+stations |>
   filter(distance_to_shore_m == 0)
 
-stations %>%
-  as_tibble() %>%
-  select(date, station, distance_to_shore_m) %>%
-  write_csv(here("data","clean","distances_to_shore.csv"))
+stations |>
+  as_tibble() |>
+  select(date, station, distance_to_shore_m) |>
+  write_csv(here("data", "clean", "distances_to_shore.csv"))

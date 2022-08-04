@@ -6,14 +6,14 @@
 
 rm(list = ls())
 
-source("R/zzz.R")
-source("R/ggspectral.R")
+source(here("R", "zzz.R"))
+source(here("R", "ggspectral.R"))
 
-reflectance <- read_csv(here("data","clean","reflectance.csv"))
+reflectance <- read_csv(here("data", "clean", "reflectance.csv"))
 
 # Histogram of raw reflectance --------------------------------------------
 
-p <- reflectance %>%
+p <- reflectance |>
   ggplot(aes(x = measured_reflectance)) +
   geom_histogram() +
   facet_wrap(~ glue("{wavelength} nm"), scales = "free_x") +
@@ -29,7 +29,8 @@ p <- reflectance %>%
   )
 
 ggsave(
-  here("graphs","08_histogram_raw_reflectance.pdf"),
+  here("graphs", "08_histogram_raw_reflectance.pdf"),
+  device = cairo_pdf,
   width = 7,
   height = 5
 )
@@ -38,13 +39,13 @@ ggsave(
 
 reflectance
 
-reflectance_clean <- reflectance %>%
+reflectance_clean <- reflectance |>
   mutate(measured_reflectance = case_when(
     between(measured_reflectance, 0, 1) ~ measured_reflectance,
     TRUE ~ NA_real_
   ))
 
-p <- reflectance_clean %>%
+p <- reflectance_clean |>
   ggplot(aes(x = measured_reflectance)) +
   geom_histogram() +
   facet_wrap(~ glue("{wavelength} nm"), scales = "free_x") +
@@ -60,22 +61,23 @@ p <- reflectance_clean %>%
   )
 
 ggsave(
-  here("graphs","08_histogram_reflectance_values_outside_0_1_removed.pdf"),
+  here("graphs", "08_histogram_reflectance_values_outside_0_1_removed.pdf"),
+  device = cairo_pdf,
   width = 7,
   height = 5
 )
 
 # Export clean data -------------------------------------------------------
 
-reflectance_clean %>%
-  write_csv(here("data","clean","reflectance_negative_values_removed.csv"))
+reflectance_clean |>
+  write_csv(here("data", "clean", "reflectance_negative_values_removed.csv"))
 
 # Visualize the data ------------------------------------------------------
 
-stations <- read_csv(here("data","clean","stations.csv")) %>%
+stations <- read_csv(here("data", "clean", "stations.csv")) |>
   select(station, area)
 
-df_viz <- reflectance_clean %>%
+df_viz <- reflectance_clean |>
   inner_join(stations, by = "station")
 
 p_reflectance <- ggspectral(df_viz, measured_reflectance, "Reflectance")

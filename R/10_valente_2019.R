@@ -16,16 +16,16 @@ df <-
       "Orginal_files_including_metadata",
       "insitudb_iopskdtsm_2019-02.csv"
     )
-  ) %>%
-  as_tibble() %>%
+  ) |>
+  as_tibble() |>
   distinct(time, lat, lon)
 
 df
 
-df_sf <- df %>%
+df_sf <- df |>
   st_as_sf(coords = c("lon", "lat"), crs = 4326)
 
-df_sf %>%
+df_sf |>
   ggplot() +
   geom_sf()
 
@@ -36,10 +36,10 @@ bbox_4326 <- st_bbox(c(
   ymin = 60
 ), crs = st_crs(4326))
 
-df_sf <- df_sf %>%
+df_sf <- df_sf |>
   st_crop(bbox_4326)
 
-df_sf %>%
+df_sf |>
   ggplot() +
   geom_sf()
 
@@ -49,14 +49,14 @@ ne_land <-
     type = "land",
     returnclass = "sf",
     scale = "large"
-  ) %>%
+  ) |>
   st_crop(bbox_4326)
 
 map_crs <- 3035
 
 # Plot --------------------------------------------------------------------
 
-p <- df_sf %>%
+p <- df_sf |>
   ggplot() +
   geom_sf(data = ne_land, size = 0.1) +
   geom_sf(size = 0.5) +
@@ -66,13 +66,13 @@ p <- df_sf %>%
     expand = FALSE,
     crs = map_crs
   ) +
-  facet_wrap(~lubridate::year(time)) +
+  facet_wrap(~ lubridate::year(time)) +
   labs(
     title = "Map with Valente et al. data",
     subtitle = "There are no overlaps with the COASTLOOC data."
   )
 
-file <- here("graphs","11_map_valente_et_al.pdf")
+file <- here("graphs", "10_map_valente_et_al.pdf")
 
 ggsave(
   file,

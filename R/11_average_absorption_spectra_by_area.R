@@ -2,24 +2,24 @@ source(here("R", "zzz.R"))
 
 station <- read_csv(here("data", "clean", "stations.csv"))
 
-absorption <- read_csv(here("data", "clean", "absorption.csv")) %>%
-  filter(wavelength >= 350) %>%
-  left_join(station, ., by = "station") %>%
-  group_by(area, wavelength) %>%
-  summarise(across(starts_with("a_"), ~ mean(., na.rm = TRUE))) %>%
+absorption <- read_csv(here("data", "clean", "absorption.csv")) |>
+  filter(wavelength >= 350) |>
+  left_join(station, ., by = "station") |>
+  group_by(area, wavelength) |>
+  summarise(across(starts_with("a_"), ~ mean(., na.rm = TRUE))) |>
   ungroup()
 
-df_viz <- absorption %>%
-  group_by(area, wavelength) %>%
-  summarise(across(starts_with("a_"), ~ mean(., na.rm = TRUE))) %>%
+df_viz <- absorption |>
+  group_by(area, wavelength) |>
+  summarise(across(starts_with("a_"), ~ mean(., na.rm = TRUE))) |>
   ungroup()
 
 df_viz
 
 # Plot --------------------------------------------------------------------
 
-p1 <- df_viz %>%
-  ggplot(aes(x = wavelength, y = a_phy, color = area)) +
+p1 <- df_viz |>
+  ggplot(aes(x = wavelength, y = a_phy_m1, color = area)) +
   geom_line() +
   scale_color_manual(
     breaks = area_breaks,
@@ -27,14 +27,16 @@ p1 <- df_viz %>%
   ) +
   labs(
     x = "Wavelength (nm)",
-    y = quote(a[phi]~(m^{-1}))
+    y = quote(a[phi] ~ (m^{
+      -1
+    }))
   ) +
   theme(
     legend.position = "none"
   )
 
-p2 <- df_viz %>%
-  ggplot(aes(x = wavelength, y = a_nap, color = area)) +
+p2 <- df_viz |>
+  ggplot(aes(x = wavelength, y = a_nap_m1, color = area)) +
   geom_line() +
   scale_color_manual(
     breaks = area_breaks,
@@ -42,14 +44,16 @@ p2 <- df_viz %>%
   ) +
   labs(
     x = "Wavelength (nm)",
-    y = quote(a[NAP]~(m^{-1}))
+    y = quote(a[NAP] ~ (m^{
+      -1
+    }))
   ) +
   theme(
     legend.position = "none"
   )
 
-p3 <- df_viz %>%
-  ggplot(aes(x = wavelength, y = a_p, color = area)) +
+p3 <- df_viz |>
+  ggplot(aes(x = wavelength, y = a_p_m1, color = area)) +
   geom_line() +
   scale_color_manual(
     breaks = area_breaks,
@@ -57,14 +61,16 @@ p3 <- df_viz %>%
   ) +
   labs(
     x = "Wavelength (nm)",
-    y = quote(a[P]~(m^{-1}))
+    y = quote(a[P] ~ (m^{
+      -1
+    }))
   ) +
   theme(
     legend.position = "none"
   )
 
-p4 <- absorption %>%
-  ggplot(aes(x = wavelength, y = a_cdom_modeled, color = area)) +
+p4 <- absorption |>
+  ggplot(aes(x = wavelength, y = a_cdom_modeled_m1, color = area)) +
   geom_line() +
   scale_color_manual(
     breaks = area_breaks,
@@ -79,7 +85,9 @@ p4 <- absorption %>%
   ) +
   labs(
     x = "Wavelength (nm)",
-    y = quote(a[CDOM]~(m^{-1}))
+    y = quote(a[CDOM] ~ (m^{
+      -1
+    }))
   ) +
   theme(
     legend.justification = c(1, 1),
@@ -96,7 +104,7 @@ p <- wrap_plots(p1, p2, p3, p4, ncol = 2) +
     plot.tag = element_text(face = "bold")
   )
 
-file <- here("graphs","11_average_absorption_spectra_by_area.pdf")
+file <- here("graphs", "11_average_absorption_spectra_by_area.pdf")
 
 ggsave(
   file,

@@ -51,14 +51,14 @@ df <- stations |>
 # 10 cm cuvette (0.1 m)
 
 df <- df |>
-  mutate(absorption = (2.303 * absorbance) / 0.1) |>
+  mutate(absorption_m1 = (2.303 * absorbance) / 0.1) |>
   select(-absorbance)
 
 # Visualize ---------------------------------------------------------------
 
 p1 <- df |>
   filter(wavelength <= 750) |>
-  ggplot(aes(x = wavelength, y = absorption, group = station)) +
+  ggplot(aes(x = wavelength, y = absorption_m1, group = station)) +
   geom_line(size = 0.1) +
   geom_hline(yintercept = 0, lty = 2, size = 0.25, color = "blue") +
   facet_wrap(~cruise, scales = "free_y") +
@@ -74,16 +74,16 @@ p1 <- df |>
 
 df <- df |>
   group_by(station) |>
-  mutate(background_a_cdom_average_683_687 = mean(absorption[between(wavelength, 683, 687)])) |>
+  mutate(background_a_cdom_average_683_687_m1 = mean(absorption_m1[between(wavelength, 683, 687)])) |>
   mutate(
-    absorption_background_corrected = absorption - background_a_cdom_average_683_687,
-    .after = absorption
+    absorption_background_corrected_m1 = absorption_m1 - background_a_cdom_average_683_687_m1,
+    .after = absorption_m1
   ) |>
   ungroup()
 
 p2 <- df |>
   filter(wavelength <= 750) |>
-  ggplot(aes(x = wavelength, y = absorption_background_corrected, group = station)) +
+  ggplot(aes(x = wavelength, y = absorption_background_corrected_m1, group = station)) +
   geom_line(size = 0.1) +
   geom_hline(yintercept = 0, lty = 2, size = 0.25, color = "blue") +
   facet_wrap(~cruise, scales = "free_y") +
@@ -112,7 +112,7 @@ df <- df |>
   mutate(mod = map(
     data,
     ~ minpack.lm::nlsLM(
-      absorption_background_corrected ~ a443 * exp(-s * (wavelength - 443)),
+      absorption_background_corrected_m1 ~ a443 * exp(-s * (wavelength - 443)),
       data = .,
       start = c(a443 = 0.2, s = 0.03),
       lower =  c(a443 = 0.001, s = 0.001),
@@ -125,7 +125,7 @@ df <- df |>
   mutate(mod_pred = map2(data, mod, modelr::add_predictions)) |>
   mutate(r2 = map_dbl(
     mod_augmented,
-    ~ cor(.$absorption_background_corrected, .$.fitted)^2
+    ~ cor(.$absorption_background_corrected_m1, .$.fitted)^2
   ))
 
 df
@@ -143,7 +143,7 @@ df_viz
 
 plot_acdom <- function(df) {
   p <- df |>
-    ggplot(aes(x = wavelength, y = absorption_background_corrected)) +
+    ggplot(aes(x = wavelength, y = absorption_background_corrected_m1)) +
     geom_point(color = "gray50") +
     geom_line(aes(y = pred), color = "red") +
     geom_vline(xintercept = c(350, 500), lty = 2, color = "#3c3c3c") +
@@ -188,8 +188,8 @@ df_filtered <- df |>
     station,
     area,
     wavelength,
-    a_cdom_measured = absorption_background_corrected,
-    a_cdom_modeled = pred,
+    a_cdom_measured_m1 = absorption_background_corrected_m1,
+    a_cdom_modeled_m1 = pred,
     r2
   ) |>
   arrange(station, wavelength)
@@ -201,13 +201,13 @@ p <- df_filtered |>
   group_nest(station, r2) |>
   top_n(n = 36, wt = -r2) |>
   unnest(data) |>
-  ggplot(aes(x = wavelength, y = a_cdom_measured)) +
+  ggplot(aes(x = wavelength, y = a_cdom_measured_m1)) +
   geom_point(size = 0.5) +
   scale_color_manual(
     breaks = area_breaks,
     values = area_colors
   ) +
-  geom_line(aes(y = a_cdom_modeled), color = "red") +
+  geom_line(aes(y = a_cdom_modeled_m1), color = "red") +
   facet_wrap(~ glue("{station}\n{area}"), scales = "free_y") +
   labs(
     x = "Wavelength (nm)",
@@ -230,7 +230,7 @@ ggsave(
 df_filtered
 
 df_filtered <- df_filtered |>
-  select(-area)
+  select(-area, -r2)
 
 # This file contains aphy, anap and ap, so let's add acdom to it.
 absorption <- read_csv(here("data", "clean", "absorption_without_acdom.csv"))
@@ -264,7 +264,7 @@ absorption_clean <- absorption_merged |>
 # 500 nm. We have to remove these as well.
 
 absorption_clean <- absorption_clean |>
-  filter(!if_all(a_p:a_cdom_measured, is.na))
+  filter(!if_all(a_p_m1:a_cdom_measured_m1, is.na))
 
 write_csv(absorption_clean, here("data", "clean", "absorption.csv"))
 
@@ -279,14 +279,13 @@ s_cdom <- df |>
   select(-mod) |>
   unnest(tidied) |>
   filter(term == "s") |>
-  select(station, s_cdom = estimate)
+  select(station, s_cdom_nm1 = estimate)
 
 s_cdom
 
-s_cdom  |>
-  ggplot(aes(x = s_cdom)) +
+s_cdom |>
+  ggplot(aes(x = s_cdom_nm1)) +
   geom_histogram() +
   geom_vline(xintercept = 0.012) #
 
 write_csv(s_cdom, here("data", "clean", "s_cdom.csv"))
-

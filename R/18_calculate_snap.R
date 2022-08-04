@@ -10,7 +10,7 @@
 rm(list = ls())
 
 anap <- read_csv(here("data", "clean", "absorption.csv")) |>
-  select(station, wavelength, a_nap)
+  select(station, wavelength, a_nap_m1)
 
 anap
 
@@ -23,7 +23,7 @@ anap |>
   distinct(station)
 
 anap |>
-  ggplot(aes(x = wavelength, y = a_nap, group = station)) +
+  ggplot(aes(x = wavelength, y = a_nap_m1, group = station)) +
   geom_point(size = 0.25)
 
 # Fit the exponential models ----------------------------------------------
@@ -35,7 +35,7 @@ df <- anap |>
   mutate(mod = map(
     data,
     ~ minpack.lm::nlsLM(
-      a_nap ~ a443 * exp(-s * (wavelength - 500)),
+      a_nap_m1 ~ a443 * exp(-s * (wavelength - 500)),
       data = .,
       start = c(a443 = 0.2, s = 0.03),
       lower =  c(a443 = 0.001, s = 0.001)
@@ -49,7 +49,7 @@ df <- df |>
   mutate(augmented = map(mod, broom::augment)) |>
   mutate(r2 = map_dbl(
     augmented,
-    ~ cor(.$a_nap, .$.fitted)^2
+    ~ cor(.$a_nap_m1, .$.fitted)^2
   ))
 
 df
@@ -72,7 +72,7 @@ df_filtered |>
   slice_sample(n = 49) |>
   select(station, augmented) |>
   unnest(augmented) |>
-  ggplot(aes(x = wavelength, y = a_nap)) +
+  ggplot(aes(x = wavelength, y = a_nap_m1)) +
   geom_point() +
   geom_line(aes(y = .fitted), color = "red") +
   facet_wrap(~station, scales = "free_y")
