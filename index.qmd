@@ -1,14 +1,16 @@
 ---
 title: "COASTLOOC data paper"
 date: "Last compiled on `r format(Sys.time(), '%d %B, %Y')`"
-output:
-  html_document:
-    highlight: zenburn
+format:
+  html:
+    highlight-style: ally
     css: "theme.css"
     toc: true
     toc_float:
       collapsed: false
 bibliography: references.bib
+editor_options: 
+  chunk_output_type: console
 ---
 
 ```{r setup, include=FALSE}
@@ -79,10 +81,10 @@ This graph shows the number of negative values for Ed by wavelength.
 
 ```{r histo_negative_ed}
 irradiance <- read_csv(here("data", "clean", "irradiance.csv")) %>%
-  filter(ed < 0)
+  filter(ed_w_m2_um < 0)
 
 irradiance %>%
-  ggplot(aes(x = ed)) +
+  ggplot(aes(x = ed_w_m2_um)) +
   geom_histogram() +
   facet_wrap(~ glue::glue("{wavelength} nm"), scales = "free")
 ```
@@ -92,7 +94,7 @@ irradiance %>%
 ```{r lineplot_negative_ed}
 read_csv("data/clean/irradiance.csv") %>%
   filter(station == "C2008000") %>%
-  ggplot(aes(x = wavelength, y = ed)) +
+  ggplot(aes(x = wavelength, y = ed_w_m2_um)) +
   geom_line() +
   geom_point() +
   labs(
@@ -109,30 +111,30 @@ read_csv("data/clean/irradiance.csv") %>%
 - There are differences in wavelengths among cruises. I have not found any information in the report concerning channel change across the missions.
 
 ```{r}
-irradiance <- read_csv("data/clean/irradiance_negative_values_removed.csv") 
+irradiance <- read_csv("data/clean/irradiance_negative_values_removed.csv")
 
-irradiance %>% 
-  mutate(cruise = str_sub(station, 1, 2), .after = station) %>% 
-  distinct(cruise, wavelength) %>% 
-  group_nest(cruise) %>% 
-  unnest_wider(data) %>% 
-  pivot_wider(names_from = cruise, values_from = wavelength) %>% 
-  unnest(everything()) %>% 
-  knitr::kable() %>% 
+irradiance %>%
+  mutate(cruise = str_sub(station, 1, 2), .after = station) %>%
+  distinct(cruise, wavelength) %>%
+  group_nest(cruise) %>%
+  unnest_wider(data) %>%
+  pivot_wider(names_from = cruise, values_from = wavelength) %>%
+  unnest(everything()) %>%
+  knitr::kable() %>%
   kableExtra::kable_styling()
 
-irradiance %>% 
-  mutate(cruise = str_sub(station, 1, 2), .after = station) %>% 
-  distinct(cruise, wavelength) %>% 
-  group_nest(cruise) %>% 
-  unnest_wider(data) %>% 
-  pivot_wider(names_from = cruise, values_from = wavelength) %>% 
-  unnest(everything()) %>% 
-  rowwise() %>% 
-  mutate(u  = length(unique(c_across(everything())))) %>% 
-  filter(u != 1) %>% 
-  select(-u) %>% 
-  knitr::kable() %>% 
+irradiance %>%
+  mutate(cruise = str_sub(station, 1, 2), .after = station) %>%
+  distinct(cruise, wavelength) %>%
+  group_nest(cruise) %>%
+  unnest_wider(data) %>%
+  pivot_wider(names_from = cruise, values_from = wavelength) %>%
+  unnest(everything()) %>%
+  rowwise() %>%
+  mutate(u = length(unique(c_across(everything())))) %>%
+  filter(u != 1) %>%
+  select(-u) %>%
+  knitr::kable() %>%
   kableExtra::kable_styling()
 ```
 
@@ -147,7 +149,9 @@ irradiance %>%
 -   `a(715)` was used as the baseline, that is why the values are always at 0 (see next graph).
 
 ```{r}
-knitr::include_graphics(pdf2png(here("graphs", "09_histogram_ac9_negative_values_removed.pdf")))
+knitr::include_graphics(pdf2png(
+  here("graphs", "09_histogram_ac9_negative_values_removed.pdf")
+))
 ```
 
 ### Other stuff
@@ -321,17 +325,6 @@ knitr::include_graphics(pdf2png(
 ))
 ```
 
-- This is a ternary plot showing the relative contribution of $a_{\phi}(443)$, $a_{\text{NAP}}(443)$ and $a_{\text{CDOM}}(443)$. I think there are interesting patterns in this graph.
-
-```{r}
-knitr::include_graphics(pdf2png(
-  here(
-    "graphs",
-    "19_ternary_plot_absorption.pdf"
-  )
-))
-```
-
 ### Spectral slopes
 
 This graph compares the spectral slopes of both `CDOM` and `NAP` absorption spectra.
@@ -346,7 +339,7 @@ df <- stations %>%
   inner_join(s_nap, by = "station")
 
 df %>%
-  select(station, area, s_cdom, s_nap_m_1) %>%
+  select(station, area, s_cdom_nm1, s_nap_m_1) %>%
   pivot_longer(starts_with("s_")) %>%
   ggplot(aes(x = name, y = value, fill = area)) +
   geom_boxplot(size = 0.1, outlier.size = 0.25) +
@@ -539,12 +532,12 @@ knitr::include_graphics(pdf2png(here("graphs", "fig07.pdf")))
 stations <- read_csv(here("data/clean/stations.csv"))
 ed <- read_csv(here("data/clean/irradiance_negative_values_removed.csv"))
 
-df <- ed %>% 
-  inner_join(stations) %>% 
+df <- ed %>%
+  inner_join(stations) %>%
   filter(str_detect(area, "Case"))
 
-df %>% 
-  ggplot(aes(x = wavelength, y = ed_wm2_nm1, group = station)) +
+df %>%
+  ggplot(aes(x = wavelength, y = ed_w_m2_um, group = station)) +
   geom_line() +
   facet_wrap(~area)
 ```
@@ -552,20 +545,20 @@ df %>%
 These are the duplicated Ed stations.
 
 ```{r}
-df %>% 
-  select(station, date, area, wavelength, ed_wm2_nm1) %>% 
-  pivot_wider(names_from = wavelength, values_from = ed_wm2_nm1) %>% 
-  janitor::get_dupes("411") %>% 
+df %>%
+  select(station, date, area, wavelength, ed_w_m2_um) %>%
+  pivot_wider(names_from = wavelength, values_from = ed_w_m2_um) %>%
+  janitor::get_dupes("411") %>%
   rmarkdown::paged_table()
 ```
 
 This is the same for Eu.
 
 ```{r}
-df %>% 
-  select(station, date, area, wavelength, eu_wm2_nm1) %>% 
-  pivot_wider(names_from = wavelength, values_from = eu_wm2_nm1) %>% 
-  janitor::get_dupes(matches("\\d{3}")) %>% 
+df %>%
+  select(station, date, area, wavelength, eu_w_m2_um) %>%
+  pivot_wider(names_from = wavelength, values_from = eu_w_m2_um) %>%
+  janitor::get_dupes(matches("\\d{3}")) %>%
   rmarkdown::paged_table()
 ```
 
