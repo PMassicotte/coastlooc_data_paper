@@ -4,7 +4,7 @@
     "Repositories": [
       {
         "Name": "RSPM",
-        "URL": "https://packagemanager.rstudio.com/all/latest"
+        "URL": "https://packagemanager.rstudio.com/all/__linux__/jammy/latest"
       }
     ]
   },
@@ -35,10 +35,10 @@
     },
     "MASS": {
       "Package": "MASS",
-      "Version": "7.3-58",
+      "Version": "7.3-58.1",
       "Source": "Repository",
       "Repository": "RSPM",
-      "Hash": "4bf2c61e656bbc238634c798c208d386",
+      "Hash": "762e1804143a332333c054759f89a706",
       "Requirements": []
     },
     "MBA": {
