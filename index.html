@@ -38,10 +38,73 @@ ul.task-list{list-style: none;}
 
 </head>
 
-<body class="fullcontent">
+<body>
 
 <div id="quarto-content" class="page-columns page-rows-contents page-layout-article">
-
+<div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+  <nav id="TOC" role="doc-toc">
+    <h2 id="toc-title">Table of contents</h2>
+   
+  <ul>
+  <li><a href="#data-cleaning-and-pre-processing" id="toc-data-cleaning-and-pre-processing" class="nav-link active" data-scroll-target="#data-cleaning-and-pre-processing">Data cleaning and pre-processing</a>
+  <ul class="collapse">
+  <li><a href="#acdom-spectra" id="toc-acdom-spectra" class="nav-link" data-scroll-target="#acdom-spectra">aCDOM spectra</a></li>
+  <li><a href="#phytoplankton-and-non-algal-absorption" id="toc-phytoplankton-and-non-algal-absorption" class="nav-link" data-scroll-target="#phytoplankton-and-non-algal-absorption">Phytoplankton and non-algal absorption</a></li>
+  <li><a href="#irradiance" id="toc-irradiance" class="nav-link" data-scroll-target="#irradiance">Irradiance</a></li>
+  <li><a href="#reflectance" id="toc-reflectance" class="nav-link" data-scroll-target="#reflectance">Reflectance</a></li>
+  <li><a href="#ac9" id="toc-ac9" class="nav-link" data-scroll-target="#ac9">AC9</a></li>
+  <li><a href="#other-stuff" id="toc-other-stuff" class="nav-link" data-scroll-target="#other-stuff">Other stuff</a></li>
+  </ul></li>
+  <li><a href="#data-sampling" id="toc-data-sampling" class="nav-link" data-scroll-target="#data-sampling">Data sampling</a>
+  <ul class="collapse">
+  <li><a href="#temporal-sampling" id="toc-temporal-sampling" class="nav-link" data-scroll-target="#temporal-sampling">Temporal sampling</a></li>
+  <li><a href="#bathymetry" id="toc-bathymetry" class="nav-link" data-scroll-target="#bathymetry">Bathymetry</a></li>
+  <li><a href="#land-to-sea-gradient" id="toc-land-to-sea-gradient" class="nav-link" data-scroll-target="#land-to-sea-gradient">Land-to-sea gradient</a></li>
+  </ul></li>
+  <li><a href="#available-variables" id="toc-available-variables" class="nav-link" data-scroll-target="#available-variables">Available variables</a></li>
+  <li><a href="#absorption-measurements" id="toc-absorption-measurements" class="nav-link" data-scroll-target="#absorption-measurements">Absorption measurements</a>
+  <ul class="collapse">
+  <li><a href="#aphy" id="toc-aphy" class="nav-link" data-scroll-target="#aphy">aphy</a></li>
+  <li><a href="#anap" id="toc-anap" class="nav-link" data-scroll-target="#anap">anap</a></li>
+  <li><a href="#ap" id="toc-ap" class="nav-link" data-scroll-target="#ap">ap</a></li>
+  <li><a href="#acdom" id="toc-acdom" class="nav-link" data-scroll-target="#acdom">acdom</a></li>
+  <li><a href="#absorption-partition" id="toc-absorption-partition" class="nav-link" data-scroll-target="#absorption-partition">Absorption partition</a></li>
+  <li><a href="#spectral-slopes" id="toc-spectral-slopes" class="nav-link" data-scroll-target="#spectral-slopes">Spectral slopes</a></li>
+  </ul></li>
+  <li><a href="#irradiance-1" id="toc-irradiance-1" class="nav-link" data-scroll-target="#irradiance-1">Irradiance</a>
+  <ul class="collapse">
+  <li><a href="#ed" id="toc-ed" class="nav-link" data-scroll-target="#ed">Ed</a></li>
+  <li><a href="#eu" id="toc-eu" class="nav-link" data-scroll-target="#eu">Eu</a></li>
+  <li><a href="#kd" id="toc-kd" class="nav-link" data-scroll-target="#kd">Kd</a></li>
+  <li><a href="#ku" id="toc-ku" class="nav-link" data-scroll-target="#ku">Ku</a></li>
+  </ul></li>
+  <li><a href="#reflectance-1" id="toc-reflectance-1" class="nav-link" data-scroll-target="#reflectance-1">Reflectance</a></li>
+  <li><a href="#ac9-1" id="toc-ac9-1" class="nav-link" data-scroll-target="#ac9-1">AC9</a>
+  <ul class="collapse">
+  <li><a href="#absorption" id="toc-absorption" class="nav-link" data-scroll-target="#absorption">Absorption</a></li>
+  <li><a href="#beam-attenuation" id="toc-beam-attenuation" class="nav-link" data-scroll-target="#beam-attenuation">Beam attenuation</a></li>
+  <li><a href="#scattering" id="toc-scattering" class="nav-link" data-scroll-target="#scattering">Scattering</a></li>
+  </ul></li>
+  <li><a href="#orientation-of-the-paper" id="toc-orientation-of-the-paper" class="nav-link" data-scroll-target="#orientation-of-the-paper">Orientation of the paper</a>
+  <ul class="collapse">
+  <li><a href="#journal-candidates" id="toc-journal-candidates" class="nav-link" data-scroll-target="#journal-candidates">Journal candidates</a></li>
+  </ul></li>
+  <li><a href="#figures-for-the-paper" id="toc-figures-for-the-paper" class="nav-link" data-scroll-target="#figures-for-the-paper">Figures for the paper</a>
+  <ul class="collapse">
+  <li><a href="#figure-1" id="toc-figure-1" class="nav-link" data-scroll-target="#figure-1">Figure 1</a></li>
+  <li><a href="#figure-2" id="toc-figure-2" class="nav-link" data-scroll-target="#figure-2">Figure 2</a></li>
+  <li><a href="#figure-3" id="toc-figure-3" class="nav-link" data-scroll-target="#figure-3">Figure 3</a></li>
+  <li><a href="#figure-4" id="toc-figure-4" class="nav-link" data-scroll-target="#figure-4">Figure 4</a></li>
+  <li><a href="#figure-5" id="toc-figure-5" class="nav-link" data-scroll-target="#figure-5">Figure 5</a></li>
+  <li><a href="#figure-6" id="toc-figure-6" class="nav-link" data-scroll-target="#figure-6">Figure 6</a></li>
+  <li><a href="#figure-7" id="toc-figure-7" class="nav-link" data-scroll-target="#figure-7">Figure 7</a></li>
+  </ul></li>
+  <li><a href="#done" id="toc-done" class="nav-link" data-scroll-target="#done">Done</a></li>
+  <li><a href="#todos" id="toc-todos" class="nav-link" data-scroll-target="#todos">Todos</a></li>
+  <li><a href="#references" id="toc-references" class="nav-link" data-scroll-target="#references">References</a></li>
+  </ul>
+</nav>
+</div>
 <main class="content" id="quarto-document-content">
 
 <header id="title-block-header" class="quarto-title-block default">
