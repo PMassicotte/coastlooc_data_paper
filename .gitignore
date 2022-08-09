@@ -264,5 +264,5 @@ vignettes/*.pdf
 .Renviron
 ### R.Bookdown Stack ###
 # R package: bookdown caching files
-
+/*_files/
 # End of https://www.toptal.com/developers/gitignore/api/r,latex

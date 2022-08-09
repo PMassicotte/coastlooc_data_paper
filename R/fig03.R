@@ -28,53 +28,55 @@ surface |>
 
 p1 <- surface |>
   drop_na(total_chl_a) |>
-    mutate(area = fct_reorder(area, total_chl_a)) |>
-    ggplot(aes(x = area, y = total_chl_a, color = area)) +
-    geom_boxplot(size = 0.25, outlier.size = 0.5) +
-    ggbeeswarm::geom_quasirandom(
-      groupOnX = TRUE,
-      aes(fill = area),
-      size = 1,
-      stroke = 0.5,
-      pch = 21,
-      alpha = 0.5
-    ) +
-    scale_y_log10() +
-    scale_x_discrete(
-      labels = function(x) {
-        str_wrap(x, 10)
-      }
-    ) +
-    annotation_logticks(sides = "l", size = 0.1) +
-    scale_fill_manual(
-      breaks = area_breaks,
-      values = area_colors
-    ) +
-    scale_color_manual(
-      breaks = area_breaks,
-      values = area_colors
-    ) +
-    labs(
-      x = NULL,
-      y = quote("Total chlorophyll-a" ~ (mg ~ m^{-3}))
-    ) +
-    theme(legend.position = "none")
+  mutate(area = fct_reorder(area, total_chl_a)) |>
+  ggplot(aes(x = area, y = total_chl_a, color = area)) +
+  geom_boxplot(size = 0.25, outlier.size = 0.5) +
+  ggbeeswarm::geom_quasirandom(
+    groupOnX = TRUE,
+    aes(fill = area),
+    size = 2,
+    stroke = 0.3,
+    pch = 21,
+    alpha = 0.5
+  ) +
+  scale_y_log10() +
+  scale_x_discrete(
+    labels = function(x) {
+      str_wrap(x, 10)
+    }
+  ) +
+  annotation_logticks(sides = "l", size = 0.1) +
+  scale_fill_manual(
+    breaks = area_breaks,
+    values = area_colors
+  ) +
+  scale_color_manual(
+    breaks = area_breaks,
+    values = area_colors
+  ) +
+  labs(
+    x = NULL,
+    y = quote("Total chlorophyll-a" ~ (mg ~ m^{
+      -3
+    }))
+  ) +
+  theme(legend.position = "none")
 
 p1
 
 # POC ---------------------------------------------------------------------
 
 p2 <- surface |>
-  drop_na(poc_g_m_3) |>
-  filter(poc_g_m_3 >= 0.01) |>
-  mutate(area = fct_reorder(area, poc_g_m_3)) |>
-  ggplot(aes(x = area, y = poc_g_m_3, color = area)) +
+  drop_na(poc_g_m3) |>
+  filter(poc_g_m3 >= 0.01) |>
+  mutate(area = fct_reorder(area, poc_g_m3)) |>
+  ggplot(aes(x = area, y = poc_g_m3, color = area)) +
   geom_boxplot(size = 0.25, outlier.size = 0.5) +
   ggbeeswarm::geom_quasirandom(
     groupOnX = TRUE,
     aes(fill = area),
-    size = 1,
-    stroke = 0.5,
+    size = 2,
+    stroke = 0.3,
     pch = 21,
     alpha = 0.5
   ) +
@@ -91,7 +93,9 @@ p2 <- surface |>
   ) +
   labs(
     x = NULL,
-    y = quote("Particulate organic carbon" ~ (g ~ m^{-3}))
+    y = quote("Particulate organic carbon" ~ (g ~ m^{
+      -3
+    }))
   ) +
   theme(
     legend.position = "none"

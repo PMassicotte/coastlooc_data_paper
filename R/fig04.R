@@ -27,7 +27,7 @@ df_viz
 # Plot --------------------------------------------------------------------
 
 p1 <- df_viz |>
-  ggplot(aes(x = wavelength, y = a_phy, color = area)) +
+  ggplot(aes(x = wavelength, y = a_phy_m1, color = area)) +
   geom_line() +
   scale_color_manual(
     breaks = area_breaks,
@@ -44,7 +44,7 @@ p1 <- df_viz |>
   )
 
 p2 <- df_viz |>
-  ggplot(aes(x = wavelength, y = a_nap, color = area)) +
+  ggplot(aes(x = wavelength, y = a_nap_m1, color = area)) +
   geom_line() +
   scale_color_manual(
     breaks = area_breaks,
@@ -61,7 +61,7 @@ p2 <- df_viz |>
   )
 
 p3 <- df_viz |>
-  ggplot(aes(x = wavelength, y = a_p, color = area)) +
+  ggplot(aes(x = wavelength, y = a_p_m1, color = area)) +
   geom_line() +
   scale_color_manual(
     breaks = area_breaks,
@@ -78,7 +78,7 @@ p3 <- df_viz |>
   )
 
 p4 <- absorption |>
-  ggplot(aes(x = wavelength, y = a_cdom_measured, color = area)) +
+  ggplot(aes(x = wavelength, y = a_cdom_measured_m1, color = area)) +
   geom_line() +
   scale_color_manual(
     breaks = area_breaks,
@@ -133,7 +133,8 @@ df_north_sea |>
   st_distance()
 
 p5 <- df_north_sea |>
-  ggplot(aes(x = latitude, y = a_cdom_measured)) +
+  # drop_na(a_cdom_measured) |>
+  ggplot(aes(x = latitude, y = a_cdom_measured_m1)) +
   geom_line(color = "#3366CCFF") +
   geom_point(size = 3, color = "#3366CCFF") +
   scale_x_continuous(labels = ~ paste0(., "\u00b0")) +
@@ -171,7 +172,9 @@ p5 <- df_north_sea |>
   ) +
   labs(
     x = "Latitude",
-    y = quote(a[CDOM] ~ (350) ~ (m^{-1}))
+    y = quote(a[CDOM] ~ (350) ~ (m^{
+      -1
+    }))
   )
 
 # Combine plots -----------------------------------------------------------
@@ -202,11 +205,11 @@ df_viz
 range(df_viz$wavelength, na.rm = TRUE)
 
 df_scdom <- df_viz |>
-  select(area, wavelength, a_cdom_modeled) |>
+  select(area, wavelength, a_cdom_modeled_m1) |>
   filter(between(wavelength, 350, 700)) |>
   group_nest(area) |>
   mutate(model = map(data, ~ nls(
-    a_cdom_modeled ~ a0 * exp(-s * (wavelength - 400)) + k,
+    a_cdom_modeled_m1 ~ a0 * exp(-s * (wavelength - 400)) + k,
     data = .,
     start = list(a0 = 0.5, s = 0.02, k = 0)
   ))) |>
@@ -220,7 +223,7 @@ df_scdom |>
 df_scdom |>
   mutate(pred = map(model, broom::augment)) |>
   unnest(pred) |>
-  ggplot(aes(x = wavelength, y = a_cdom_modeled, color = area)) +
+  ggplot(aes(x = wavelength, y = a_cdom_modeled_m1, color = area)) +
   geom_point() +
   geom_line(aes(y = .fitted)) +
   scale_color_manual(

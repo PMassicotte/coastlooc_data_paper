@@ -19,20 +19,20 @@ ac9
 # Only 2 observations in the Adriatic Sea?
 ac9 |>
   filter(wavelength == 440) |>
-  drop_na(bp) |>
+  drop_na(bp_m1) |>
   count(area)
 
 p1 <- ac9 |>
   filter(wavelength == 440) |>
-  drop_na(bp) |>
-  mutate(area = fct_reorder(area, bp)) |>
-  ggplot(aes(x = area, y = bp, color = area)) +
+  drop_na(bp_m1) |>
+  mutate(area = fct_reorder(area, bp_m1)) |>
+  ggplot(aes(x = area, y = bp_m1, color = area)) +
   geom_boxplot(size = 0.25, outlier.size = 0.5) +
   ggbeeswarm::geom_quasirandom(
     groupOnX = TRUE,
     aes(fill = area),
-    size = 1,
-    stroke = 0.5,
+    size = 2,
+    stroke = 0.3,
     pch = 21,
     alpha = 0.5
   ) +
@@ -49,7 +49,9 @@ p1 <- ac9 |>
   ) +
   labs(
     x = NULL,
-    y = quote(italic(b)[p](440)(m^{-1}))
+    y = quote(italic(b)[p](440)(m^{
+      -1
+    }))
   ) +
   theme(
     legend.position = "none"
@@ -74,8 +76,8 @@ p2 <- irradiance |>
   ggbeeswarm::geom_quasirandom(
     groupOnX = TRUE,
     aes(fill = area),
-    size = 1,
-    stroke = 0.5,
+    size = 2,
+    stroke = 0.3,
     pch = 21,
     alpha = 0.5
   ) +
@@ -92,7 +94,9 @@ p2 <- irradiance |>
   ) +
   labs(
     x = NULL,
-    y = quote(italic(K)[d](443) ~ (m^{-1}))
+    y = quote(italic(K)[d](443) ~ (m^{
+      -1
+    }))
   ) +
   theme(
     legend.position = "none"
@@ -116,17 +120,17 @@ ggsave(
 
 ac9 |>
   filter(wavelength == 440) |>
-  pull(bp) |>
+  pull(bp_m1) |>
   range(na.rm = TRUE)
 
 ac9 |>
   filter(wavelength == 440) |>
   group_by(area) |>
-  summarise(median_bp = median(bp, na.rm = TRUE)) |>
-  arrange(median_bp)
+  summarise(median_bp_m1 = median(bp_m1, na.rm = TRUE)) |>
+  arrange(median_bp_m1)
 
 irradiance |>
   filter(wavelength == 443) |>
   group_by(area) |>
-  summarise(median_kd = median(kd_m1, na.rm = TRUE)) |>
-  arrange(median_kd)
+  summarise(median_kd_m1 = median(kd_m1, na.rm = TRUE)) |>
+  arrange(median_kd_m1)

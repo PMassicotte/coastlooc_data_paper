@@ -20,13 +20,12 @@ df |>
   assertr::verify(n == 1)
 
 df |>
-  drop_na(ed_w_m2_um_m) |>
+  drop_na(ed_w_m2_um) |>
   ggplot(aes(
-    x = ed_w_m2_um_m,
+    x = ed_w_m2_um,
     y = depth_m,
-    # color = factor(wavelength),
+    color = station,
     group = interaction(station, wavelength)
   )) +
   geom_path() +
-  facet_wrap(~glue("{wavelength} nm"))
-
+  facet_wrap(~ glue("{wavelength} nm"))

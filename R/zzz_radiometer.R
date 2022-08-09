@@ -16,7 +16,7 @@ read_mrg <- function(file) {
   headers2 <- headers2[headers2 != ""]
 
   headers <- paste(headers1, headers2, sep = "_") |>
-    janitor::make_clean_names(replace = c("µ" = "um_"))
+    janitor::make_clean_names(replace = c("µ" = "u"))
 
   df <-
     read_table(
@@ -39,7 +39,7 @@ read_mrg <- function(file) {
       pad = 0,
       side = "right"
     )) |>
-    rename_with(~str_remove(., "_1$"), ends_with("_1"))
+    rename_with(~ str_remove(., "_1$"), ends_with("_1"))
 
 
   return(df)
@@ -60,7 +60,8 @@ tidy_mrg <- function(df_raw) {
     pivot_wider(names_from = variable, values_from = value) |>
     add_count(station, depth_m, wavelength) |>
     assertr::verify(n == 1) |>
-    select(-n)
+    select(-n) |>
+    rename_with(~ str_replace(., "1_m", "m1"), ends_with("1_m"))
 
   # Wavelengths are not exactly the same, have to find a way to reorganize that.
   # In Marcel's data wavelengths are:
@@ -102,5 +103,3 @@ tidy_mrg <- function(df_raw) {
 
   return(df_tidy)
 }
-
-

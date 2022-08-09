@@ -12,7 +12,7 @@ stations <- read_csv(here("data", "clean", "stations.csv")) |>
   select(station, area)
 
 poc <- read_csv(here("data", "clean", "surface.csv")) |>
-  select(station, total_chl_a, poc_g_m_3)
+  select(station, total_chl_a, poc_g_m3)
 
 df <- inner_join(stations, poc, by = "station")
 
@@ -20,11 +20,11 @@ df <- inner_join(stations, poc, by = "station")
 
 p1 <- df |>
   drop_na() |>
-  ggplot(aes(x = total_chl_a, y = poc_g_m_3)) +
+  ggplot(aes(x = total_chl_a, y = poc_g_m3)) +
   geom_point(
     aes(fill = area),
-    size = 1.5,
-    stroke = 0.1,
+    size = 2,
+    stroke = 0.3,
     pch = 21,
     alpha = 0.5
   ) +
@@ -44,8 +44,12 @@ p1 <- df |>
   annotation_logticks(sides = "bl", size = 0.1) +
   geom_smooth(method = "lm", color = "#3c3c3c") +
   labs(
-    x = quote("Total chlorophyll-a" ~ (mg ~ m^{-3})),
-    y = quote("Particulate organic carbon" ~ (g ~ m^{-3}))
+    x = quote("Total chlorophyll-a" ~ (mg ~ m^{
+      -3
+    })),
+    y = quote("Particulate organic carbon" ~ (g ~ m^{
+      -3
+    }))
   ) +
   ggpmisc::stat_correlation(
     label.y = 0.12,
@@ -90,11 +94,11 @@ df
 # Total chla vs aphy ------------------------------------------------------
 
 p2 <- df |>
-  ggplot(aes(x = total_chl_a, y = a_phy)) +
+  ggplot(aes(x = total_chl_a, y = a_phy_m1)) +
   geom_point(
     aes(fill = area),
-    size = 1.5,
-    stroke = 0.1,
+    size = 2,
+    stroke = 0.3,
     pch = 21,
     alpha = 0.5
   ) +
@@ -107,8 +111,12 @@ p2 <- df |>
     values = area_colors
   ) +
   labs(
-    x = quote("Total chlorophyll-a" ~ (mg ~ m^{-3})),
-    y = quote(a[phi](443) ~ (m^{-1}))
+    x = quote("Total chlorophyll-a" ~ (mg ~ m^{
+      -3
+    })),
+    y = quote(a[phi](443) ~ (m^{
+      -1
+    }))
   ) +
   ggpmisc::stat_correlation(
     label.y = 0.12,
@@ -133,7 +141,7 @@ stations <- read_csv(here("data", "clean", "stations.csv")) |>
   select(station, area)
 
 poc <- read_csv(here("data", "clean", "surface.csv")) |>
-  select(station, total_chl_a, poc_g_m_3)
+  select(station, total_chl_a, poc_g_m3)
 
 irradiance <- read_csv(here("data", "clean", "irradiance_negative_values_removed.csv"))
 
@@ -143,11 +151,11 @@ df <- stations |>
   filter(wavelength == 443)
 
 p3 <- df |>
-  ggplot(aes(x = kd_m1, y = poc_g_m_3)) +
+  ggplot(aes(x = kd_m1, y = poc_g_m3)) +
   geom_point(
     aes(fill = area),
-    size = 1.5,
-    stroke = 0.1,
+    size = 2,
+    stroke = 0.3,
     pch = 21,
     alpha = 0.5
   ) +
@@ -160,8 +168,12 @@ p3 <- df |>
     values = area_colors
   ) +
   labs(
-    x = quote("Particulate organic carbon" ~ (g ~ m^{-3})),
-    y = quote(K[d](443) ~ (m^{-1}))
+    x = quote("Particulate organic carbon" ~ (g ~ m^{
+      -3
+    })),
+    y = quote(K[d](443) ~ (m^{
+      -1
+    }))
   ) +
   ggpmisc::stat_correlation(
     label.y = 0.12,
@@ -185,20 +197,21 @@ p3 <- df |>
 stations <- read_csv(here("data", "clean", "stations.csv"))
 ac9 <- read_csv(here("data", "clean", "ac9_negative_values_removed.csv")) |>
   filter(wavelength == 440)
+
 surface <- read_csv(here("data", "clean", "surface.csv"))
 
 df <- inner_join(stations, ac9, by = "station") |>
   inner_join(surface, by = "station") |>
-  drop_na(poc_g_m_3, bp)
+  drop_na(poc_g_m3, bp_m1)
 
 unique(df$wavelength)
 
 p4 <- df |>
-  ggplot(aes(x = poc_g_m_3, y = bp)) +
+  ggplot(aes(x = poc_g_m3, y = bp_m1)) +
   geom_point(
     aes(fill = area),
-    size = 1.5,
-    stroke = 0.1,
+    size = 2,
+    stroke = 0.3,
     pch = 21,
     alpha = 0.5
   ) +
@@ -214,8 +227,12 @@ p4 <- df |>
     )
   ) +
   labs(
-    x = quote("Particulate organic carbon" ~ (g ~ m^{-3})),
-    y = quote(italic(b)[p](440) ~ (m^{-1}))
+    x = quote("Particulate organic carbon" ~ (g ~ m^{
+      -3
+    })),
+    y = quote(italic(b)[p](440) ~ (m^{
+      -1
+    }))
   ) +
   ggpmisc::stat_correlation(
     label.y = 0.12,

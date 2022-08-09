@@ -1,7 +1,7 @@
 # <><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><>
 # AUTHOR:       Philippe Massicotte
 #
-# DESCRIPTION:  Tidy the SPMR vertical profiles data given by Frank Fell.  The
+# DESCRIPTION:  Tidy the SPMR vertical profiles data given by Frank Fell. The
 # data is exported into arrow/parquet format for speed.
 # <><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><>
 
@@ -22,3 +22,8 @@ export_parquet <- function(file) {
 }
 
 walk(files, export_parquet)
+
+
+open_dataset(here("data", "clean", "spmr")) |>
+  head(1) |>
+  collect()

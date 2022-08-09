@@ -16,7 +16,7 @@ irradiance <- read_csv(here("data", "clean", "irradiance_negative_values_removed
 irradiance
 
 irradiance <- irradiance |>
-  drop_na(ed_wm2_nm1) |>
+  drop_na(ed_w_m2_um) |>
   inner_join(stations, by = "station")
 
 # There are NAs at some wavelengths due to the usage of different devices. For
@@ -25,21 +25,21 @@ irradiance <- irradiance |>
 
 irradiance_mean <- irradiance |>
   group_by(area, wavelength) |>
-  summarise(ed_wm2_nm1 = mean(ed_wm2_nm1, na.rm = TRUE), n = n()) |>
+  summarise(ed_w_m2_um = mean(ed_w_m2_um, na.rm = TRUE), n = n()) |>
   ungroup() |>
   filter(n >= 10)
 
 irradiance |>
   ggplot(aes(
     x = wavelength,
-    y = ed_wm2_nm1,
+    y = ed_w_m2_um,
     color = area,
     group = station
   )) +
   geom_line(size = 0.1, alpha = 0.5) +
   geom_line(
     data = irradiance_mean,
-    aes(x = wavelength, y = ed_wm2_nm1, color = area),
+    aes(x = wavelength, y = ed_w_m2_um, color = area),
     size = 1.25,
     inherit.aes = FALSE
   ) +
@@ -49,7 +49,11 @@ irradiance |>
   ) +
   labs(
     x = "Wavelength (mm)",
-    y = quote(E[d](0^"-") ~ "[" ~ W ~ m^{-2} ~ nm^{-1} ~ "]")
+    y = quote(E[d](0^"-") ~ "[" ~ W ~ m^{
+      -2
+    } ~ nm^{
+      -1
+    } ~ "]")
   ) +
   facet_wrap(~area) +
   theme(legend.position = "none")
