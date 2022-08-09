@@ -3,6 +3,7 @@ title: "Untitled"
 format: 
   html:
     toc: true
+    self-contained: true
 editor: visual
 ---
 
