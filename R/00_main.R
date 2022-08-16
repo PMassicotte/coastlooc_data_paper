@@ -14,6 +14,7 @@
 # renv::install("ropensci/rnaturalearthhires")
 # renv::install("PMassicotte/ggpmthemes")
 # renv::install(c("ropensci/tabulizerjars", "ropensci/tabulizer"), INSTALL_opts = "--no-multiarch")
+# renv::install("Enchufa2/rspm")
 
 library(tidyverse)
 library(stars)
