@@ -1,12 +1,6 @@
 
 # Color palette -----------------------------------------------------------
 
-# paletteer::paletteer_d("ggthemes::gdoc")
-#
-# read_csv(here("data","clean","stations.csv")) %>%
-#   distinct(area) %>%
-#   pull(area)
-
 area_breaks <-
   c(
     "North Sea",

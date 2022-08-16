@@ -1,8 +1,8 @@
 # <><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><>
 # AUTHOR:       Philippe Massicotte
 #
-# DESCRIPTION:  Explore the data published in xxx to make sure that COASTLOOC
-# data is not present.
+# DESCRIPTION:  Explore the data published in Valente 2019 to make sure that
+# COASTLOOC data is not present.
 # <><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><>
 
 rm(list = ls())
@@ -54,11 +54,21 @@ ne_land <-
 
 map_crs <- 3035
 
+# Get the COASTLOOC data --------------------------------------------------
+
+coastlooc <- read_csv(here("data", "clean", "stations.csv")) |>
+  select(station, area, longitude, latitude) |>
+  drop_na(longitude, latitude) |>
+  st_as_sf(coords = c("longitude", "latitude"), crs = 4326) |>
+  st_transform(map_crs)
+
+
 # Plot --------------------------------------------------------------------
 
 p <- df_sf |>
   ggplot() +
   geom_sf(data = ne_land, size = 0.1) +
+  geom_sf(data = coastlooc, size = 0.1, color = "red") +
   geom_sf(size = 0.5) +
   coord_sf(
     xlim = c(1680000, 5100000),
@@ -69,7 +79,7 @@ p <- df_sf |>
   facet_wrap(~ lubridate::year(time)) +
   labs(
     title = "Map with Valente et al. data",
-    subtitle = "There are no overlaps with the COASTLOOC data."
+    subtitle = "There are no overlaps with the COASTLOOC data (in red)."
   )
 
 file <- here("graphs", "10_map_valente_et_al.pdf")

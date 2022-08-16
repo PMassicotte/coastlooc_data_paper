@@ -47,7 +47,7 @@ read_mrg <- function(file) {
 
 
 tidy_mrg <- function(df_raw) {
-  df_tidy <- df_raw %>%
+  df_tidy <- df_raw |>
     select(!starts_with("er00")) |>
     pivot_longer(
       matches("\\d{3}"),
@@ -74,7 +74,7 @@ tidy_mrg <- function(df_raw) {
   # -   666 -> 665
   # -   780 -> 779
 
-  # df_tidy <- df_tidy %>%
+  # df_tidy <- df_tidy |>
   #   mutate(
   #     wavelength = case_when(
   #       wavelength == 412 ~ 411,
@@ -85,13 +85,13 @@ tidy_mrg <- function(df_raw) {
   #       wavelength == 780 ~ 779,
   #       TRUE ~ wavelength
   #     )
-  #   ) %>%
+  #   ) |>
   #   assertr::verify(wavelength %in%
   #                     c(411, 443, 456, 490, 509, 532, 556, 559, 590, 619, 665, 683, 705, 779, 866))
 
   # Classify up and down cast
 
-  df_tidy <- df_tidy %>%
+  df_tidy <- df_tidy |>
     mutate(
       cast_group = case_when(
         cast < 0 ~ "downcast",

@@ -27,7 +27,7 @@ bathy <- read_stars(
 bathy
 st_crs(bathy)
 
-bathymetry <- stations %>%
+bathymetry <- stations |>
   mutate(bathymetry_m = st_extract(bathy, at = .)[[1]])
 
 bathymetry

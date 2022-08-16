@@ -87,7 +87,7 @@ massimo <- massimo |>
   select(-contains("cdom"))
 
 massimo |>
-  anti_join(surface, by = "station") %>%
+  anti_join(surface, by = "station") |>
   verify(nrow(.) == 0)
 
 df <- surface |>

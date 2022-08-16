@@ -27,9 +27,7 @@ p1 <- df_viz |>
   ) +
   labs(
     x = "Wavelength (nm)",
-    y = quote(a[phi] ~ (m^{
-      -1
-    }))
+    y = quote(a[phi] ~ (m^{-1}))
   ) +
   theme(
     legend.position = "none"
@@ -44,9 +42,7 @@ p2 <- df_viz |>
   ) +
   labs(
     x = "Wavelength (nm)",
-    y = quote(a[NAP] ~ (m^{
-      -1
-    }))
+    y = quote(a[NAP] ~ (m^{-1}))
   ) +
   theme(
     legend.position = "none"
@@ -61,9 +57,7 @@ p3 <- df_viz |>
   ) +
   labs(
     x = "Wavelength (nm)",
-    y = quote(a[P] ~ (m^{
-      -1
-    }))
+    y = quote(a[P] ~ (m^{-1}))
   ) +
   theme(
     legend.position = "none"
@@ -85,9 +79,7 @@ p4 <- absorption |>
   ) +
   labs(
     x = "Wavelength (nm)",
-    y = quote(a[CDOM] ~ (m^{
-      -1
-    }))
+    y = quote(a[CDOM] ~ (m^{-1}))
   ) +
   theme(
     legend.justification = c(1, 1),

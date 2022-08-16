@@ -74,10 +74,10 @@ This section shows the main steps that have been applied to pre-process the raw 
 This graph shows the number of negative values for Ed by wavelength.
 
 ```{r histo_negative_ed}
-irradiance <- read_csv(here("data", "clean", "irradiance.csv")) %>%
+irradiance <- read_csv(here("data", "clean", "irradiance.csv")) |> 
   filter(ed_w_m2_um < 0)
 
-irradiance %>%
+irradiance |> 
   ggplot(aes(x = ed_w_m2_um)) +
   geom_histogram() +
   facet_wrap(~ glue::glue("{wavelength} nm"), scales = "free")
@@ -86,8 +86,8 @@ irradiance %>%
 -   Example of a spectral profile with negative values.
 
 ```{r lineplot_negative_ed}
-read_csv("data/clean/irradiance.csv") %>%
-  filter(station == "C2008000") %>%
+read_csv("data/clean/irradiance.csv") |> 
+  filter(station == "C2008000") |> 
   ggplot(aes(x = wavelength, y = ed_w_m2_um)) +
   geom_line() +
   geom_point() +
@@ -107,28 +107,28 @@ read_csv("data/clean/irradiance.csv") %>%
 ```{r}
 irradiance <- read_csv("data/clean/irradiance_negative_values_removed.csv")
 
-irradiance %>%
-  mutate(cruise = str_sub(station, 1, 2), .after = station) %>%
-  distinct(cruise, wavelength) %>%
-  group_nest(cruise) %>%
-  unnest_wider(data) %>%
-  pivot_wider(names_from = cruise, values_from = wavelength) %>%
-  unnest(everything()) %>%
-  knitr::kable() %>%
+irradiance |> 
+  mutate(cruise = str_sub(station, 1, 2), .after = station) |> 
+  distinct(cruise, wavelength) |> 
+  group_nest(cruise) |> 
+  unnest_wider(data) |> 
+  pivot_wider(names_from = cruise, values_from = wavelength) |> 
+  unnest(everything()) |> 
+  knitr::kable() |> 
   kableExtra::kable_styling()
 
-irradiance %>%
-  mutate(cruise = str_sub(station, 1, 2), .after = station) %>%
-  distinct(cruise, wavelength) %>%
-  group_nest(cruise) %>%
-  unnest_wider(data) %>%
-  pivot_wider(names_from = cruise, values_from = wavelength) %>%
-  unnest(everything()) %>%
-  rowwise() %>%
-  mutate(u = length(unique(c_across(everything())))) %>%
-  filter(u != 1) %>%
-  select(-u) %>%
-  knitr::kable() %>%
+irradiance |> 
+  mutate(cruise = str_sub(station, 1, 2), .after = station) |> 
+  distinct(cruise, wavelength) |> 
+  group_nest(cruise) |> 
+  unnest_wider(data) |> 
+  pivot_wider(names_from = cruise, values_from = wavelength) |> 
+  unnest(everything()) |> 
+  rowwise() |> 
+  mutate(u = length(unique(c_across(everything())))) |> 
+  filter(u != 1) |> 
+  select(-u) |> 
+  knitr::kable() |> 
   kableExtra::kable_styling()
 ```
 
@@ -165,11 +165,11 @@ source(here("R", "zzz.R"))
 
 df <- read_csv(here("data", "clean", "stations.csv"))
 
-df_viz <- df %>%
-  mutate(month = clock::date_group(date, "month")) %>%
+df_viz <- df |> 
+  mutate(month = clock::date_group(date, "month")) |> 
   count(area, month)
 
-df_viz %>%
+df_viz |> 
   ggplot(aes(x = n, y = factor(month), fill = area)) +
   geom_col() +
   scale_fill_manual(
@@ -203,14 +203,14 @@ We could also present the data in relation with its distance to the land to get 
 stations <- vroom::vroom(here("data", "clean", "stations.csv"))
 distances <- vroom::vroom(here("data", "clean", "distances_to_shore.csv"))
 
-df <- stations %>%
+df <- stations |> 
   inner_join(distances)
 
-df %>%
-  mutate(area = fct_reorder(area, distance_to_shore_m)) %>%
+df |> 
+  mutate(area = fct_reorder(area, distance_to_shore_m)) |> 
   ggplot(aes(x = area, y = distance_to_shore_m / 1000, fill = area)) +
   geom_boxplot(size = 0.1, outlier.size = 0.25) +
-  scale_y_continuous(labels = scales::label_number_si(accuracy = 0.01)) +
+  scale_y_continuous(labels = scales::label_number()) +
   scale_x_discrete(labels = function(x) str_wrap(x, 10)) +
   scale_fill_manual(
     breaks = area_breaks,
@@ -328,13 +328,13 @@ s_cdom <- read_csv(here("data", "clean", "s_cdom.csv"))
 s_nap <- read_csv(here("data", "clean", "s_nap.csv"))
 stations <- read_csv(here("data", "clean", "stations.csv"))
 
-df <- stations %>%
-  inner_join(s_cdom, by = "station") %>%
+df <- stations |> 
+  inner_join(s_cdom, by = "station") |> 
   inner_join(s_nap, by = "station")
 
-df %>%
-  select(station, area, s_cdom_nm1, s_nap_m_1) %>%
-  pivot_longer(starts_with("s_")) %>%
+df |> 
+  select(station, area, s_cdom_nm1, s_nap_m_1) |> 
+  pivot_longer(starts_with("s_")) |> 
   ggplot(aes(x = name, y = value, fill = area)) +
   geom_boxplot(size = 0.1, outlier.size = 0.25) +
   facet_wrap(~area) +
@@ -526,11 +526,11 @@ knitr::include_graphics(pdf2png(here("graphs", "fig07.pdf")))
 stations <- read_csv(here("data/clean/stations.csv"))
 ed <- read_csv(here("data/clean/irradiance_negative_values_removed.csv"))
 
-df <- ed %>%
-  inner_join(stations) %>%
+df <- ed |> 
+  inner_join(stations) |> 
   filter(str_detect(area, "Case"))
 
-df %>%
+df |> 
   ggplot(aes(x = wavelength, y = ed_w_m2_um, group = station)) +
   geom_line() +
   facet_wrap(~area)
@@ -539,20 +539,20 @@ df %>%
 These are the duplicated Ed stations.
 
 ```{r}
-df %>%
-  select(station, date, area, wavelength, ed_w_m2_um) %>%
-  pivot_wider(names_from = wavelength, values_from = ed_w_m2_um) %>%
-  janitor::get_dupes("411") %>%
+df |> 
+  select(station, date, area, wavelength, ed_w_m2_um) |> 
+  pivot_wider(names_from = wavelength, values_from = ed_w_m2_um) |> 
+  janitor::get_dupes("411") |> 
   rmarkdown::paged_table()
 ```
 
 This is the same for Eu.
 
 ```{r}
-df %>%
-  select(station, date, area, wavelength, eu_w_m2_um) %>%
-  pivot_wider(names_from = wavelength, values_from = eu_w_m2_um) %>%
-  janitor::get_dupes(matches("\\d{3}")) %>%
+df |> 
+  select(station, date, area, wavelength, eu_w_m2_um) |> 
+  pivot_wider(names_from = wavelength, values_from = eu_w_m2_um) |> 
+  janitor::get_dupes(matches("\\d{3}")) |> 
   rmarkdown::paged_table()
 ```
 

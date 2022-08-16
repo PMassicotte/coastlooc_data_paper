@@ -10,7 +10,7 @@
 #'
 #' @examples
 ggspectral <- function(df, variable, ylab) {
-  p <- df %>%
+  p <- df |>
     ggplot(aes(
       x = wavelength,
       y = {{ variable }},
