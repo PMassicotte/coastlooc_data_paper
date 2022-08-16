@@ -45,7 +45,7 @@
       "Package": "MBA",
       "Version": "0.0-9",
       "Source": "Repository",
-      "Repository": "CRAN",
+      "Repository": "RSPM",
       "Hash": "d04f461e5002616b82560aea581ad7ff",
       "Requirements": [
         "BH"
@@ -127,10 +127,10 @@
     },
     "arrow": {
       "Package": "arrow",
-      "Version": "8.0.0",
+      "Version": "9.0.0",
       "Source": "Repository",
       "Repository": "RSPM",
-      "Hash": "58b7ef7a5c997e324767b86ae0bb0896",
+      "Hash": "2c983e54b9911864bcd83de28a4c3acb",
       "Requirements": [
         "R6",
         "assertthat",
@@ -553,10 +553,10 @@
     },
     "evaluate": {
       "Package": "evaluate",
-      "Version": "0.15",
+      "Version": "0.16",
       "Source": "Repository",
       "Repository": "RSPM",
-      "Hash": "699a7a93d08c962d9f8950b2d7a227f1",
+      "Hash": "9a3d3c345f8a5648abe61608aaa29518",
       "Requirements": []
     },
     "extrafont": {
@@ -1057,7 +1057,7 @@
       "Package": "janitor",
       "Version": "2.1.0",
       "Source": "Repository",
-      "Repository": "CRAN",
+      "Repository": "RSPM",
       "Hash": "6de84a8c67fb247e721166049c84695f",
       "Requirements": [
         "dplyr",
@@ -1077,7 +1077,7 @@
       "Package": "jpeg",
       "Version": "0.1-9",
       "Source": "Repository",
-      "Repository": "CRAN",
+      "Repository": "RSPM",
       "Hash": "441ee36360a57b363f4fa3df0c364630",
       "Requirements": []
     },
@@ -1210,7 +1210,7 @@
       "Package": "lwgeom",
       "Version": "0.2-8",
       "Source": "Repository",
-      "Repository": "RSPM",
+      "Repository": "CRAN",
       "Hash": "68b7afe010f5ddc3d5a5c8113018bb39",
       "Requirements": [
         "Rcpp",
@@ -1230,7 +1230,7 @@
       "Package": "memoise",
       "Version": "2.0.1",
       "Source": "Repository",
-      "Repository": "CRAN",
+      "Repository": "RSPM",
       "Hash": "e2817ccf4a065c5d9d7f2cfbe7c1d78c",
       "Requirements": [
         "cachem",
@@ -1311,10 +1311,10 @@
     },
     "nlme": {
       "Package": "nlme",
-      "Version": "3.1-158",
+      "Version": "3.1-159",
       "Source": "Repository",
       "Repository": "RSPM",
-      "Hash": "9469aeaeddf4f48a7ac70877d0b7ba36",
+      "Hash": "4a0b3a68f846cb999ff0e8e519524fbb",
       "Requirements": [
         "lattice"
       ]
@@ -1699,7 +1699,7 @@
       "Package": "rgdal",
       "Version": "1.5-32",
       "Source": "Repository",
-      "Repository": "RSPM",
+      "Repository": "CRAN",
       "Hash": "7e8f18c3a55c90a44ea05e0620c05a7e",
       "Requirements": [
         "sp"
@@ -1709,7 +1709,7 @@
       "Package": "rjson",
       "Version": "0.2.21",
       "Source": "Repository",
-      "Repository": "CRAN",
+      "Repository": "RSPM",
       "Hash": "f9da75e6444e95a1baf8ca24909d63b9",
       "Requirements": []
     },
@@ -1896,7 +1896,7 @@
       "Package": "snakecase",
       "Version": "0.11.0",
       "Source": "Repository",
-      "Repository": "CRAN",
+      "Repository": "RSPM",
       "Hash": "4079070fc210c7901c0832a3aeab894f",
       "Requirements": [
         "stringi",
@@ -1964,10 +1964,10 @@
     },
     "survival": {
       "Package": "survival",
-      "Version": "3.3-1",
+      "Version": "3.4-0",
       "Source": "Repository",
-      "Repository": "CRAN",
-      "Hash": "f6189c70451d3d68e0d571235576e833",
+      "Repository": "RSPM",
+      "Hash": "04411ae66ab4659230c067c32966fc20",
       "Requirements": [
         "Matrix"
       ]
@@ -2042,10 +2042,10 @@
     },
     "terra": {
       "Package": "terra",
-      "Version": "1.6-3",
+      "Version": "1.6-7",
       "Source": "Repository",
       "Repository": "RSPM",
-      "Hash": "7a6e8023898e3549818e60fd9ec2eeb8",
+      "Hash": "5d0f75086235149ccfa42c3f3596a079",
       "Requirements": [
         "Rcpp"
       ]
@@ -2283,10 +2283,10 @@
     },
     "xfun": {
       "Package": "xfun",
-      "Version": "0.31",
+      "Version": "0.32",
       "Source": "Repository",
       "Repository": "RSPM",
-      "Hash": "a318c6f752b8dcfe9fb74d897418ab2b",
+      "Hash": "0498af3034691dde715dcd86198efe75",
       "Requirements": []
     },
     "xml2": {
