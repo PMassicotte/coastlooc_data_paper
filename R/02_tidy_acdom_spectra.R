@@ -37,6 +37,13 @@ df <- df |>
 
 df
 
+# Most CDOM spectra start at 350 nm, some at 300 nm.
+df |>
+  group_by(station) |>
+  filter(wavelength == min(wavelength)) |>
+  ggplot(aes(x = wavelength)) +
+  geom_histogram()
+
 # Attach metadata ---------------------------------------------------------
 
 stations <- read_csv(here("data", "clean", "stations.csv")) |>
@@ -89,9 +96,7 @@ p2 <- df |>
   facet_wrap(~cruise, scales = "free_y") +
   labs(
     x = "Wavelength (nm)",
-    y = quote(a[CDOM] ~ (m^{
-      -1
-    })),
+    y = quote(a[CDOM] ~ (m^{-1})),
     title = quote(bold(Baseline ~ corrected ~ a[CDOM] ~ spectra)),
     subtitle = "Average aCDOM value between 683-687 nm has been removed."
   )

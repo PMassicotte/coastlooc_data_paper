@@ -83,10 +83,10 @@ res <- df_filtered |>
   select(station, tidied) |>
   unnest(tidied) |>
   filter(term == "s") |>
-  select(station, s_nap_m_1 = estimate)
+  select(station, s_nap_m1 = estimate)
 
 res |>
-  ggplot(aes(x = s_nap_m_1)) +
+  ggplot(aes(x = s_nap_m1)) +
   geom_histogram()
 
 write_csv(res, here("data", "clean", "s_nap.csv"))

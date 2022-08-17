@@ -14,7 +14,7 @@ reflectance <- read_csv(here("data", "clean", "reflectance.csv"))
 # Histogram of raw reflectance --------------------------------------------
 
 p <- reflectance |>
-  ggplot(aes(x = measured_reflectance)) +
+  ggplot(aes(x = measured_reflectance_percent)) +
   geom_histogram() +
   facet_wrap(~ glue("{wavelength} nm"), scales = "free_x") +
   geom_vline(xintercept = 0, color = "red", lty = 2, size = 0.25) +
@@ -40,13 +40,13 @@ ggsave(
 reflectance
 
 reflectance_clean <- reflectance |>
-  mutate(measured_reflectance = case_when(
-    between(measured_reflectance, 0, 1) ~ measured_reflectance,
+  mutate(measured_reflectance_percent = case_when(
+    between(measured_reflectance_percent, 0, 1) ~ measured_reflectance_percent,
     TRUE ~ NA_real_
   ))
 
 p <- reflectance_clean |>
-  ggplot(aes(x = measured_reflectance)) +
+  ggplot(aes(x = measured_reflectance_percent)) +
   geom_histogram() +
   facet_wrap(~ glue("{wavelength} nm"), scales = "free_x") +
   scale_x_continuous(
@@ -80,6 +80,6 @@ stations <- read_csv(here("data", "clean", "stations.csv")) |>
 df_viz <- reflectance_clean |>
   inner_join(stations, by = "station")
 
-p_reflectance <- ggspectral(df_viz, measured_reflectance, "Reflectance")
+p_reflectance <- ggspectral(df_viz, measured_reflectance_percent, "Reflectance")
 
 save_fun(p_reflectance, here("graphs", "08_reflectance_profiles_by_area.pdf"))

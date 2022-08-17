@@ -245,6 +245,11 @@ stations <- stations |>
 
 names(stations)
 
+# Add unit to reflectance variable
+
+reflectance <- reflectance |>
+  rename(measured_reflectance_percent = measured_reflectance)
+
 # Irradiance --------------------------------------------------------------
 
 # TODO: Add units once Frank confirmed. Should be W/m2 µm or W/m2 nm and m_1 for
