@@ -12,9 +12,10 @@ source(here("R", "zzz.R"))
 stations <- read_csv(here("data", "clean", "stations.csv")) |>
   drop_na(longitude, latitude) |>
   select(station, longitude, latitude) |>
-  st_as_sf(coords = c("longitude", "latitude"), crs = 4326)
+  st_as_sf(coords = c("longitude", "latitude"), crs = 4326) |>
+  vect()
 
-bathy <- read_stars(
+r <- rast(
   here(
     "data",
     "raw",
@@ -24,22 +25,27 @@ bathy <- read_stars(
   )
 )
 
-bathy
-st_crs(bathy)
+bathy <- terra::extract(r, stations, xy = TRUE) |>
+  as_tibble() |>
+  select(
+    longitude = x,
+    latitude = y,
+    bathymetry_m = 2
+  )
 
-bathymetry <- stations |>
-  mutate(bathymetry_m = st_extract(bathy, at = .)[[1]])
+bathymetry <- bind_cols(as_tibble(stations), bathy)
 
 bathymetry
 
-# TODO: There are stations with positive bathymetry (i.e. on land).
 bathymetry |>
+  st_as_sf(coords = c("longitude", "latitude"), crs = 4326) |>
   ggplot() +
   geom_sf(aes(color = as.vector(bathymetry_m) >= 0))
 
+# Remove positive bathymetry values
+
 bathymetry <- bathymetry |>
-  as_tibble() |>
-  select(-geometry)
+  mutate(bathymetry_m = na_if(bathymetry_m, bathymetry_m > 0))
 
 write_csv(bathymetry, here("data", "clean", "bathymetry.csv"))
 
@@ -78,10 +84,10 @@ ggsave(
 )
 
 # Average depth across all the station
-mean(df_viz$bathymetry_m)
-range(df_viz$bathymetry_m[df_viz$bathymetry_m < 0])
+mean(df_viz$bathymetry_m, na.rm = TRUE)
+range(df_viz$bathymetry_m[df_viz$bathymetry_m < 0], na.rm = TRUE)
 
 df_viz |>
   group_by(area) |>
-  summarise(bathymetry = round(mean(bathymetry_m))) |>
+  summarise(bathymetry = round(mean(bathymetry_m, na.rm = TRUE))) |>
   arrange(bathymetry)
