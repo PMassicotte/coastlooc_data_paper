@@ -13,7 +13,7 @@ knitr::opts_chunk$set(
   message = FALSE,
   warning = FALSE,
   fig.pos = "center",
-  cache = TRUE
+  cache = FALSE
 )
 
 library(here)
@@ -102,7 +102,7 @@ read_csv("data/clean/irradiance.csv") |>
 
 -   `Ed` is in fact `Ed0-` calculated from `0.94 x ed0+`.
 
-- There are differences in wavelengths among cruises. I have not found any information in the report concerning channel change across the missions.
+-   There are differences in wavelengths among cruises. I have not found any information in the report concerning channel change across the missions.
 
 ```{r}
 irradiance <- read_csv("data/clean/irradiance_negative_values_removed.csv")
@@ -306,9 +306,9 @@ knitr::include_graphics(pdf2png(here(
 
 In this section I am using the same three stations as in @oubelkheir2007 to explore the additive contributions of each type of absorption.
 
-- For station `C6024000`, `a_p` is lower than `a_cdom` around 400 nm and 550 nm. Should we use this to filter out problematic spectra?
+-   For station `C6024000`, `a_p` is lower than `a_cdom` around 400 nm and 550 nm. Should we use this to filter out problematic spectra?
 
-- There are some obvious problems with `a_cdom` measurements. See `C6024000` where there is a bump in absorption around 550 nm.
+-   There are some obvious problems with `a_cdom` measurements. See `C6024000` where there is a bump in absorption around 550 nm.
 
 ```{r}
 knitr::include_graphics(pdf2png(
@@ -333,7 +333,7 @@ df <- stations |>
   inner_join(s_nap, by = "station")
 
 df |> 
-  select(station, area, s_cdom_nm1, s_nap_m_1) |> 
+  select(station, area, s_cdom_nm1, s_nap_m1) |> 
   pivot_longer(starts_with("s_")) |> 
   ggplot(aes(x = name, y = value, fill = area)) +
   geom_boxplot(size = 0.1, outlier.size = 0.25) +
@@ -414,7 +414,7 @@ knitr::include_graphics(pdf2png(here("graphs", "09_ac9_bp_spectral_profiles_by_a
 ## Orientation of the paper
 
 -   The data is a mix of temporal and spatial observations, so how should we present the data?
-    
+
     -   By `area`?
 
 ### Journal candidates
@@ -447,7 +447,7 @@ knitr::include_graphics(pdf2png(here("graphs", "fig02.pdf")))
 
 Figure 3: (**A**) Total chlorophyll-a and (**B**) particulate organic carbon across the sampled areas.
 
-- Is it normal there is no data for `Med. Sea (Case 1)`?
+-   Is it normal there is no data for `Med. Sea (Case 1)`?
 
 ```{r fig03}
 knitr::include_graphics(pdf2png(here("graphs", "fig03.pdf")))
@@ -457,7 +457,7 @@ knitr::include_graphics(pdf2png(here("graphs", "fig03.pdf")))
 
 Figure 4: (**A**) Average total particulate ($a_\text{p}$), (**B**) non-algal ($a_\text{NAP}$), (**C**) phytoplankton ($a_{\phi}$) and (**D**) chromophoric dissolved organic matter ($a_\text{CDOM}$) absorption spectra in each area. (**E**) $a_\text{CDOM}(350)$ along the westernmost transect in the North Sea (see Fig. 1B).
 
-- Is it normal there is no data for `Med. Sea (Case 1)`?
+-   Is it normal there is no data for `Med. Sea (Case 1)`?
 
 ```{r fig04}
 knitr::include_graphics(pdf2png(here("graphs", "fig04.pdf")))
@@ -475,7 +475,7 @@ knitr::include_graphics(pdf2png(here("graphs", "fig05.pdf")))
 
 Figure 6: Spectra of downward irradiance measured at the surface across the sampled areas. The tick lines represent the average spectra.
 
-- Dot not forget to find out why there are duplicated spectra in Med. Sea.
+-   Dot not forget to find out why there are duplicated spectra in Med. Sea.
 
 ```{r fig06}
 knitr::include_graphics(pdf2png(here("graphs", "fig06.pdf")))
@@ -502,11 +502,12 @@ knitr::include_graphics(pdf2png(here("graphs", "fig07.pdf")))
 -   [x] Wait for Frank to correct the bug with the mrg file where the data columns are not aligned correctly.
 
 -   [x] Recode Ed wavelengths from the SPMR *vertical* profiles as:
-    -   412 -> 411
-    -   510 -> 509
-    -   589 -> 590
-    -   666 -> 665
-    -   780 -> 779
+
+    -   412 -\> 411
+    -   510 -\> 509
+    -   589 -\> 590
+    -   666 -\> 665
+    -   780 -\> 779
 
 ## Todos
 
@@ -520,7 +521,7 @@ knitr::include_graphics(pdf2png(here("graphs", "fig07.pdf")))
 
 -   Some geographical positions are located on land (Adriatic Sea for example).
 
-- There are duplicated Ed spectra in the data.
+-   There are duplicated Ed spectra in the data.
 
 ```{r}
 stations <- read_csv(here("data/clean/stations.csv"))
@@ -556,8 +557,8 @@ df |>
   rmarkdown::paged_table()
 ```
 
-- There are only two AC9 measurements in the Adriadic Sea. Is it normal?
+-   There are only two AC9 measurements in the Adriadic Sea. Is it normal?
 
-- Add graphics for the section 4.1.3 Apparent optical properties (AOPs).
+-   Add graphics for the section 4.1.3 Apparent optical properties (AOPs).
 
 ## References
