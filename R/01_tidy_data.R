@@ -372,9 +372,20 @@ surface <- surface |>
 
 # Let's remove all CDOM data because Marcel provided me with the original acdom
 # files with a larger spectral range. I will use this data in the final data.
+# Also remove absorption background average calculated between 746 and 750.
+# These are not needed since I am computing them later when cleaning absorption
+# data.
+
+# I made a plot to compare s_nap from Marcel and the one I am calculating and
+# they are very close.
 
 surface <- surface |>
-  select(-contains("cdom"))
+  select(
+    -contains("cdom"),
+    -contains("background"),
+    -contains("a_nap"),
+    -contains("s_nap")
+  )
 
 surface <- surface |>
   relocate(contains("model"), .after = last_col()) |>
