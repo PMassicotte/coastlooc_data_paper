@@ -26,7 +26,7 @@ p1 <- ac9 |>
   filter(wavelength == 440) |>
   drop_na(bp_m1) |>
   mutate(area = fct_reorder(area, bp_m1)) |>
-  ggplot(aes(x = area, y = bp_m1, color = area)) +
+  ggplot(aes(x = area, y = bp_m1)) +
   geom_boxplot(size = 0.25, outlier.size = 0.5) +
   ggbeeswarm::geom_quasirandom(
     groupOnX = TRUE,
@@ -49,9 +49,7 @@ p1 <- ac9 |>
   ) +
   labs(
     x = NULL,
-    y = quote(italic(b)[p](440)(m^{
-      -1
-    }))
+    y = quote(italic(b)[p](440)(m^{-1}))
   ) +
   theme(
     legend.position = "none"
@@ -71,7 +69,7 @@ p2 <- irradiance |>
   filter(wavelength == 443) |>
   drop_na(kd_m1) |>
   mutate(area = fct_reorder(area, kd_m1)) |>
-  ggplot(aes(x = area, y = kd_m1, color = area)) +
+  ggplot(aes(x = area, y = kd_m1)) +
   geom_boxplot(size = 0.25, outlier.size = 0.5) +
   ggbeeswarm::geom_quasirandom(
     groupOnX = TRUE,
@@ -94,9 +92,7 @@ p2 <- irradiance |>
   ) +
   labs(
     x = NULL,
-    y = quote(italic(K)[d](443) ~ (m^{
-      -1
-    }))
+    y = quote(italic(K)[d](443) ~ (m^{-1}))
   ) +
   theme(
     legend.position = "none"
@@ -112,7 +108,7 @@ ggsave(
   here("graphs", "fig05.pdf"),
   device = cairo_pdf,
   width = 180,
-  height = 220,
+  height = 180,
   units = "mm"
 )
 

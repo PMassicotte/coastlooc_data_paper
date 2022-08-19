@@ -119,6 +119,7 @@ df_north_sea <- df |>
   filter(area == "North Sea") |>
   filter(str_starts(station, "C1"))
 
+# Visualize the C1 transect
 df_north_sea |>
   ggplot(aes(x = longitude, y = latitude, label = station)) +
   geom_point() +
@@ -126,7 +127,6 @@ df_north_sea |>
   coord_sf()
 
 # What is the distance between the two most distanced points?
-
 df_north_sea |>
   filter(station %in% c("C1001000", "C1008000")) |>
   st_as_sf(coords = c("longitude", "latitude"), crs = 4326) |>
@@ -172,9 +172,7 @@ p5 <- df_north_sea |>
   ) +
   labs(
     x = "Latitude",
-    y = quote(a[CDOM] ~ (350) ~ (m^{
-      -1
-    }))
+    y = quote(a[CDOM] ~ (350) ~ (m^{-1}))
   )
 
 # Combine plots -----------------------------------------------------------

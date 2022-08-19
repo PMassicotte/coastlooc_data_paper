@@ -29,7 +29,7 @@ surface |>
 p1 <- surface |>
   drop_na(total_chl_a) |>
   mutate(area = fct_reorder(area, total_chl_a)) |>
-  ggplot(aes(x = area, y = total_chl_a, color = area)) +
+  ggplot(aes(x = area, y = total_chl_a)) +
   geom_boxplot(size = 0.25, outlier.size = 0.5) +
   ggbeeswarm::geom_quasirandom(
     groupOnX = TRUE,
@@ -70,7 +70,7 @@ p2 <- surface |>
   drop_na(poc_g_m3) |>
   filter(poc_g_m3 >= 0.01) |>
   mutate(area = fct_reorder(area, poc_g_m3)) |>
-  ggplot(aes(x = area, y = poc_g_m3, color = area)) +
+  ggplot(aes(x = area, y = poc_g_m3)) +
   geom_boxplot(size = 0.25, outlier.size = 0.5) +
   ggbeeswarm::geom_quasirandom(
     groupOnX = TRUE,

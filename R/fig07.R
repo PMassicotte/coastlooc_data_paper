@@ -44,12 +44,8 @@ p1 <- df |>
   annotation_logticks(sides = "bl", size = 0.1) +
   geom_smooth(method = "lm", color = "#3c3c3c") +
   labs(
-    x = quote("Total chlorophyll-a" ~ (mg ~ m^{
-      -3
-    })),
-    y = quote("Particulate organic carbon" ~ (g ~ m^{
-      -3
-    }))
+    x = quote("Total chlorophyll-a" ~ (mg ~ m^{-3})),
+    y = quote("Particulate organic carbon" ~ (g ~ m^{-3}))
   ) +
   ggpmisc::stat_correlation(
     label.y = 0.12,
@@ -111,12 +107,8 @@ p2 <- df |>
     values = area_colors
   ) +
   labs(
-    x = quote("Total chlorophyll-a" ~ (mg ~ m^{
-      -3
-    })),
-    y = quote(a[phi](443) ~ (m^{
-      -1
-    }))
+    x = quote("Total chlorophyll-a" ~ (mg ~ m^{-3})),
+    y = quote(a[phi](443) ~ (m^{-1}))
   ) +
   ggpmisc::stat_correlation(
     label.y = 0.12,
@@ -171,9 +163,7 @@ p3 <- df |>
     x = quote("Particulate organic carbon" ~ (g ~ m^{
       -3
     })),
-    y = quote(K[d](443) ~ (m^{
-      -1
-    }))
+    y = quote(K[d](443) ~ (m^{-1}))
   ) +
   ggpmisc::stat_correlation(
     label.y = 0.12,
@@ -227,12 +217,8 @@ p4 <- df |>
     )
   ) +
   labs(
-    x = quote("Particulate organic carbon" ~ (g ~ m^{
-      -3
-    })),
-    y = quote(italic(b)[p](440) ~ (m^{
-      -1
-    }))
+    x = quote("Particulate organic carbon" ~ (g ~ m^{-3})),
+    y = quote(italic(b)[p](440) ~ (m^{-1}))
   ) +
   ggpmisc::stat_correlation(
     label.y = 0.12,
@@ -262,6 +248,6 @@ ggsave(
   here("graphs", "fig07.pdf"),
   device = cairo_pdf,
   width = 180,
-  height = 160,
+  height = 180,
   units = "mm"
 )
