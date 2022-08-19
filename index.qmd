@@ -4,7 +4,8 @@ format:
   html:
     toc: true
     self-contained: true
-editor: visual
+editor_options: 
+  chunk_output_type: console
 ---
 
 ```{r setup, include=FALSE}

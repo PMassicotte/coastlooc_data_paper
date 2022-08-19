@@ -26,8 +26,8 @@ nutrient <- nutrient |>
   inner_join(station, by = "station") |>
   relocate(area, .after = station)
 
-# There are a lot of nutrient parameters that have values of zero. Are they true
-# zero or indicate missing values?
+# TODO: There are a lot of nutrient parameters that have values of zero. Are
+# they true zero or indicate missing values?
 
 nutrient |>
   pivot_longer(-c(station, area)) |>

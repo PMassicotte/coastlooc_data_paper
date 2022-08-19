@@ -16,6 +16,8 @@
 # renv::install(c("ropensci/tabulizerjars", "ropensci/tabulizer"), INSTALL_opts = "--no-multiarch")
 # renv::install("Enchufa2/rspm")
 
+# renv::repair()
+
 library(tidyverse)
 library(stars)
 library(sf)
@@ -28,6 +30,8 @@ library(patchwork)
 library(ggpmthemes)
 library(terra)
 library(arrow)
+library(googlesheets4)
+library(gt)
 
 # Set default ggplot2 font size and font family
 theme_set(theme_light_modified(base_family = "Montserrat", base_size = 10))
