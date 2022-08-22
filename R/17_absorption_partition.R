@@ -10,7 +10,7 @@
 rm(list = ls())
 
 absorption <- read_csv(here("data", "clean", "absorption.csv")) |>
-  select(-a_phy_specific_m1)
+  select(-a_phy_specific_m2_mg_chla_m1)
 
 # Select the same three stations as in Oubelkheir 2007.
 df <- absorption |>
