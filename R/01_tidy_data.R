@@ -42,7 +42,7 @@ absorption
 absorption <- absorption |>
   rename(
     a_phy_m1 = pga,
-    a_phy_specific_m1 = aph_spe,
+    a_phy_specific_m2_mg_chla_m1 = aph_spe,
     a_nap_m1 = dta,
     a_p_m1 = toa
   ) |>
