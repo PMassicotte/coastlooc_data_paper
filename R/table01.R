@@ -22,16 +22,21 @@ df
 
 # Create a latex table for the paper --------------------------------------
 
+## ├ Download the data from Google sheet ----
+
 df <- read_sheet("https://docs.google.com/spreadsheets/d/1zxyXOQypL-lr68DxmS8DIBQbzxSmFJKcOtZUq4dFcV0/edit#gid=0") |>
   janitor::clean_names() |>
   janitor::remove_empty(which = c("rows", "cols"))
 
 df
 
+## ├ Create the table ----
+
 df |>
   mutate(source_file = str_remove(source_file, ".csv")) |>
   # Not sure if I should group by category
-  group_by(source_file) |>
+  # group_by(source_file, pi) |>
+  group_by(category = paste0(source_file, " (", pi, ")")) |>
   gt(rowname_col = "df") |>
   tab_header(md("**List of variables**")) |>
   cols_label(
@@ -51,10 +56,10 @@ df |>
   text_transform(
     locations = cells_body(columns = units),
     fn = function(x) {
-      # Write latex here for the PDF
+      # Write units in latex here for the PDF
       case_when(
         x == "m-1" ~ "m\\textsuperscript{-1}",
-        x == "m2 mg-1" ~ "m\\textsuperscript{2}~mg\\textsuperscript{-1}",
+        x == "m-2 mg chla -1" ~ "m\\textsuperscript{2}~mg~chla~\\textsuperscript{-1}",
         x == "wm-2" ~ "wm\\textsuperscript{-2}",
         x == "nm-1" ~ "nm\\textsuperscript{-1}",
         x == "gm-3" ~ "gm\\textsuperscript{-3}",
@@ -63,7 +68,6 @@ df |>
       )
     }
   ) |>
-  # cols_width(
-  #   description ~ px(150)
-  # ) |>
-  gtsave("~/Desktop/gt.tex")
+  cols_width(
+    description ~ pct(30)
+  )
