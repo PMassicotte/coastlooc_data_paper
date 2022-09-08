@@ -18,6 +18,7 @@
 
 # renv::repair()
 
+# %% ---- setup
 library(tidyverse)
 library(stars)
 library(sf)
@@ -42,6 +43,7 @@ theme_update(
   strip.background = element_blank(),
   strip.text = element_text(face = "bold", size = 10, color = "#4c4a4a")
 )
+# %%
 
 # Scripts -----------------------------------------------------------------
 

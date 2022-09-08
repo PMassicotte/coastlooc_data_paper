@@ -1,5 +1,3 @@
-source("renv/activate.R")
-
 if (interactive() && Sys.getenv("RSTUDIO") == "") {
   Sys.setenv(TERM_PROGRAM = "vscode")
   if ("httpgd" %in% .packages(all.available = TRUE)) {

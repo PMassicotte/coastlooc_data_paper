@@ -81,7 +81,9 @@ p1 <- df |>
 
 df <- df |>
   group_by(station) |>
-  mutate(background_a_cdom_average_683_687_m1 = mean(absorption_m1[between(wavelength, 683, 687)])) |>
+  mutate(
+    background_a_cdom_average_683_687_m1 = mean(absorption_m1[between(wavelength, 683, 687)])
+  ) |>
   mutate(
     absorption_background_corrected_m1 = absorption_m1 - background_a_cdom_average_683_687_m1,
     .after = absorption_m1
@@ -90,13 +92,21 @@ df <- df |>
 
 p2 <- df |>
   filter(wavelength <= 750) |>
-  ggplot(aes(x = wavelength, y = absorption_background_corrected_m1, group = station)) +
+  ggplot(
+    aes(
+      x = wavelength,
+      y = absorption_background_corrected_m1,
+      group = station
+    )
+  ) +
   geom_line(size = 0.1) +
   geom_hline(yintercept = 0, lty = 2, size = 0.25, color = "blue") +
   facet_wrap(~cruise, scales = "free_y") +
   labs(
     x = "Wavelength (nm)",
-    y = quote(a[CDOM] ~ (m^{-1})),
+    y = quote(a[CDOM] ~ (m^{
+      -1
+    })),
     title = quote(bold(Baseline ~ corrected ~ a[CDOM] ~ spectra)),
     subtitle = "Average aCDOM value between 683-687 nm has been removed."
   )

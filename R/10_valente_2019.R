@@ -78,7 +78,7 @@ p <- df_sf |>
   ) +
   facet_wrap(~ lubridate::year(time)) +
   labs(
-    title = "Map with Valente et al. data",
+    title = "Map with Valente et al. (2019)",
     subtitle = "There are no overlaps with the COASTLOOC data (in red)."
   )
 

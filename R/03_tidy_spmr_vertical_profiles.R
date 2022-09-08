@@ -23,7 +23,6 @@ export_parquet <- function(file) {
 
 walk(files, export_parquet)
 
-
 open_dataset(here("data", "clean", "spmr")) |>
   head(1) |>
   collect()

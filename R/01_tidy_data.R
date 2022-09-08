@@ -28,6 +28,7 @@ absorption |>
   count(station) |>
   verify(n == 371)
 
+# How many station do we have?
 absorption |>
   distinct(station)
 
@@ -405,6 +406,7 @@ surface <- surface |>
 surface <- surface |>
   rename_with(~ str_replace(., "m_3$", "m3"), ends_with("m_3"))
 
+# TODO: add units to each parameter
 surface |>
   rename(spm_g_m3 = spm) |>
   rename_with(~ paste0(., "_mg_m3"), matches("chl_[abc]")) |>
