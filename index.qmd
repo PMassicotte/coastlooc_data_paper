@@ -193,7 +193,7 @@ df_viz |>
 I have extracted the bathymetry at each sampling locations. This boxplot provide a general picture of the bathymetry per area. Data from https://download.gebco.net/.
 
 ```{r}
-knitr::include_graphics(pdf2png(here("graphs", "20_boxplot_bathymetry_by_area.pdf")))
+knitr::include_graphics(pdf2png(here("graphs", "18_boxplot_bathymetry_by_area.pdf")))
 ```
 
 ### Land-to-sea gradient
@@ -276,7 +276,7 @@ knitr::include_graphics(pdf2png(here("graphs", "04_aphy_spectral_profiles_by_are
 We could also assess the goodness of the relationships between total chlorophyll-a and phytoplankton absorption for each region.
 
 ```{r}
-knitr::include_graphics(pdf2png(here("graphs", "15_total_chla_vs_aphy443.pdf")))
+knitr::include_graphics(pdf2png(here("graphs", "14_total_chla_vs_aphy443.pdf")))
 ```
 
 ### anap
@@ -315,7 +315,7 @@ In this section I am using the same three stations as in @oubelkheir2007 to expl
 knitr::include_graphics(pdf2png(
   here(
     "graphs",
-    "17_absorption_partition_for_three_stations.pdf"
+    "16_absorption_partition_for_three_stations.pdf"
   )
 ))
 ```
