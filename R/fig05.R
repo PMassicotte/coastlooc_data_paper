@@ -27,7 +27,7 @@ p1 <- ac9 |>
   drop_na(bp_m1) |>
   mutate(area = fct_reorder(area, bp_m1)) |>
   ggplot(aes(x = area, y = bp_m1)) +
-  geom_boxplot(size = 0.25, outlier.size = 0.5) +
+  geom_boxplot(aes(color = area), size = 0.25, outlier.size = 0.5) +
   ggbeeswarm::geom_quasirandom(
     groupOnX = TRUE,
     aes(fill = area),
@@ -49,7 +49,9 @@ p1 <- ac9 |>
   ) +
   labs(
     x = NULL,
-    y = quote(italic(b)[p](440)(m^{-1}))
+    y = quote(italic(b)[p](440)(m^{
+      -1
+    }))
   ) +
   theme(
     legend.position = "none"
@@ -70,7 +72,7 @@ p2 <- irradiance |>
   drop_na(kd_m1) |>
   mutate(area = fct_reorder(area, kd_m1)) |>
   ggplot(aes(x = area, y = kd_m1)) +
-  geom_boxplot(size = 0.25, outlier.size = 0.5) +
+  geom_boxplot(aes(color = area), size = 0.25, outlier.size = 0.5) +
   ggbeeswarm::geom_quasirandom(
     groupOnX = TRUE,
     aes(fill = area),
@@ -92,7 +94,9 @@ p2 <- irradiance |>
   ) +
   labs(
     x = NULL,
-    y = quote(italic(K)[d](443) ~ (m^{-1}))
+    y = quote(italic(K)[d](443) ~ (m^{
+      -1
+    }))
   ) +
   theme(
     legend.position = "none"
