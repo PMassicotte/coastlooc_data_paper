@@ -77,7 +77,7 @@ p <- df_viz |>
   theme(legend.position = "none")
 
 ggsave(
-  here("graphs", "20_boxplot_bathymetry_by_area.pdf"),
+  here("graphs", "18_boxplot_bathymetry_by_area.pdf"),
   device = cairo_pdf,
   width = 6.91,
   height = 5.2

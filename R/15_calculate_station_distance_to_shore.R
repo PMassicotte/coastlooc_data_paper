@@ -54,7 +54,7 @@ p <- ggplot() +
     plot.title.position = "plot"
   )
 
-outfile <- here("graphs", "16_geographical_map_stations_shortest_distances.pdf")
+outfile <- here("graphs", "15_geographical_map_stations_shortest_distances.pdf")
 
 ggsave(
   outfile,

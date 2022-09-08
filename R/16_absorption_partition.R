@@ -45,7 +45,7 @@ p <- df_viz |>
   )
 
 ggsave(
-  here("graphs", "17_absorption_partition_for_three_stations.pdf"),
+  here("graphs", "16_absorption_partition_for_three_stations.pdf"),
   device = cairo_pdf,
   width = 7,
   height = 10
