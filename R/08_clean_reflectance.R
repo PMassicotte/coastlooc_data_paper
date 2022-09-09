@@ -9,7 +9,7 @@ rm(list = ls())
 source(here("R", "zzz.R"))
 source(here("R", "ggspectral.R"))
 
-reflectance <- read_csv(here("data", "clean", "reflectance.csv"))
+reflectance <- read_csv(here("data", "raw", "tidied", "reflectance.csv"))
 
 # Histogram of raw reflectance --------------------------------------------
 
@@ -70,7 +70,7 @@ ggsave(
 # Export clean data -------------------------------------------------------
 
 reflectance_clean |>
-  write_csv(here("data", "clean", "reflectance_negative_values_removed.csv"))
+  write_csv(here("data", "clean", "reflectance.csv"))
 
 # Visualize the data ------------------------------------------------------
 

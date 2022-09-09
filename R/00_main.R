@@ -33,6 +33,7 @@ library(terra)
 library(arrow)
 library(googlesheets4)
 library(gt)
+library(ggbeeswarm)
 
 # Set default ggplot2 font size and font family
 theme_set(theme_light_modified(base_family = "Montserrat", base_size = 10))
@@ -65,6 +66,10 @@ source(here("R", "14_pigments_vs_absorption.R"))
 source(here("R", "15_absorption_partition.R"))
 source(here("R", "16_calculate_snap.R"))
 source(here("R", "17_extract_bathymetry.R"))
+# %%
+
+# %% ---- Basic tests to validate the data
+source(here("R", "999_assert.R"))
 # %%
 
 # Figures for the manuscript ----------------------------------------------

@@ -44,8 +44,12 @@ p1 <- df |>
   annotation_logticks(sides = "bl", size = 0.1) +
   geom_smooth(method = "lm", color = "#3c3c3c") +
   labs(
-    x = quote("Total chlorophyll-a" ~ (mg ~ m^{-3})),
-    y = quote("Particulate organic carbon" ~ (g ~ m^{-3}))
+    x = quote("Total chlorophyll-a" ~ (mg ~ m^{
+      -3
+    })),
+    y = quote("Particulate organic carbon" ~ (g ~ m^{
+      -3
+    }))
   ) +
   ggpmisc::stat_correlation(
     label.y = 0.12,
@@ -107,8 +111,12 @@ p2 <- df |>
     values = area_colors
   ) +
   labs(
-    x = quote("Total chlorophyll-a" ~ (mg ~ m^{-3})),
-    y = quote(a[phi](443) ~ (m^{-1}))
+    x = quote("Total chlorophyll-a" ~ (mg ~ m^{
+      -3
+    })),
+    y = quote(a[phi](443) ~ (m^{
+      -1
+    }))
   ) +
   ggpmisc::stat_correlation(
     label.y = 0.12,
@@ -135,7 +143,7 @@ stations <- read_csv(here("data", "clean", "stations.csv")) |>
 poc <- read_csv(here("data", "clean", "surface.csv")) |>
   select(station, total_chl_a, poc_g_m3)
 
-irradiance <- read_csv(here("data", "clean", "irradiance_negative_values_removed.csv"))
+irradiance <- read_csv(here("data", "clean", "irradiance.csv"))
 
 df <- stations |>
   inner_join(poc, by = "station") |>
@@ -163,7 +171,9 @@ p3 <- df |>
     x = quote("Particulate organic carbon" ~ (g ~ m^{
       -3
     })),
-    y = quote(K[d](443) ~ (m^{-1}))
+    y = quote(K[d](443) ~ (m^{
+      -1
+    }))
   ) +
   ggpmisc::stat_correlation(
     label.y = 0.12,
@@ -185,7 +195,7 @@ p3 <- df |>
 # POC vs bp ---------------------------------------------------------------
 
 stations <- read_csv(here("data", "clean", "stations.csv"))
-ac9 <- read_csv(here("data", "clean", "ac9_negative_values_removed.csv")) |>
+ac9 <- read_csv(here("data", "clean", "ac9.csv")) |>
   filter(wavelength == 440)
 
 surface <- read_csv(here("data", "clean", "surface.csv"))
@@ -217,8 +227,12 @@ p4 <- df |>
     )
   ) +
   labs(
-    x = quote("Particulate organic carbon" ~ (g ~ m^{-3})),
-    y = quote(italic(b)[p](440) ~ (m^{-1}))
+    x = quote("Particulate organic carbon" ~ (g ~ m^{
+      -3
+    })),
+    y = quote(italic(b)[p](440) ~ (m^{
+      -1
+    }))
   ) +
   ggpmisc::stat_correlation(
     label.y = 0.12,

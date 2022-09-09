@@ -9,7 +9,7 @@ rm(list = ls())
 source(here("R", "zzz.R"))
 source(here("R", "ggspectral.R"))
 
-irradiance <- read_csv(here("data", "clean", "irradiance.csv"))
+irradiance <- read_csv(here("data", "raw", "tidied", "irradiance.csv"))
 
 irradiance
 
@@ -45,7 +45,7 @@ irradiance_clean <- irradiance |>
   mutate(across(
     eu_w_m2_um:kd_m1,
     ~ case_when(
-      . >= 0 ~ .,
+      . > 0 ~ .,
       TRUE ~ NA_real_
     )
   ))
@@ -70,7 +70,7 @@ ggsave(
 # Export clean data -------------------------------------------------------
 
 irradiance_clean |>
-  write_csv(here("data", "clean", "irradiance_negative_values_removed.csv"))
+  write_csv(here("data", "clean", "irradiance.csv"))
 
 # Visualize the data ------------------------------------------------------
 

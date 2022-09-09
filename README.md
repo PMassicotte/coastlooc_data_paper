@@ -36,7 +36,7 @@ renv::restore()
 
   - SPM: g m-3
 
-  - Difference between total_chl_a and chl_a.
+  - What is the difference between total_chl_a and chl_a.
 
   - chla: mg m-3
 

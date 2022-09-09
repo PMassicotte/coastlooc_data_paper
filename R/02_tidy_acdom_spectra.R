@@ -79,13 +79,16 @@ p1 <- df |>
 
 # Baseline correction -----------------------------------------------------
 
+# Calculate the average between 683 and 687 nm and subtract it from the spectra.
 df <- df |>
   group_by(station) |>
   mutate(
-    background_a_cdom_average_683_687_m1 = mean(absorption_m1[between(wavelength, 683, 687)])
+    background_a_cdom_average_683_687_m1 =
+      mean(absorption_m1[between(wavelength, 683, 687)])
   ) |>
   mutate(
-    absorption_background_corrected_m1 = absorption_m1 - background_a_cdom_average_683_687_m1,
+    absorption_background_corrected_m1 =
+      absorption_m1 - background_a_cdom_average_683_687_m1,
     .after = absorption_m1
   ) |>
   ungroup()
@@ -248,7 +251,7 @@ df_filtered <- df_filtered |>
   select(-area, -r2)
 
 # This file contains aphy, anap and ap, so let's add acdom to it.
-absorption <- read_csv(here("data", "clean", "absorption_without_acdom.csv"))
+absorption <- read_csv(here("data", "raw", "tidied", "absorption.csv"))
 
 absorption_merged <- absorption |>
   full_join(df_filtered, by = c("station", "wavelength")) |>

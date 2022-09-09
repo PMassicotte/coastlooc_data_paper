@@ -11,7 +11,7 @@ source(here("R", "zzz.R"))
 stations <- read_csv(here("data", "clean", "stations.csv")) |>
   select(station, area)
 
-irradiance <- read_csv(here("data", "clean", "irradiance_negative_values_removed.csv"))
+irradiance <- read_csv(here("data", "clean", "irradiance.csv"))
 
 irradiance
 

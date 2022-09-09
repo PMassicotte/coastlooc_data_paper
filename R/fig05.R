@@ -11,7 +11,7 @@ source(here("R", "zzz.R"))
 # Particulate scattering --------------------------------------------------
 
 stations <- read_csv(here("data", "clean", "stations.csv"))
-ac9 <- read_csv(here("data", "clean", "ac9_negative_values_removed.csv"))
+ac9 <- read_csv(here("data", "clean", "ac9.csv"))
 ac9 <- inner_join(stations, ac9, by = "station")
 
 ac9
@@ -59,7 +59,7 @@ p1 <- ac9 |>
 
 # Downward attenuation coefficient ----------------------------------------
 
-irradiance <- read_csv(here("data", "clean", "irradiance_negative_values_removed.csv"))
+irradiance <- read_csv(here("data", "clean", "irradiance.csv"))
 stations <- read_csv(here("data", "clean", "stations.csv"))
 surface <- read_csv(here("data", "clean", "surface.csv"))
 

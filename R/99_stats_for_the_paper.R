@@ -45,7 +45,7 @@ df |>
 
 # AC9 normalized spectra? -------------------------------------------------
 
-ac9 <- read_csv(here("data", "clean", "ac9_negative_values_removed.csv"))
+ac9 <- read_csv(here("data", "clean", "ac9.csv"))
 
 ac9 |>
   filter(str_starts(station, "C1")) |>

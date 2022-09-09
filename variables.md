@@ -4,11 +4,11 @@ List of variables that will be included in the published data archive.
 
 - Absorption: `absorption.csv`
 
-- AC9: `ac9_negative_values_removed.csv`
+- AC9: `ac9.csv`
 
-- Irradiance: `irradiance_negative_values_removed.csv`
+- Irradiance: `irradiance.csv`
 
-- Reflectance: `reflectance_negative_values_removed.csv`
+- Reflectance: `reflectance.csv`
 
 - Slope of CDOM absorption: `s_cdom.csv`
 

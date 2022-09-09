@@ -301,10 +301,14 @@ irradiance <- irradiance |>
 reflectance <- reflectance |>
   filter(!if_all(-c(station, wavelength), ~ is.na(.)))
 
-write_csv(absorption, here("data", "clean", "absorption_without_acdom.csv"))
-write_csv(ac9, here("data", "clean", "ac9.csv"))
-write_csv(irradiance, here("data", "clean", "irradiance.csv"))
-write_csv(reflectance, here("data", "clean", "reflectance.csv"))
+# Write these file for now. I will come back later for quality controle (ex.:
+# removing/flagin negative values). At the moment, I just want to split the data
+# in their own file.
+
+write_csv(absorption, here("data", "raw", "tidied", "absorption.csv"))
+write_csv(ac9, here("data", "raw", "tidied", "ac9.csv"))
+write_csv(irradiance, here("data", "raw", "tidied", "irradiance.csv"))
+write_csv(reflectance, here("data", "raw", "tidied", "reflectance.csv"))
 
 absorption
 ac9

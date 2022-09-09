@@ -9,7 +9,7 @@ rm(list = ls())
 source(here("R", "zzz.R"))
 source(here("R", "ggspectral.R"))
 
-ac9 <- read_csv(here("data", "clean", "ac9.csv"))
+ac9 <- read_csv(here("data", "raw", "tidied", "ac9.csv"))
 
 # Histogram of raw data ---------------------------------------------------
 
@@ -41,9 +41,9 @@ ggsave(
 
 ac9_clean <- ac9 |>
   mutate(across(
-    c(a_m1, c_m1, bp_m1),
+    c(a_m1:remote_sensed_vertical_layer_m),
     ~ case_when(
-      . >= 0 ~ .,
+      . > 0 ~ .,
       TRUE ~ NA_real_
     )
   ))
@@ -68,7 +68,7 @@ ggsave(
 # Export clean data -------------------------------------------------------
 
 ac9_clean |>
-  write_csv(here("data", "clean", "ac9_negative_values_removed.csv"))
+  write_csv(here("data", "clean", "ac9.csv"))
 
 # Visualize AC9 spectral profiles -----------------------------------------
 
