@@ -30,8 +30,6 @@ renv::restore()
 
 - Make sure that all variables (columns) in the CSV files have units specified in their names (ex.: `depth_m`, `a_cdom_1_m`, ...).
 
-- Remove unneeded scripts. For example, 20 and 22.
-
 - Make sure that SPMR units are OK. um vs nm. Change accordingly in the SPMR code file (`zzz_radiometer.R`).
 
 - Units (guessed from he final report)
