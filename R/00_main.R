@@ -62,10 +62,9 @@ source(here("R", "11_average_absorption_spectra_by_area.R"))
 source(here("R", "12_boxplot_doc_by_area.R"))
 source(here("R", "13_boxplot_acdom_by_area.R"))
 source(here("R", "14_pigments_vs_absorption.R"))
-source(here("R", "15_calculate_station_distance_to_shore.R"))
-source(here("R", "16_absorption_partition.R"))
-source(here("R", "17_calculate_snap.R"))
-source(here("R", "18_extract_bathymetry.R"))
+source(here("R", "15_absorption_partition.R"))
+source(here("R", "16_calculate_snap.R"))
+source(here("R", "17_extract_bathymetry.R"))
 # %%
 
 # Figures for the manuscript ----------------------------------------------

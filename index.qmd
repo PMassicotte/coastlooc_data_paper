@@ -315,7 +315,7 @@ In this section I am using the same three stations as in @oubelkheir2007 to expl
 knitr::include_graphics(pdf2png(
   here(
     "graphs",
-    "16_absorption_partition_for_three_stations.pdf"
+    "15_absorption_partition_for_three_stations.pdf"
   )
 ))
 ```

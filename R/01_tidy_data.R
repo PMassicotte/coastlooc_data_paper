@@ -253,9 +253,6 @@ reflectance <- reflectance |>
 
 # Irradiance --------------------------------------------------------------
 
-# TODO: Add units once Frank confirmed. Should be W/m2 µm or W/m2 nm and m_1 for
-# Kd and Ku.
-
 irradiance <- stations |>
   select(
     station,
@@ -273,8 +270,7 @@ irradiance <- stations |>
 
 irradiance
 
-## ├ Rename units ----
-
+# Add units
 irradiance <- irradiance |>
   rename_with(~ paste0(., "_w_m2_um"), c(ed, eu)) |>
   rename_with(~ paste0(., "_m1"), c(kd, ku))
