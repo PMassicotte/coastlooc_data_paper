@@ -22,8 +22,6 @@ renv::restore()
 
 ## TODO
 
-- Only use 1 "clean file". For example, replace `reflectance_negative_values_removed.csv` with `reflectance.csv`.
-
 - Use `piggyback` <https://docs.ropensci.org/piggyback/>
 
 - Release the final report PDF with a DOI and cite it in the main text.
