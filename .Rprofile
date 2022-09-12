@@ -9,4 +9,4 @@ if (interactive() && Sys.getenv("RSTUDIO") == "") {
   }
 }
 
-rspm::enable()
+bspm::enable()
