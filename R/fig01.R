@@ -13,6 +13,9 @@ stations <- read_csv(here("data", "clean", "stations.csv"))
 
 stations
 
+stations |>
+  count(area)
+
 map_crs <- 3035
 
 stations_sf <- stations |>
@@ -192,14 +195,18 @@ p1 <- ggplot() +
     plot.margin = margin(b = 0)
   )
 
-# Plot per area -----------------------------------------------------------
-
+# %% ---- Plot per area
 df_viz <- stations_sf |>
   filter(area != "Atlantic Ocean") |>
   group_by(area) |>
   summarise(geometry = st_union(geometry)) |>
   group_nest(area, keep = TRUE) |>
   mutate(p = map(data, function(df, land = ne_land, river = ne_river) {
+
+    # Number of stations in this area
+    n <- st_coordinates(df) |>
+      nrow()
+
     bbox <- st_bbox(st_buffer(df, 50000))
     land <- st_crop(land, bbox)
     river <- st_crop(river, bbox)
@@ -212,6 +219,15 @@ df_viz <- stations_sf |>
         size = 0.5,
         key_glyph = "rect",
         aes(color = area)
+      ) +
+      annotate(
+        "text",
+        -Inf,
+        Inf,
+        label = glue("n = {n}"),
+        vjust = 1.5,
+        hjust = -0.2,
+        size = 3
       ) +
       scale_color_manual(
         breaks = area_breaks,
@@ -226,11 +242,16 @@ df_viz <- stations_sf |>
         panel.grid = element_blank(),
         plot.title = element_text(size = 6, hjust = 0.5),
         axis.text = element_text(size = 4),
+        axis.title = element_blank(),
         panel.border = element_rect(size = 0.25, fill = NA)
       )
   }))
 
 p2 <- wrap_plots(df_viz$p, ncol = 3)
+
+p2
+# %%
+
 
 # p2 <- {p2[[1]] +  p2[[2]] + p2[[3]] + p2[[4]] + p2[[5]] + p2[[6]]} +
 #   plot_layout(nrow = 2)
