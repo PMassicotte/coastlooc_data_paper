@@ -4,8 +4,11 @@ format:
   html:
     toc: true
     self-contained: true
+    fig-format: png
+    fig-dpi: 300
 editor_options: 
   chunk_output_type: console
+bibliography: /home/filoche/Documents/library.bib
 ---
 
 ```{r setup, include=FALSE}
@@ -19,6 +22,7 @@ knitr::opts_chunk$set(
 
 library(here)
 library(tidyverse)
+library(sf)
 library(kableExtra)
 
 library(ggpmthemes)
@@ -26,7 +30,7 @@ extrafont::loadfonts()
 # Set default ggplot2 font size and font family
 # devtools::install_github("PMassicotte/ggpmthemes")
 theme_set(theme_light_modified(
-  base_family = "Montserrat Alternates",
+  base_family = "Poppins",
   base_size = 10
 ))
 
@@ -46,36 +50,36 @@ This section shows the main steps that have been applied to pre-process the raw 
 
 ### aCDOM spectra
 
--   The CDOM spectra were modelled according to the information in @Babin2003.
+- The CDOM spectra were modelled according to the information in @.
 
-    -   `acdom` spectra were re-fitted using the complete data (i.e. between 350-500 nm) because the data in `all_abs_transpose.txt` started at 380 nm.
+    - `acdom` spectra were re-fitted using the complete data (i.e. between 350-500 nm) because the data in `all_abs_transpose.txt` started at 380 nm.
 
--   Average background values calculated between 683-687 nm and subtracted from each spectrum.
+- Average background values calculated between 683-687 nm and subtracted from each spectrum.
 
--   Some files were in binary format, so I could not open them (ex.: `C2001000.YSA`).
+- Some files were in binary format, so I could not open them (ex.: `C2001000.YSA`).
 
--   Some spectra start at 300 nm while others at 350 nm.
+- Some spectra start at 300 nm while others at 350 nm.
 
--   Calculated the correlation between the measured and the fitted values.
+- Calculated the correlation between the measured and the fitted values.
 
-    -   Fits with R2 lower than 0.95 were removed from the data.
+    - Fits with R2 lower than 0.95 were removed from the data.
 
--   Absorption spectra with any negative values below 500 nm were removed.
+- Absorption spectra with any negative values below 500 nm were removed.
 
--   Exported the complete spectra (350-700 nm): both the raw and the modelled data.
+- Exported the complete spectra (350-700 nm): both the raw and the modelled data.
 
 ### Phytoplankton and non-algal absorption
 
--   Absorption spectra with any negative values below 500 nm were removed.
+- Absorption spectra with any negative values below 500 nm were removed.
 
 ### Irradiance
 
--   There were negative values in the irradiance data (`Ed`, `Eu`, `Kd`, `Ku`). I have cleaned the data by setting these negative values to `NA`.
+- There were negative values in the irradiance data (`Ed`, `Eu`, `Kd`, `Ku`). I have cleaned the data by setting these negative values to `NA`.
 
 This graph shows the number of negative values for Ed by wavelength.
 
 ```{r histo_negative_ed}
-irradiance <- read_csv(here("data", "clean", "irradiance.csv")) |> 
+irradiance <- read_csv(here("data", "raw", "tidied", "irradiance.csv")) |> 
   filter(ed_w_m2_um < 0)
 
 irradiance |> 
@@ -84,10 +88,10 @@ irradiance |>
   facet_wrap(~ glue::glue("{wavelength} nm"), scales = "free")
 ```
 
--   Example of a spectral profile with negative values.
+- Example of a spectral profile with negative values.
 
 ```{r lineplot_negative_ed}
-read_csv("data/clean/irradiance.csv") |> 
+read_csv("./data/raw/tidied/irradiance.csv") |> 
   filter(station == "C2008000") |> 
   ggplot(aes(x = wavelength, y = ed_w_m2_um)) +
   geom_line() +
@@ -99,11 +103,11 @@ read_csv("data/clean/irradiance.csv") |>
   )
 ```
 
--   `Eu` is in fact `Eu0-` that was estimated using a two-exponential function model.
+- `Eu` is in fact `Eu0-` that was estimated using a two-exponential function model.
 
--   `Ed` is in fact `Ed0-` calculated from `0.94 x ed0+`.
+- `Ed` is in fact `Ed0-` calculated from `0.94 x ed0+`.
 
--   There are differences in wavelengths among cruises. I have not found any information in the report concerning channel change across the missions.
+- There are differences in wavelengths among cruises. I have not found any information in the report concerning channel change across the missions.
 
 ```{r}
 irradiance <- read_csv("data/clean/irradiance.csv")
@@ -135,13 +139,13 @@ irradiance |>
 
 ### Reflectance
 
--   Reflectance values outside the 0-1 range were set to `NA`.
+- Reflectance values outside the 0-1 range were set to `NA`.
 
 ### AC9
 
--   Negative values in `a`, `c`, `bp`, `a_dissolved` and `c_dissolved` have been set to `NA`.
+- Negative values in `a`, `c`, `bp`, `a_dissolved` and `c_dissolved` have been set to `NA`.
 
--   `a(715)` was used as the baseline, that is why the values are always at 0 (see next graph).
+- `a(715)` was used as the baseline, that is why the values are always at 0 (see next graph).
 
 ```{r}
 knitr::include_graphics(pdf2png(
@@ -151,7 +155,7 @@ knitr::include_graphics(pdf2png(
 
 ### Other stuff
 
--   Extracted extra variables (`DOC`, `AQY`) from Massimo 2000.
+- Extracted extra variables (`DOC`, `AQY`) from Massimo 2000.
 
 ## Data sampling
 
@@ -193,38 +197,7 @@ df_viz |>
 I have extracted the bathymetry at each sampling locations. This boxplot provide a general picture of the bathymetry per area. Data from https://download.gebco.net/.
 
 ```{r}
-knitr::include_graphics(pdf2png(here("graphs", "18_boxplot_bathymetry_by_area.pdf")))
-```
-
-### Land-to-sea gradient
-
-We could also present the data in relation with its distance to the land to get an overview of the landscape on optical quantities. For instance, `acdom` will likely be higher for stations located close to the shore because of the terrestrial influence.
-
-```{r, fig.align='center'}
-stations <- vroom::vroom(here("data", "clean", "stations.csv"))
-distances <- vroom::vroom(here("data", "clean", "distances_to_shore.csv"))
-
-df <- stations |> 
-  inner_join(distances)
-
-df |> 
-  mutate(area = fct_reorder(area, distance_to_shore_m)) |> 
-  ggplot(aes(x = area, y = distance_to_shore_m / 1000, fill = area)) +
-  geom_boxplot(size = 0.1, outlier.size = 0.25) +
-  scale_y_continuous(labels = scales::label_number()) +
-  scale_x_discrete(labels = function(x) str_wrap(x, 10)) +
-  scale_fill_manual(
-    breaks = area_breaks,
-    values = area_colors
-  ) +
-  labs(
-    x = NULL,
-    y = "Distance to the land (km)",
-    title = "How far are the stations from the land"
-  ) +
-  theme(
-    legend.position = "none"
-  )
+knitr::include_graphics(pdf2png(here("graphs", "17_boxplot_bathymetry_by_area.pdf")))
 ```
 
 ## Available variables
@@ -305,11 +278,11 @@ knitr::include_graphics(pdf2png(here(
 
 ### Absorption partition
 
-In this section I am using the same three stations as in @oubelkheir2007 to explore the additive contributions of each type of absorption.
+In this section I am using the same three stations as in @Oubelkheir2007 to explore the additive contributions of each type of absorption.
 
--   For station `C6024000`, `a_p` is lower than `a_cdom` around 400 nm and 550 nm. Should we use this to filter out problematic spectra?
+- For station `C6024000`, `a_p` is lower than `a_cdom` around 400 nm and 550 nm. Should we use this to filter out problematic spectra?
 
--   There are some obvious problems with `a_cdom` measurements. See `C6024000` where there is a bump in absorption around 550 nm.
+- There are some obvious problems with `a_cdom` measurements. See `C6024000` where there is a bump in absorption around 550 nm.
 
 ```{r}
 knitr::include_graphics(pdf2png(
@@ -334,7 +307,7 @@ df <- stations |>
   inner_join(s_nap, by = "station")
 
 df |> 
-  select(station, area, s_cdom_nm1, s_nap_m1) |> 
+  select(station, area, s_cdom_nm1, s_nap_nm1) |> 
   pivot_longer(starts_with("s_")) |> 
   ggplot(aes(x = name, y = value, fill = area)) +
   geom_boxplot(size = 0.1, outlier.size = 0.25) +
@@ -412,17 +385,11 @@ knitr::include_graphics(pdf2png(here("graphs", "09_ac9_c_spectral_profiles_by_ar
 knitr::include_graphics(pdf2png(here("graphs", "09_ac9_bp_spectral_profiles_by_area.pdf")))
 ```
 
-## Orientation of the paper
+## Journal candidates
 
--   The data is a mix of temporal and spatial observations, so how should we present the data?
-
-    -   By `area`?
-
-### Journal candidates
-
--   [Scientific data](https://www.nature.com/sdata/) (I.F: 5.541)
--   [Earth System Science Data (ESSD)](https://earth-system-science-data.net/) (I.F: 9.197)
--   [PLOS One](https://journals.plos.org/plosone/) (I.F: 2.740)
+- [Scientific data](https://www.nature.com/sdata/) (I.F: 5.541)
+- [Earth System Science Data (ESSD)](https://earth-system-science-data.net/) (I.F: 9.197)
+- [PLOS One](https://journals.plos.org/plosone/) (I.F: 2.740)
 
 ## Figures for the paper
 
@@ -448,7 +415,7 @@ knitr::include_graphics(pdf2png(here("graphs", "fig02.pdf")))
 
 Figure 3: (**A**) Total chlorophyll-a and (**B**) particulate organic carbon across the sampled areas.
 
--   Is it normal there is no data for `Med. Sea (Case 1)`?
+- Is it normal there is no data for `Med. Sea (Case 1)`?
 
 ```{r fig03}
 knitr::include_graphics(pdf2png(here("graphs", "fig03.pdf")))
@@ -458,7 +425,7 @@ knitr::include_graphics(pdf2png(here("graphs", "fig03.pdf")))
 
 Figure 4: (**A**) Average total particulate ($a_\text{p}$), (**B**) non-algal ($a_\text{NAP}$), (**C**) phytoplankton ($a_{\phi}$) and (**D**) chromophoric dissolved organic matter ($a_\text{CDOM}$) absorption spectra in each area. (**E**) $a_\text{CDOM}(350)$ along the westernmost transect in the North Sea (see Fig. 1B).
 
--   Is it normal there is no data for `Med. Sea (Case 1)`?
+- Is it normal there is no data for `Med. Sea (Case 1)`?
 
 ```{r fig04}
 knitr::include_graphics(pdf2png(here("graphs", "fig04.pdf")))
@@ -476,7 +443,7 @@ knitr::include_graphics(pdf2png(here("graphs", "fig05.pdf")))
 
 Figure 6: Spectra of downward irradiance measured at the surface across the sampled areas. The tick lines represent the average spectra.
 
--   Dot not forget to find out why there are duplicated spectra in Med. Sea.
+- Dot not forget to find out why there are duplicated spectra in Med. Sea.
 
 ```{r fig06}
 knitr::include_graphics(pdf2png(here("graphs", "fig06.pdf")))
@@ -492,37 +459,99 @@ knitr::include_graphics(pdf2png(here("graphs", "fig07.pdf")))
 
 ## Done
 
--   [x] Calculate `s_nap` and `s_cdom`. See the method in @Babin2003 where he removes some wavelengths to calculate `s_nap`.
+- [x] Calculate `s_nap` and `s_cdom`. See the method in @Babin2003 where he removes some wavelengths to calculate `s_nap`.
 
--   [x] Removed dissolved `a` and `c` from the AC9 data because there were problems with the filtering procedure during the sampling.
+- [x] Removed dissolved `a` and `c` from the AC9 data because there were problems with the filtering procedure during the sampling.
 
--   [x] Extract bathymetry at each station.
+- [x] Extract bathymetry at each station.
 
--   [x] Zoom on geographic areas in Fig. 1 such as figure 13 in the final report.
+- [x] Zoom on geographic areas in Fig. 1 such as figure 13 in the final report.
 
--   [x] Wait for Frank to correct the bug with the mrg file where the data columns are not aligned correctly.
+- [x] Recode Ed wavelengths from the SPMR *vertical* profiles as:
 
--   [x] Recode Ed wavelengths from the SPMR *vertical* profiles as:
+    - 412 -\> 411
+    - 510 -\> 509
+    - 589 -\> 590
+    - 666 -\> 665
+    - 780 -\> 779
 
-    -   412 -\> 411
-    -   510 -\> 509
-    -   589 -\> 590
-    -   666 -\> 665
-    -   780 -\> 779
+- [x] Some geographical positions are located on land. I removed these observations from the dataset. A few stations had no coordinate at all, they were also removed.
+
+```{r}
+stations <- read_csv("data/raw/tidied/stations.csv")
+
+stations_sf <- stations |>
+  filter(str_detect(area, "Adriatic")) |>
+  drop_na(longitude, latitude) |>
+  st_as_sf(coords = c("longitude", "latitude"), crs = 4326)
+
+# crsuggest::suggest_crs(stations_sf)
+
+wm <- rnaturalearth::ne_countries(scale = "large", returnclass = "sf") |>
+  st_make_valid() |>
+  st_crop(stations_sf |> st_buffer(1e5))
+
+ggplot() +
+  geom_sf(data = wm, size = 0.1) +
+  geom_sf(data = stations_sf) +
+  coord_sf(crs = 7792) +
+  labs(
+    title = "Geographical positions in the Adriatic"
+  )
+```
 
 ## TODO
 
--   No absorption for `Med. Sea (Case 1)`. Is it normal?
+- Use `piggyback` <https://docs.ropensci.org/piggyback/>
 
--   There are a lot of nutrient parameters that have values of zero. Are they true zero or they indicate missing values?
+- Release the final report PDF with a DOI and cite it in the main text.
 
--   There are wavelength gaps in the `AC9`, `irradiance` and `reflectance` data. Is that normal?
+- No absorption for `Med. Sea (Case 1)`. Is it normal?
 
--   Add units to each variable. For example `depth` should becomes `depth_m`.
+```{r}
+stations <- read_csv("data/clean/stations.csv") |>
+  select(station, area)
 
--   Some geographical positions are located on land (Adriatic Sea for example).
+read_csv("data/clean/absorption.csv") |>
+  select(station, wavelength, a_p_m1, a_phy_m1, a_nap_m1, a_cdom_measured_m1) |>
+  inner_join(stations, by = "station") |>
+  pivot_longer(-c(station, wavelength, area)) |>
+  drop_na() |>
+  group_by(area, name) |>
+  summarise(count_distinct = n_distinct(station)) |>
+  ggplot(aes(x = count_distinct, y = area, fill = name)) +
+  geom_col(position = "dodge") +
+  labs(
+    title = "No absorption measurements\nin Med. Sea (Case 1)"
+  ) +
+  scale_fill_viridis_d(option = "C")
+```
 
--   There are duplicated Ed spectra in the data.
+- There are a lot of nutrient parameters that have values of zero. Are they true zero or they indicate missing values?
+
+```{r}
+
+nutrient <- read_csv("./data/clean/surface.csv")
+
+nutrient |>
+  pivot_longer(-c(station)) |>
+  drop_na() |>
+  filter(value == 0) |>
+  group_by(name) |>
+  tally() |>
+  mutate(name = fct_reorder(name, n)) |>
+  ggplot(aes(x = n, y = name)) +
+  geom_col() +
+  labs(
+    title = "Number of observations with\na value of 0"
+  )
+```
+
+- There are wavelength gaps in the `AC9`, `irradiance` and `reflectance` data. Is that normal?
+
+- Add units to each variable. For example `depth` should becomes `depth_m`.
+
+- There are duplicated Ed spectra in the data.
 
 ```{r}
 stations <- read_csv(here("data/clean/stations.csv"))
@@ -558,10 +587,25 @@ df |>
   rmarkdown::paged_table()
 ```
 
--   There are only two AC9 measurements in the Adriatic Sea. Is it normal?
+- There are only three AC9 measurements in the Adriatic Sea. Is it normal?
 
--   Add graphics for the section 4.1.3 Apparent optical properties (AOPs).
+```{r}
+ac9 <- read_csv("data/clean/ac9.csv")
+stations <- read_csv("data/clean/stations.csv")
 
+df <- inner_join(stations, ac9, by = "station")
+
+df |>
+  group_by(area) |>
+  summarise(count_distinct = n_distinct(station)) |>
+  mutate(area = fct_reorder(area, count_distinct)) |>
+  ggplot(aes(x = count_distinct, y = area)) +
+  geom_col() +
+  labs(
+    title = "Number of AC9 profiles per area"
+  )
+
+```
 - What is the difference between `chl_a`and `total_chl_a` ?
 
 ```{r}
@@ -573,5 +617,33 @@ surface |>
   geom_abline(lty = 2, color = "red")
 ```
 
+- Difference between `pico_chl_a` and `pic`, `nano_chl_` and `nano`?
 
+```{r}
+surface |> 
+    ggplot(aes(x = nano, y = nano_chl_a)) +
+    geom_point() +
+    scale_x_log10() +
+    scale_y_log10() +
+    geom_abline(color = "red")
+```
+
+- Make sure that all variables (columns) in the CSV files have units specified in their names (ex.: `depth_m`, `a_cdom_1_m`, ...).
+
+- Make sure that SPMR units are OK. um vs nm. Change accordingly in the SPMR code file (`zzz_radiometer.R`).
+
+- Units (guessed from he final report)
+
+  - SPM: g m-3
+
+  - What is the difference between total_chl_a and chl_a.
+
+  - chla: mg m-3
+
+  - total_pheo: mg m-3
+
+  - All the \*xanthin: mg m-3
+
+  - nano/pico: mg m-3 (page 77)
+ 
 ## References
