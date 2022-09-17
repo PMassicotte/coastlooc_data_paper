@@ -55,7 +55,8 @@ p1 <- df |>
     label.y = 0.12,
     label.x = 0.97,
     size = 2.5,
-    family = "Montserrat"
+    family = "Montserrat",
+    small.r = TRUE
   ) +
   ggpmisc::stat_correlation(
     aes(label = ..n.label..),
@@ -71,6 +72,12 @@ p1 <- df |>
     legend.key.size = unit(0.4, "cm"),
     legend.background = element_blank()
   )
+
+df |>
+  drop_na() |>
+  mutate(across(where(is.numeric), log10)) |>
+  group_by(area) |>
+  summarise(r = cor(total_chl_a, poc_g_m3, use = "complete.obs"), n = n())
 
 # Find out interesting correlations to show -------------------------------
 
@@ -122,18 +129,27 @@ p2 <- df |>
     label.y = 0.12,
     label.x = 0.97,
     size = 2.5,
-    family = "Montserrat"
+    family = "Montserrat",
+    small.r = TRUE
   ) +
   ggpmisc::stat_correlation(
     aes(label = ..n.label..),
     label.y = 0.05,
     label.x = 0.97,
     size = 2.5,
-    family = "Montserrat"
+    family = "Montserrat",
+    small.r = TRUE
   ) +
   theme(
     legend.position = "none"
   )
+
+df |>
+  select(area, total_chl_a, a_phy_m1) |>
+  drop_na() |>
+  mutate(across(where(is.numeric), log10)) |>
+  group_by(area) |>
+  summarise(r = cor(total_chl_a, a_phy_m1, use = "complete.obs"), n = n())
 
 # POC vs Kd ---------------------------------------------------------------
 
@@ -179,7 +195,8 @@ p3 <- df |>
     label.y = 0.12,
     label.x = 0.97,
     size = 2.5,
-    family = "Montserrat"
+    family = "Montserrat",
+    small.r = TRUE
   ) +
   ggpmisc::stat_correlation(
     aes(label = ..n.label..),
@@ -238,7 +255,8 @@ p4 <- df |>
     label.y = 0.12,
     label.x = 0.97,
     size = 2.5,
-    family = "Montserrat"
+    family = "Montserrat",
+    small.r = TRUE
   ) +
   ggpmisc::stat_correlation(
     aes(label = ..n.label..),
@@ -262,6 +280,6 @@ ggsave(
   here("graphs", "fig07.pdf"),
   device = cairo_pdf,
   width = 180,
-  height = 180,
+  height = 160,
   units = "mm"
 )

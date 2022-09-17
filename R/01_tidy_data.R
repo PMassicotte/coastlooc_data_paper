@@ -113,7 +113,7 @@ station_metadata |>
 
 # Export the clean metadata
 station_metadata |>
-  write_csv(here("data", "clean", "stations.csv"))
+  write_csv(here("data", "raw", "tidied", "stations.csv"))
 
 stations <- stations |>
   select(-c(date, depth, lat, lon, area, system, gm_ttime))
@@ -177,6 +177,8 @@ ac9 <- stations |>
     names_transform = list(wavelength = parse_integer)
   ) |>
   rename_with(~ str_remove_all(., "_$")) |>
+  # Removed dissolved a and c from the AC9 data because there were problems with
+  # the filtering procedure during the sampling.
   select(-ad, -cd) |>
   rename(remote_sensed_vertical_layer_m = z1) |>
   rename_with(~ paste0(., "_m1"), c(a, c, bp))
@@ -418,4 +420,5 @@ surface |>
   names() |>
   sort()
 
+# TODO: Consider saving it to the raw/tidied folder
 write_csv(surface, here("data", "clean", "surface.csv"))

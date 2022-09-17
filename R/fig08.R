@@ -24,8 +24,18 @@ df |>
   ggplot(aes(
     x = ed_w_m2_um,
     y = depth_m,
-    color = station,
+    color = factor(wavelength),
     group = interaction(station, wavelength)
   )) +
   geom_path() +
-  facet_wrap(~ glue("{wavelength} nm"))
+  facet_wrap(~station, scales = "free") +
+  theme(
+    legend.title = element_blank()
+  )
+
+ggsave(
+  "~/Desktop/spmr.pdf",
+  device = cairo_pdf,
+  width = 12,
+  height = 10
+)

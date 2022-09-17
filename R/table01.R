@@ -36,7 +36,7 @@ df |>
   mutate(source_file = str_remove(source_file, ".csv")) |>
   # Not sure if I should group by category
   # group_by(source_file, pi) |>
-  group_by(category = paste0(source_file, " (", pi, ")")) |>
+  # group_by(category = paste0(source_file, " (", pi, ")")) |>
   gt(rowname_col = "df") |>
   tab_header(md("**List of variables**")) |>
   cols_label(

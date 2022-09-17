@@ -34,7 +34,7 @@ df_viz <- df |>
     .after = date
   ) |>
   count(area, date_month) |>
-  assertr::verify(sum(n) == 424)
+  assertr::verify(sum(n) == 420)
 
 df_viz
 

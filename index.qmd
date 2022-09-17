@@ -628,7 +628,7 @@ surface |>
     geom_abline(color = "red")
 ```
 
-- Make sure that all variables (columns) in the CSV files have units specified in their names (ex.: `depth_m`, `a_cdom_1_m`, ...).
+- Make sure that all variables (columns) in the CSV files have units specified in their names (ex.: `depth_m`, `a_cdom_m1`, ...).
 
 - Make sure that SPMR units are OK. um vs nm. Change accordingly in the SPMR code file (`zzz_radiometer.R`).
 

@@ -48,7 +48,7 @@ read_mrg <- function(file) {
 
 tidy_mrg <- function(df_raw) {
   df_tidy <- df_raw |>
-    select(!starts_with("er00")) |>
+    select(!starts_with("er")) |>
     pivot_longer(
       matches("\\d{3}"),
       names_to = c("variable", "wavelength", "unit"),

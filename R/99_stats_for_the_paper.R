@@ -62,3 +62,30 @@ ac9 |>
   mutate(bp_m1 = bp_m1 / pracma::trapz(wavelength, bp_m1)) |>
   ggplot(aes(x = wavelength, y = bp_m1, group = station)) +
   geom_line()
+
+# %% ---- Chla classification (Antoine1996)
+
+surface
+
+surface |>
+  mutate(trophic_status = case_when(
+    total_chl_a <= 0.1 ~ "oligo",
+    between(total_chl_a, 0.1, 1) ~ "meso",
+    total_chl_a > 1 ~ "eutro",
+    TRUE ~ NA_character_
+  )) |>
+  count(trophic_status)
+
+# %%
+
+# %% ---- POC
+surface |>
+  inner_join(station, by = "station") |>
+  group_by(area) |>
+  summarise(across(poc_g_m3, median, na.rm = TRUE)) |>
+  mutate(across(poc_g_m3, round, digits = 1)) |>
+  ungroup() |>
+  arrange(poc_g_m3)
+
+range(surface$poc_g_m3, na.rm = TRUE)
+# %%
