@@ -61,11 +61,12 @@ tidy_mrg <- function(df_raw) {
     add_count(station, depth_m, wavelength) |>
     assertr::verify(n == 1) |>
     select(-n) |>
-    rename_with(~ str_replace(., "1_m", "m1"), ends_with("1_m"))
+    rename_with(~ str_replace(., "1_m", "m1"), ends_with("1_m")) |>
+    relocate(wavelength, .before = eu_w_m2_um)
 
-  # Wavelengths are not exactly the same, have to find a way to reorganize that.
-  # In Marcel's data wavelengths are:
-  # 411, 443, 456, 490, 509, 532, 556, 590, 665, 683, 705, 799, 866
+  # TODO: Wavelengths are not exactly the same, have to find a way to reorganize
+  # that. In Marcel's data wavelengths are: 411, 443, 456, 490, 509, 532, 556,
+  # 590, 665, 683, 705, 799, 866
 
   # -   Recode Ed wavelengths as:
   # -   412 -> 411
