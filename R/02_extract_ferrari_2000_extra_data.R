@@ -65,9 +65,9 @@ massimo
 
 # Export data -------------------------------------------------------------
 
-surface <- read_csv(here("data", "clean", "surface.csv"))
+pigments <- read_csv(here("data", "raw", "tidied", "pigments.csv"))
 
-surface
+pigments
 
 # Rename the stations found in Ferrari so they match those of Marcel's data.
 massimo <- massimo |>
@@ -87,13 +87,13 @@ massimo <- massimo |>
   select(-contains("cdom"))
 
 massimo |>
-  anti_join(surface, by = "station") %>%
+  anti_join(pigments, by = "station") %>%
   verify(nrow(.) == 0)
 
-df <- surface |>
+df <- pigments |>
   left_join(massimo, by = "station")
 
 df
 
 df |>
-  write_csv(here("data", "clean", "surface.csv"))
+  write_csv(here("data", "raw", "tidied", "pigments.csv"))

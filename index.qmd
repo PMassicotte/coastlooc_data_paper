@@ -4,8 +4,8 @@ format:
   html:
     toc: true
     self-contained: true
-    fig-format: png
-    fig-dpi: 300
+    fig-format: svg
+    # fig-dpi: 300
 editor_options: 
   chunk_output_type: console
 bibliography: /home/filoche/Documents/library.bib
@@ -17,13 +17,14 @@ knitr::opts_chunk$set(
   message = FALSE,
   warning = FALSE,
   fig.pos = "center",
-  cache = FALSE
+  cache = TRUE
 )
 
-library(here)
 library(tidyverse)
+library(here)
 library(sf)
 library(kableExtra)
+library(arrow)
 
 library(ggpmthemes)
 extrafont::loadfonts()
@@ -149,7 +150,7 @@ irradiance |>
 
 ```{r}
 knitr::include_graphics(pdf2png(
-  here("graphs", "09_histogram_ac9_negative_values_removed.pdf")
+  here("graphs", "07_histogram_ac9_negative_values_removed.pdf")
 ))
 ```
 
@@ -197,7 +198,7 @@ df_viz |>
 I have extracted the bathymetry at each sampling locations. This boxplot provide a general picture of the bathymetry per area. Data from https://download.gebco.net/.
 
 ```{r}
-knitr::include_graphics(pdf2png(here("graphs", "17_boxplot_bathymetry_by_area.pdf")))
+knitr::include_graphics(pdf2png(here("graphs", "18_boxplot_bathymetry_by_area.pdf")))
 ```
 
 ## Available variables
@@ -206,7 +207,7 @@ This graph shows an overview of the available variables (excluding radiometric m
 
 ```{r}
 knitr::include_graphics(pdf2png(
-  here("graphs", "06_number_observation_nutrient_by_area.pdf")
+  here("graphs", "04_number_observation_nutrient_by_area.pdf")
 ))
 ```
 
@@ -216,7 +217,7 @@ Overview of the averaged absorption spectra for each area.
 
 ```{r}
 knitr::include_graphics(pdf2png(here(
-  "graphs", "11_average_absorption_spectra_by_area.pdf"
+  "graphs", "12_average_absorption_spectra_by_area.pdf"
 )))
 ```
 
@@ -224,39 +225,39 @@ Comparing `acdom443` for the different areas shows that there is a clear open to
 
 ```{r}
 knitr::include_graphics(pdf2png(here(
-  "graphs", "13_boxplot_acdom443_by_area.pdf"
+  "graphs", "14_boxplot_acdom443_by_area.pdf"
 )))
 ```
 
 We can see that the `DOC` follows the same pattern as `acdom443`.
 
 ```{r}
-knitr::include_graphics(pdf2png(here("graphs", "12_boxplot_doc_by_area.pdf")))
+knitr::include_graphics(pdf2png(here("graphs", "13_boxplot_doc_by_area.pdf")))
 ```
 
 We can also use scatter plots to further explore the relationships among variables.
 
 ```{r}
-knitr::include_graphics(pdf2png(here("graphs", "13_aphy_vs_anap.pdf")))
+knitr::include_graphics(pdf2png(here("graphs", "14_aphy_vs_anap.pdf")))
 ```
 
 ### aphy
 
 ```{r}
-knitr::include_graphics(pdf2png(here("graphs", "04_aphy_spectral_profiles_by_area.pdf")))
+knitr::include_graphics(pdf2png(here("graphs", "09_aphy_spectral_profiles_by_area.pdf")))
 ```
 
 We could also assess the goodness of the relationships between total chlorophyll-a and phytoplankton absorption for each region.
 
 ```{r}
-knitr::include_graphics(pdf2png(here("graphs", "14_total_chla_vs_aphy443.pdf")))
+knitr::include_graphics(pdf2png(here("graphs", "15_total_chla_vs_aphy443.pdf")))
 ```
 
 ### anap
 
 ```{r}
 knitr::include_graphics(pdf2png(here(
-  "graphs", "04_anap_spectral_profiles_by_area.pdf"
+  "graphs", "09_anap_spectral_profiles_by_area.pdf"
 )))
 ```
 
@@ -264,7 +265,7 @@ knitr::include_graphics(pdf2png(here(
 
 ```{r}
 knitr::include_graphics(pdf2png(here(
-  "graphs", "04_ap_spectral_profiles_by_area.pdf"
+  "graphs", "09_ap_spectral_profiles_by_area.pdf"
 )))
 ```
 
@@ -272,7 +273,7 @@ knitr::include_graphics(pdf2png(here(
 
 ```{r}
 knitr::include_graphics(pdf2png(here(
-  "graphs", "04_acdom_spectral_profiles_by_area.pdf"
+  "graphs", "09_acdom_spectral_profiles_by_area.pdf"
 )))
 ```
 
@@ -288,7 +289,7 @@ In this section I am using the same three stations as in @Oubelkheir2007 to expl
 knitr::include_graphics(pdf2png(
   here(
     "graphs",
-    "15_absorption_partition_for_three_stations.pdf"
+    "16_absorption_partition_for_three_stations.pdf"
   )
 ))
 ```
@@ -337,32 +338,32 @@ df |>
 
 ```{r}
 knitr::include_graphics(pdf2png(here(
-  "graphs", "07_ed_spectral_profiles_by_area.pdf"
+  "graphs", "05_ed_spectral_profiles_by_area.pdf"
 )))
 ```
 
 ### Eu
 
 ```{r}
-knitr::include_graphics(pdf2png(here("graphs", "07_eu_spectral_profiles_by_area.pdf")))
+knitr::include_graphics(pdf2png(here("graphs", "05_eu_spectral_profiles_by_area.pdf")))
 ```
 
 ### Kd
 
 ```{r}
-knitr::include_graphics(pdf2png(here("graphs", "07_kd_spectral_profiles_by_area.pdf")))
+knitr::include_graphics(pdf2png(here("graphs", "05_kd_spectral_profiles_by_area.pdf")))
 ```
 
 ### Ku
 
 ```{r}
-knitr::include_graphics(pdf2png(here("graphs", "07_ku_spectral_profiles_by_area.pdf")))
+knitr::include_graphics(pdf2png(here("graphs", "05_ku_spectral_profiles_by_area.pdf")))
 ```
 
 ## Reflectance
 
 ```{r}
-knitr::include_graphics(pdf2png(here("graphs", "08_reflectance_profiles_by_area.pdf")))
+knitr::include_graphics(pdf2png(here("graphs", "06_reflectance_profiles_by_area.pdf")))
 ```
 
 ## AC9
@@ -370,19 +371,19 @@ knitr::include_graphics(pdf2png(here("graphs", "08_reflectance_profiles_by_area.
 ### Absorption
 
 ```{r}
-knitr::include_graphics(pdf2png(here("graphs", "09_ac9_a_spectral_profiles_by_area.pdf")))
+knitr::include_graphics(pdf2png(here("graphs", "07_ac9_a_spectral_profiles_by_area.pdf")))
 ```
 
 ### Beam attenuation
 
 ```{r}
-knitr::include_graphics(pdf2png(here("graphs", "09_ac9_c_spectral_profiles_by_area.pdf")))
+knitr::include_graphics(pdf2png(here("graphs", "07_ac9_c_spectral_profiles_by_area.pdf")))
 ```
 
 ### Scattering
 
 ```{r}
-knitr::include_graphics(pdf2png(here("graphs", "09_ac9_bp_spectral_profiles_by_area.pdf")))
+knitr::include_graphics(pdf2png(here("graphs", "07_ac9_bp_spectral_profiles_by_area.pdf")))
 ```
 
 ## Journal candidates
@@ -485,7 +486,7 @@ stations_sf <- stations |>
   drop_na(longitude, latitude) |>
   st_as_sf(coords = c("longitude", "latitude"), crs = 4326)
 
-# crsuggest::suggest_crs(stations_sf)
+crsuggest::suggest_crs(stations_sf)
 
 wm <- rnaturalearth::ne_countries(scale = "large", returnclass = "sf") |>
   st_make_valid() |>
@@ -505,6 +506,7 @@ ggplot() +
 - Use `piggyback` <https://docs.ropensci.org/piggyback/>
 
 - Release the final report PDF with a DOI and cite it in the main text.
+  - Who should be included in the release of this document?
 
 - No absorption for `Med. Sea (Case 1)`. Is it normal?
 
@@ -573,7 +575,7 @@ These are the duplicated Ed stations.
 df |> 
   select(station, date, area, wavelength, ed_w_m2_um) |> 
   pivot_wider(names_from = wavelength, values_from = ed_w_m2_um) |> 
-  janitor::get_dupes("411") |> 
+  janitor::get_dupes(matches("\\d{3}")) |>
   rmarkdown::paged_table()
 ```
 
@@ -587,17 +589,35 @@ df |>
   rmarkdown::paged_table()
 ```
 
-- There are only three AC9 measurements in the Adriatic Sea. Is it normal?
+How to remove duplicates:
+
+```{r}
+#| echo: true
+duplicated <- df |> 
+  select(station, date, area, wavelength, ed_w_m2_um) |> 
+  pivot_wider(names_from = wavelength, values_from = ed_w_m2_um) |> 
+  janitor::get_dupes(matches("\\d{3}")) 
+
+duplicated
+
+df |>
+  anti_join(duplicated)
+
+```
+
+
+
+- There are only two AC9 measurements in the Adriatic Sea. Is it normal?
 
 ```{r}
 ac9 <- read_csv("data/clean/ac9.csv")
 stations <- read_csv("data/clean/stations.csv")
 
-df <- inner_join(stations, ac9, by = "station")
+df <- inner_join(stations, ac9, by = "station", multiple = "all")
 
 df |>
   group_by(area) |>
-  summarise(count_distinct = n_distinct(station)) |>
+  summarise(count_distinct = n_distinct(station,)) |>
   mutate(area = fct_reorder(area, count_distinct)) |>
   ggplot(aes(x = count_distinct, y = area)) +
   geom_col() +
@@ -615,17 +635,22 @@ surface |>
   ggplot(aes(x = total_chl_a, y = chl_a)) +
   geom_point() +
   geom_abline(lty = 2, color = "red")
+
+surface |>
+  ggplot(aes(x = total_chl_a, y = total_chloroa)) +
+  geom_point() +
+  geom_abline(lty = 2, color = "red")
 ```
 
-- Difference between `pico_chl_a` and `pic`, `nano_chl_` and `nano`?
+- Difference between `pico_chl_a` and `pico`, `nano_chl_a` and `nano`?
 
 ```{r}
 surface |> 
-    ggplot(aes(x = nano, y = nano_chl_a)) +
-    geom_point() +
-    scale_x_log10() +
-    scale_y_log10() +
-    geom_abline(color = "red")
+  ggplot(aes(x = nano, y = nano_chl_a)) +
+  geom_point() +
+  scale_x_log10() +
+  scale_y_log10() +
+  geom_abline(color = "red")
 ```
 
 - Make sure that all variables (columns) in the CSV files have units specified in their names (ex.: `depth_m`, `a_cdom_m1`, ...).
@@ -645,5 +670,88 @@ surface |>
   - All the \*xanthin: mg m-3
 
   - nano/pico: mg m-3 (page 77)
- 
+
+- According to the final report are are the wavelengths (see page 32)
+  - AC9: 412, 440, 488, 510, 555, 630, 650 or 532, 665, 715
+  - BB4: 415, 440, 510, 675 (**I do not have BB4 data at the moment**)
+  - SPMR: 412, 443, 456, 490, 510, 532, 560, 620, 665, 683, 705, 780, 865
+
+```{r}
+stations <- read_csv(here("data/clean/stations.csv")) |>
+  select(station, area)
+
+ac9 <- read_csv(here("data/clean/ac9.csv"))
+
+ac9 |>
+  left_join(stations, by = "station")  |>
+  select(station, area, wavelength, ends_with("m1")) |>
+  pivot_longer(ends_with("m1")) |>
+  drop_na(value, area) |>
+  count(area, name, wavelength) |>
+  ggplot(aes(x = n, y = factor(wavelength), fill = area)) +
+  geom_col(position = "dodge") +
+  scale_fill_manual(
+    breaks = area_breaks,
+    values = area_colors
+  ) +
+  labs(
+    title = "Number of AC9 observations\nby area and wavelength"
+  ) +
+  facet_wrap(~name)
+```
+
+- AC9 stations that have no metadata (i.e. no entries in the stations.csv file).
+
+```{r}
+ac9 |>
+  anti_join(stations, by = "station") |>
+  distinct(station)
+```
+
+```{r}
+#| eval: false
+open_dataset(here("data/clean/spmr/")) |>
+  select(wavelength) |>
+  distinct() |>
+  arrange(wavelength) |>
+  collect()
+```
+
+- SPMR vertical profiles have been reprocessed. This means that the *original* surface data is not the same as the newly processed vertical profiles (i.e. extrapolation to the surface). How to deal with that?
+
+- Some mismatch across wavelengths in the SPMR data.
+  - Grey cells indicate missing observations.
+  - There are +- 1 nm difference between upward and downward wavelengths.
+
+```{r}
+#| fig-height: 14
+#| fig-width: 8
+metadata <- read_csv(here("data", "clean", "stations.csv")) |>
+  select(-depth_m)
+
+df <- open_dataset(here("data", "clean", "spmr", "parquet")) |>
+  left_join(metadata, by = "station") |>
+  collect()
+
+df |>
+  select(area, station, wavelength, k_par_m1:kd_m1) |>
+  pivot_longer(-c(station, wavelength, area)) |>
+  drop_na() |>
+  distinct(name, area, wavelength) |>
+  mutate(available = name) |>
+  complete(wavelength, area, name, fill = list(available = NA)) |>
+  ggplot(aes(x = name, y = factor(wavelength), fill = available)) +
+  geom_tile(color = "white", size = 0.5) +
+  labs(
+    x = NULL,
+    y = "Wavelength (nm)"
+  ) +
+  facet_wrap(~area, ncol = 2) +
+  theme(
+    legend.position = "none"
+  )
+```
+
+- Add units to all variables in the SPMR data
+
 ## References

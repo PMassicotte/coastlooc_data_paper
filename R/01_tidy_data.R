@@ -78,11 +78,13 @@ stations <- data.table::fread(file, col.names = header_names) |>
 
 stations
 
+sort(names(stations))
+
 stations |>
   distinct(station)
 
 station_metadata <- stations |>
-  select(date:gm_ttime) |>
+  select(date:gm_ttime, solar_zenith_angle = theta_s) |>
   mutate(across(where(is.character), ~ noquote(.))) |>
   mutate(date = lubridate::parse_date_time(date, orders = "dmy")) |>
   mutate(date = as.Date(date)) |>
@@ -116,7 +118,7 @@ station_metadata |>
   write_csv(here("data", "raw", "tidied", "stations.csv"))
 
 stations <- stations |>
-  select(-c(date, depth, lat, lon, area, system, gm_ttime))
+  select(-c(date, depth, lat, lon, area, system, gm_ttime, theta_s))
 
 stations
 
@@ -139,6 +141,7 @@ stations <- stations |>
     contains("_divided_"),
     contains("_plus_back"),
     contains("_plus_pheo"),
+    contains("_plus_dv"),
     contains("colonne"),
     contains("ternary"),
     contains("trees"),
@@ -148,7 +151,19 @@ stations <- stations |>
     contains("massimo"),
     starts_with("tot_"),
     starts_with("a_tot_"),
-    all_of(c("percent_pico", "percent_nano", "percent_micro"))
+    all_of(c("percent_pico", "percent_nano", "percent_micro")),
+    contains("micro"),
+    contains("nano"),
+    contains("pico"),
+    # after discussion, we could not find what was this variable, since tchla
+    # and tcholora were aready in the data
+    chl_a,
+    # fluorescence_line_height
+    flh,
+    all_of(c("al", "si", "fe", "p", "ca", "fr_fe", "bio_si")),
+    psc,
+    npc,
+    percent_chla_active
   ))
 
 stations
@@ -249,7 +264,6 @@ stations <- stations |>
 names(stations)
 
 # Add unit to reflectance variable
-
 reflectance <- reflectance |>
   rename(measured_reflectance_percent = measured_reflectance)
 
@@ -333,7 +347,8 @@ surface <- stations |>
     caroten = car,
     lutein = lut,
     hexanoyloxyfucoxanthin_19 = x19hf,
-    butanoyloxyfucoxanthin_19 = x19bf
+    butanoyloxyfucoxanthin_19 = x19bf,
+    total_phaeo = tphaeo
   ) |>
   rename_with(
     .fn = ~ glue("{.x}", "xanthin"),
@@ -358,10 +373,7 @@ surface <- stations |>
     a_cdom_443_model_m1 = ay_443_model,
     s_cdom_350_500_model_m1 = sy_model,
     a_nap_443_model_m1 = anap_443_model,
-    s_nap_model_nm1 = snap_model,
-    fluorescence_line_height = flh,
-    solar_zenith_angle = theta_s,
-    total_phaeo = tphaeo
+    s_nap_model_nm1 = snap_model
   )
 
 names(surface)
@@ -373,11 +385,11 @@ names(surface)
 surface <- surface |>
   select(-nap_model_intercept)
 
-# Let's remove all CDOM data because Marcel provided me with the original acdom
-# files with a larger spectral range. I will use this data in the final data.
-# Also remove absorption background average calculated between 746 and 750.
-# These are not needed since I am computing them later when cleaning absorption
-# data.
+# After discussion, let's remove all CDOM data because Marcel provided me with
+# the original acdom files with a larger spectral range. I will use this data in
+# the final data. Also remove absorption background average calculated between
+# 746 and 750. These are not needed since I am computing them later when
+# cleaning absorption data.
 
 # I made a plot to compare s_nap from Marcel and the one I am calculating and
 # they are very close.
@@ -398,27 +410,4 @@ surface <- surface |>
 
 names(surface)
 
-# There is one very low POC value below 0.01, remove it
-
-surface <- surface |>
-  mutate(poc_g_m_3 = replace(poc_g_m_3, poc_g_m_3 < 0.01, NA_real_))
-
-## ├ Rename units ----
-
-surface <- surface |>
-  rename_with(~ str_replace(., "m_3$", "m3"), ends_with("m_3"))
-
-# TODO: add units to each parameter
-surface |>
-  rename(spm_g_m3 = spm) |>
-  rename_with(~ paste0(., "_mg_m3"), matches("chl_[abc]")) |>
-  rename_with(~ paste0(., "_mg_m3"), ends_with("xanthin")) |>
-  rename_with(
-    ~ paste0(., "_mg_m3"),
-    any_of(c("caroten", "peridinin", "lutein"))
-  ) |>
-  names() |>
-  sort()
-
-# TODO: Consider saving it to the raw/tidied folder
-write_csv(surface, here("data", "clean", "surface.csv"))
+write_csv(surface, here("data", "raw", "tidied", "pigments.csv"))

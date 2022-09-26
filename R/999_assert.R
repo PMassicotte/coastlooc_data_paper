@@ -44,3 +44,12 @@ read_csv(here("data", "clean", "stations.csv")) |>
   verify(all(between(longitude, -180, 180), na.rm = TRUE)) |>
   verify(all(between(latitude, -90, 90), na.rm = TRUE))
 # %%
+
+# %% ---- All wavelength are the same
+# TODO:
+
+# What is the "official list" of wavelengths?
+# - absorption
+# - radiometry
+
+# %%

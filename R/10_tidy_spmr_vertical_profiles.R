@@ -39,3 +39,39 @@ ds |>
   arrange(-depth_m, wavelength) |>
   group_walk(~ write_csv(.x, file = file.path(destdir_csv, paste0(.y$station, ".csv"))))
 # %%
+
+# %% ---- Depth ranges visualization
+
+# Get the min/max depth sampled at each station
+df <- ds |>
+  group_by(station) |>
+  collect() |>
+  drop_na(ed_w_m2_um) |>
+  select(station, depth_m) |>
+  filter(depth_m == min(depth_m) | depth_m == max(depth_m)) |>
+  distinct() |>
+  mutate(position = case_when(
+    depth_m == min(depth_m) ~ "depth",
+    TRUE ~ "surface"
+  )) |>
+  ungroup() |>
+  pivot_wider(names_from = position, values_from = depth_m) |>
+  mutate(station = fct_reorder(station, depth))
+
+df
+
+# Segment plot
+df |>
+  ggplot(aes(y = surface, yend = depth, x = station, xend = station)) +
+  geom_segment(size = 3, lineend = "round") +
+  scale_y_continuous(breaks = scales::breaks_pretty(n = 20)) +
+  scale_x_discrete(position = "top") +
+  labs(
+    x = NULL,
+    y = "Depth (m)",
+    title = "Depth ranges of SPMR vertical profiles"
+  )
+
+# %%
+
+ds
