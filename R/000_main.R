@@ -6,8 +6,6 @@
 # DESCRIPTION:  COSTLOOC data paper.
 # <><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><>
 
-# Setup -------------------------------------------------------------------
-
 # renv::install("MilesMcBain/breakerofchains")
 # renv::install("mcguinlu/pathformatr")
 # renv::install("ropensci/rnaturalearthdata")
@@ -21,7 +19,7 @@
 
 # renv::repair()
 
-# %% ---- setup
+# %% ---- Setup
 library(tidyverse)
 library(stars)
 library(sf)
@@ -65,7 +63,7 @@ source(here("R", "008_tidy_carbon_proxies.R"))
 source(here("R", "009_extract_bathymetry.R"))
 
 # %% ---- Basic tests to validate the data
-source(here("R", "999_assert.R"))
+# source(here("R", "999_assert.R"))
 # %%
 
 # Figures for the manuscript ----------------------------------------------

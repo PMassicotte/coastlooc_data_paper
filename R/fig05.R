@@ -67,9 +67,9 @@ irradiance <- irradiance |>
 
 p2 <- irradiance |>
   filter(wavelength == 443) |>
-  drop_na(kd_m1) |>
-  mutate(area = fct_reorder(area, kd_m1)) |>
-  ggplot(aes(x = area, y = kd_m1)) +
+  drop_na(k_ed_m1) |>
+  mutate(area = fct_reorder(area, k_ed_m1)) |>
+  ggplot(aes(x = area, y = k_ed_m1)) +
   geom_boxplot(aes(color = area), size = 0.25, outlier.size = 0.5) +
   ggbeeswarm::geom_quasirandom(
     groupOnX = TRUE,
@@ -92,7 +92,7 @@ p2 <- irradiance |>
   ) +
   labs(
     x = NULL,
-    y = quote(italic(K)[d](443) ~ (m^{
+    y = quote(italic(K)[Ed](443) ~ (m^{
       -1
     }))
   ) +
@@ -130,5 +130,5 @@ ac9 |>
 irradiance |>
   filter(wavelength == 443) |>
   group_by(area) |>
-  summarise(median_kd_m1 = median(kd_m1, na.rm = TRUE)) |>
+  summarise(median_kd_m1 = median(k_ed_m1, na.rm = TRUE)) |>
   arrange(median_kd_m1)

@@ -172,8 +172,8 @@ df <- stations |>
   inner_join(kd, by = "station")
 
 p3 <- df |>
-  drop_na(particulate_organic_carbon_g_m3, kd_m1) |>
-  ggplot(aes(x = kd_m1, y = particulate_organic_carbon_g_m3)) +
+  drop_na(particulate_organic_carbon_g_m3, k_ed_m1) |>
+  ggplot(aes(x = k_ed_m1, y = particulate_organic_carbon_g_m3)) +
   geom_point(
     aes(fill = area),
     size = 2,
@@ -193,7 +193,7 @@ p3 <- df |>
     x = quote("Particulate organic carbon" ~ (g ~ m^{
       -3
     })),
-    y = quote(K[d](443) ~ (m^{
+    y = quote(K[Ed](443) ~ (m^{
       -1
     }))
   ) +

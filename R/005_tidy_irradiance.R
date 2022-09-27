@@ -30,10 +30,13 @@ irradiance <- stations |>
 
 irradiance
 
+irradiance <- irradiance |>
+  rename(k_eu = ku, k_ed = kd)
+
 # Add units
 irradiance <- irradiance |>
   rename_with(~ paste0(., "_w_m2_um"), c(ed, eu)) |>
-  rename_with(~ paste0(., "_m1"), c(kd, ku))
+  rename_with(~ paste0(., "_m1"), c(k_ed, k_eu))
 
 irradiance |>
   pivot_longer(-c(station, wavelength)) |>
@@ -44,7 +47,7 @@ irradiance |>
 # %% ---- Set negative values to NA
 irradiance <- irradiance |>
   mutate(across(
-    eu_w_m2_um:kd_m1,
+    -c(station, wavelength),
     ~ case_when(
       . > 0 ~ .,
       TRUE ~ NA_real_
@@ -76,8 +79,8 @@ df_viz <- irradiance |>
 
 p_eu <- ggspectral(df_viz, eu_w_m2_um, "E[u](0^'-')~'['~W~m^{-2}~um^{-1}~']'")
 p_ed <- ggspectral(df_viz, ed_w_m2_um, "E[d](0^'-')~'['~W~m^{-2}~um^{-1}~']'")
-p_ku <- ggspectral(df_viz, ku_m1, "K[u]~(m^{-1})")
-p_kd <- ggspectral(df_viz, kd_m1, "K[d]~(m^{-1})")
+p_ku <- ggspectral(df_viz, k_eu_m1, "K[Eu]~(m^{-1})")
+p_kd <- ggspectral(df_viz, k_ed_m1, "K[Ed]~(m^{-1})")
 
 save_fun(p_eu, here("graphs", "005_eu_spectral_profiles_by_area.pdf"))
 save_fun(p_ed, here("graphs", "005_ed_spectral_profiles_by_area.pdf"))

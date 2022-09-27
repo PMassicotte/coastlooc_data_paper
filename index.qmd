@@ -17,7 +17,7 @@ knitr::opts_chunk$set(
   message = FALSE,
   warning = FALSE,
   fig.pos = "center",
-  cache = TRUE
+  cache = FALSE
 )
 
 library(tidyverse)
