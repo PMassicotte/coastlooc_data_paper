@@ -98,7 +98,8 @@ df2 <- df[i == 6] |>
 
 massimo <- bind_rows(df1, df2) |>
   filter(depth_m == 0) |>
-  select(-depth_m, -contains("cdom"), -aqy)
+  select(-depth_m, -contains("cdom"), -aqy) |>
+  rename(dissolved_organic_carbon_um_c = doc_um_c)
 
 massimo
 # %%
