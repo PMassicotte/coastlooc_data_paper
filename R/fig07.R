@@ -11,16 +11,28 @@ source(here("R", "zzz.R"))
 stations <- read_csv(here("data", "clean", "stations.csv")) |>
   select(station, area)
 
-poc <- read_csv(here("data", "clean", "surface.csv")) |>
-  select(station, total_chl_a, poc_g_m3)
+poc <- read_csv(here("data", "clean", "nutrients.csv")) |>
+  select(station, particulate_organic_carbon_g_m3)
 
-df <- inner_join(stations, poc, by = "station")
+chla <- read_csv(here("data", "clean", "pigments.csv")) |>
+  select(station, chlorophyll_a_mg_m3)
 
-# Chla vs poc -------------------------------------------------------------
+absorption <- read_csv(here("data", "clean", "absorption.csv")) |>
+  filter(wavelength == 443)
+
+kd <- read_csv(here("data", "clean", "irradiance.csv")) |>
+  filter(wavelength == 443)
+
+bp <- read_csv(here("data", "clean", "ac9.csv")) |>
+  filter(wavelength == 440)
+
+# %% ---- Chla vs poc
+df <- inner_join(stations, poc, by = "station") |>
+  inner_join(chla, by = "station")
 
 p1 <- df |>
   drop_na() |>
-  ggplot(aes(x = total_chl_a, y = poc_g_m3)) +
+  ggplot(aes(x = chlorophyll_a_mg_m3, y = particulate_organic_carbon_g_m3)) +
   geom_point(
     aes(fill = area),
     size = 2,
@@ -77,31 +89,27 @@ df |>
   drop_na() |>
   mutate(across(where(is.numeric), log10)) |>
   group_by(area) |>
-  summarise(r = cor(total_chl_a, poc_g_m3, use = "complete.obs"), n = n())
+  summarise(r = cor(
+    chlorophyll_a_mg_m3,
+    particulate_organic_carbon_g_m3,
+    use = "complete.obs"
+  ), n = n())
+# %%
 
-# Find out interesting correlations to show -------------------------------
 
-stations <- read_csv(here("data", "clean", "stations.csv")) |>
-  select(station, area)
 
-surface <- read_csv(here("data", "clean", "surface.csv"))
+# Because CDOM and SPM do not necessary co-variate with chlorophyll-a and can
+# mask the signal from the phytoplankton (Sathyendranath2000).
 
-absorption <- read_csv(here("data", "clean", "absorption.csv")) |>
-  filter(wavelength == 443)
-
-df <- surface |>
+# %% ---- Total chla vs aphy
+df <- chla |>
   inner_join(stations, by = "station") |>
   inner_join(absorption, by = "station")
 
 df
 
-# Because CDOM and SPM do not necessary co-variate with chlorophyll-a and can
-# mask the signal from the phytoplankton (Sathyendranath2000).
-
-# Total chla vs aphy ------------------------------------------------------
-
 p2 <- df |>
-  ggplot(aes(x = total_chl_a, y = a_phy_m1)) +
+  ggplot(aes(x = chlorophyll_a_mg_m3, y = a_phy_m1)) +
   geom_point(
     aes(fill = area),
     size = 2,
@@ -145,29 +153,27 @@ p2 <- df |>
   )
 
 df |>
-  select(area, total_chl_a, a_phy_m1) |>
+  select(area, chlorophyll_a_mg_m3, a_phy_m1) |>
   drop_na() |>
   mutate(across(where(is.numeric), log10)) |>
   group_by(area) |>
-  summarise(r = cor(total_chl_a, a_phy_m1, use = "complete.obs"), n = n())
+  summarise(r = cor(
+    chlorophyll_a_mg_m3,
+    a_phy_m1,
+    use = "complete.obs"
+  ), n = n())
 
-# POC vs Kd ---------------------------------------------------------------
+# %%
 
-stations <- read_csv(here("data", "clean", "stations.csv")) |>
-  select(station, area)
-
-poc <- read_csv(here("data", "clean", "surface.csv")) |>
-  select(station, total_chl_a, poc_g_m3)
-
-irradiance <- read_csv(here("data", "clean", "irradiance.csv"))
+# %% ---- POC vs Kd
 
 df <- stations |>
   inner_join(poc, by = "station") |>
-  inner_join(irradiance, by = "station") |>
-  filter(wavelength == 443)
+  inner_join(kd, by = "station")
 
 p3 <- df |>
-  ggplot(aes(x = kd_m1, y = poc_g_m3)) +
+  drop_na(particulate_organic_carbon_g_m3, kd_m1) |>
+  ggplot(aes(x = kd_m1, y = particulate_organic_carbon_g_m3)) +
   geom_point(
     aes(fill = area),
     size = 2,
@@ -209,22 +215,19 @@ p3 <- df |>
     legend.position = "none"
   )
 
-# POC vs bp ---------------------------------------------------------------
+# %%
 
-stations <- read_csv(here("data", "clean", "stations.csv"))
-ac9 <- read_csv(here("data", "clean", "ac9.csv")) |>
-  filter(wavelength == 440)
+# %% ---- POC vs bp
 
-surface <- read_csv(here("data", "clean", "surface.csv"))
-
-df <- inner_join(stations, ac9, by = "station") |>
-  inner_join(surface, by = "station") |>
-  drop_na(poc_g_m3, bp_m1)
+df <- stations |>
+  inner_join(bp, by = "station") |>
+  inner_join(poc, by = "station") |>
+  drop_na(particulate_organic_carbon_g_m3, bp_m1)
 
 unique(df$wavelength)
 
 p4 <- df |>
-  ggplot(aes(x = poc_g_m3, y = bp_m1)) +
+  ggplot(aes(x = particulate_organic_carbon_g_m3, y = bp_m1)) +
   geom_point(
     aes(fill = area),
     size = 2,
@@ -269,6 +272,8 @@ p4 <- df |>
     legend.position = "none",
     legend.title = element_blank()
   )
+
+# %%
 
 # Combine plots -----------------------------------------------------------
 

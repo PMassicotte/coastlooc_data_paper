@@ -61,11 +61,9 @@ p1 <- ac9 |>
 
 irradiance <- read_csv(here("data", "clean", "irradiance.csv"))
 stations <- read_csv(here("data", "clean", "stations.csv"))
-surface <- read_csv(here("data", "clean", "surface.csv"))
 
 irradiance <- irradiance |>
-  inner_join(stations, by = "station") |>
-  inner_join(surface, by = "station")
+  inner_join(stations, by = "station")
 
 p2 <- irradiance |>
   filter(wavelength == 443) |>

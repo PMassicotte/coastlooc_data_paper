@@ -111,6 +111,7 @@ stations <- read_csv(here("data", "clean", "stations.csv"))
 
 df <- absorption |>
   filter(wavelength == 350) |>
+  drop_na(a_cdom_measured_m1) |>
   inner_join(stations, by = "station")
 
 df
@@ -172,7 +173,9 @@ p5 <- df_north_sea |>
   ) +
   labs(
     x = "Latitude",
-    y = quote(a[CDOM] ~ (350) ~ (m^{-1}))
+    y = quote(a[CDOM] ~ (350) ~ (m^{
+      -1
+    }))
   )
 
 # Combine plots -----------------------------------------------------------

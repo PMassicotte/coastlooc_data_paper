@@ -12,24 +12,19 @@ source(here("R", "zzz.R"))
 station <- read_csv(here("data", "clean", "stations.csv")) |>
   select(station, area)
 
-surface <- read_csv(here("data", "clean", "surface.csv"))
+surface <- read_csv(here("data", "clean", "pigments.csv"))
 
 surface
 
 surface <- surface |>
   inner_join(station, by = "station")
 
-surface |>
-  ggplot(aes(x = chl_a, y = total_chl_a)) +
-  geom_point() +
-  facet_wrap(~area)
-
 # Total chla --------------------------------------------------------------
 
 p1 <- surface |>
-  drop_na(total_chl_a) |>
-  mutate(area = fct_reorder(area, total_chl_a)) |>
-  ggplot(aes(x = area, y = total_chl_a)) +
+  drop_na(chlorophyll_a_mg_m3) |>
+  mutate(area = fct_reorder(area, chlorophyll_a_mg_m3)) |>
+  ggplot(aes(x = area, y = chlorophyll_a_mg_m3)) +
   geom_boxplot(aes(color = area), size = 0.25, outlier.size = 0.5) +
   ggbeeswarm::geom_quasirandom(
     groupOnX = TRUE,
@@ -66,11 +61,16 @@ p1
 
 # POC ---------------------------------------------------------------------
 
-p2 <- surface |>
-  drop_na(poc_g_m3) |>
-  filter(poc_g_m3 >= 0.01) |>
-  mutate(area = fct_reorder(area, poc_g_m3)) |>
-  ggplot(aes(x = area, y = poc_g_m3)) +
+# TODO
+
+nutrients <- read_csv(here("data", "clean", "nutrients.csv")) |>
+  inner_join(station, by = "station")
+
+p2 <- nutrients |>
+  drop_na(particulate_organic_carbon_g_m3) |>
+  filter(particulate_organic_carbon_g_m3 >= 0.01) |>
+  mutate(area = fct_reorder(area, particulate_organic_carbon_g_m3)) |>
+  ggplot(aes(x = area, y = particulate_organic_carbon_g_m3)) +
   geom_boxplot(aes(color = area), size = 0.25, outlier.size = 0.5) +
   ggbeeswarm::geom_quasirandom(
     groupOnX = TRUE,

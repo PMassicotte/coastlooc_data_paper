@@ -11,6 +11,9 @@ source(here("R", "zzz.R"))
 stations <- read_csv(here("data", "clean", "stations.csv"))
 bathymetry <- read_csv(here("data", "clean", "bathymetry.csv"))
 
+bathymetry |>
+  filter(is.na(bathymetry_m))
+
 df <- stations |>
   left_join(bathymetry, by = "station") |>
   mutate(bathymetry_m = -bathymetry_m) |>
@@ -24,7 +27,7 @@ df <- stations |>
 
 df |>
   group_by(area) |>
-  summarise(mean(bathymetry_m))
+  summarise(mean(bathymetry_m, na.rm = TRUE))
 
 # Plot number of observation per area -------------------------------------
 
@@ -33,8 +36,7 @@ df_viz <- df |>
     date_month = clock::date_group(date, precision = "month"),
     .after = date
   ) |>
-  count(area, date_month) |>
-  assertr::verify(sum(n) == 420)
+  count(area, date_month)
 
 df_viz
 
@@ -118,6 +120,14 @@ p <- p1 + p2 +
 ggsave(
   here("graphs", "fig02.pdf"),
   device = cairo_pdf,
+  width = 200,
+  height = 120,
+  units = "mm"
+)
+
+ggsave(
+  here("graphs", "fig02.svg"),
+  device = svglite::svglite,
   width = 200,
   height = 120,
   units = "mm"

@@ -11,6 +11,7 @@
 #' @examples
 ggspectral <- function(df, variable, ylab) {
   p <- df |>
+    drop_na({{ variable }}) |>
     ggplot(aes(
       x = wavelength,
       y = {{ variable }},

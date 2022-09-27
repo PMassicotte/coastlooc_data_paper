@@ -117,7 +117,11 @@ p1 <- ggplot() +
     guide = guide_legend(
       label.position = "top",
       title = NULL,
-      label.theme = element_text(size = 6, family = "Montserrat", color = "white"),
+      label.theme = element_text(
+        size = 6,
+        family = "Montserrat",
+        color = "white"
+      ),
       keyheight = unit(0.2, "cm"),
       keywidth = unit(1, "cm"),
       byrow = TRUE,
@@ -236,12 +240,13 @@ df_viz <- stations_sf |>
       labs(
         title = df$area
       ) +
+      coord_sf(expand = FALSE) +
       theme(
         legend.position = "none",
         aspect.ratio = 1,
         panel.grid = element_blank(),
         plot.title = element_text(size = 6, hjust = 0.5),
-        axis.text = element_text(size = 4),
+        axis.text = element_text(size = 5),
         axis.title = element_blank(),
         panel.border = element_rect(size = 0.25, fill = NA)
       )
@@ -252,12 +257,7 @@ p2 <- wrap_plots(df_viz$p, ncol = 3)
 p2
 # %%
 
-
-# p2 <- {p2[[1]] +  p2[[2]] + p2[[3]] + p2[[4]] + p2[[5]] + p2[[6]]} +
-#   plot_layout(nrow = 2)
-
-# Combine plots -----------------------------------------------------------
-
+# %% ---- Combine plots
 p <- p1 / p2 +
   plot_layout(heights = c(1, 0.75))
 
@@ -272,3 +272,5 @@ ggsave(
 )
 
 knitr::plot_crop(outfile)
+
+# %%

@@ -1,0 +1,82 @@
+# <><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><>
+# FILE:         main.R
+#
+# AUTHOR:       Philippe Massicotte
+#
+# DESCRIPTION:  COSTLOOC data paper.
+# <><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><>
+
+# Setup -------------------------------------------------------------------
+
+# renv::install("MilesMcBain/breakerofchains")
+# renv::install("mcguinlu/pathformatr")
+# renv::install("ropensci/rnaturalearthdata")
+# renv::install("ropensci/rnaturalearthhires")
+# renv::install("PMassicotte/ggpmthemes")
+# renv::install(c("ropensci/tabulizerjars", "ropensci/tabulizer"), INSTALL_opts = "--no-multiarch")
+# renv::install("Enchufa2/rspm")
+# renv::install("bspm")
+# renv::install("languageserver") # For vscode
+# renv::install("httpgd") # For vscode
+
+# renv::repair()
+
+# %% ---- setup
+library(tidyverse)
+library(stars)
+library(sf)
+library(here)
+library(MBA)
+library(assertr)
+library(glue)
+library(tabulizer)
+library(patchwork)
+library(ggpmthemes)
+library(terra)
+library(arrow)
+library(googlesheets4)
+library(gt)
+library(ggbeeswarm)
+library(rnaturalearth)
+
+# Set default ggplot2 font size and font family
+theme_set(theme_light_modified(base_family = "Montserrat", base_size = 10))
+
+theme_update(
+  panel.border = element_blank(),
+  axis.ticks = element_blank(),
+  strip.background = element_blank(),
+  strip.text = element_text(face = "bold", size = 10, color = "#4c4a4a")
+)
+# %%
+
+# Scripts -----------------------------------------------------------------
+
+# %% ----
+
+source(here("R", "001_tidy_raw_data.R"))
+source(here("R", "002_tidy_stations.R"))
+source(here("R", "003_tidy_absorption.R"))
+source(here("R", "004_tidy_ac9.R"))
+source(here("R", "005_tidy_irradiance.R"))
+source(here("R", "006_tidy_reflectance.R"))
+source(here("R", "007_tidy_pigments.R"))
+source(here("R", "008_tidy_carbon_proxies.R"))
+source(here("R", "009_extract_bathymetry.R"))
+
+# %% ---- Basic tests to validate the data
+source(here("R", "999_assert.R"))
+# %%
+
+# Figures for the manuscript ----------------------------------------------
+
+# %% ----
+source(here("R", "fig01.R"))
+source(here("R", "fig02.R"))
+source(here("R", "fig03.R"))
+source(here("R", "fig04.R"))
+source(here("R", "fig05.R"))
+source(here("R", "fig06.R"))
+source(here("R", "fig07.R"))
+# source(here("R", "fig08.R"))
+# %%
