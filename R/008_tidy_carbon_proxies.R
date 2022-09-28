@@ -102,8 +102,25 @@ massimo <- bind_rows(df1, df2) |>
   rename(dissolved_organic_carbon_um_c = doc_um_c)
 
 massimo
+
+# %% ---- Convert from mol to mg
+
+# TODO: verify calculation. Other variables are in g
+
+# 1 mol C = 12.0107 grams of C Here it is assumed that the data in Massimo is
+# presented in uMol C per liter, hence the '* 1000' to convert from L to cubic
+# metter.
+
+massimo <- massimo |>
+  mutate(
+    dissolved_organic_carbon_g_m3 =
+      dissolved_organic_carbon_um_c * 0.000001 * 12.0107 * 1000,
+    .keep = "unused"
+  )
+
 # %%
 
+# %%
 # %% ---- Set the correct station names
 massimo <- massimo |>
   mutate(station = str_replace(station, "VH", "C10")) |>
@@ -114,6 +131,15 @@ massimo <- massimo |>
     side = "right",
     pad = "0"
   ))
+
+# The DOC average in g m3 is similar to that presented in Table 11 (page 83 in
+# the final report). Looks like the conversion from uMol/L to g/m3 is ok.
+massimo |>
+  filter(str_starts(station, "C4")) |>
+  pull(dissolved_organic_carbon_g_m3) |>
+  na.omit() |>
+  mean()
+
 # %%
 
 # %% ---- Export data
