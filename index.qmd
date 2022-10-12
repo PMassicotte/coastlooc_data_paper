@@ -176,8 +176,6 @@ knitr::include_graphics(pdf2png(here("graphs", "fig05.pdf")))
 
 Figure 6: Spectra of downward irradiance measured at the surface across the sampled areas. The tick lines represent the average spectra.
 
-- Dot not forget to find out why there are duplicated spectra in Med. Sea.
-
 ```{r fig06}
 knitr::include_graphics(pdf2png(here("graphs", "fig06.pdf")))
 ```
@@ -188,6 +186,14 @@ Scatterplots showing relationships among different selected variables. (**A**) P
 
 ```{r fig07}
 knitr::include_graphics(pdf2png(here("graphs", "fig07.pdf")))
+```
+
+### Appendix 1
+
+Example of extrapolation of the upward irradiance towards the sea surface. The irradiance values just below the sea surface and the corresponding diffuse attenuation coefficient for the topmost water layer are specified in the figures.
+
+```{r appendix01}
+knitr::include_graphics(pdf2png(here("graphs", "appendix01.pdf")))
 ```
 
 ## Done
