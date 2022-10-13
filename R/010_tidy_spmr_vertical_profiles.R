@@ -41,7 +41,12 @@ ds |>
   collect() |>
   relocate(wavelength, .before = eu_w_m2_um) |>
   arrange(-depth_m, wavelength) |>
-  group_walk(~ write_csv(.x, file = file.path(destdir_csv, paste0(.y$station, ".csv"))))
+  group_walk(~ write_csv(.x,
+    file = file.path(
+      destdir_csv,
+      paste0(.y$station, ".csv")
+    )
+  ))
 # %%
 
 # %% ---- Depth ranges visualization
@@ -85,7 +90,7 @@ ds |>
   ggplot(aes(x = salin_psu)) +
   geom_histogram()
 
-# TODO: Looks like the NA value for salinity is... wth...
+# TODO: Looks like the NA value for salinity is... -66... wth...
 ds |>
   collect() |>
   filter(salin_psu != -66) |>

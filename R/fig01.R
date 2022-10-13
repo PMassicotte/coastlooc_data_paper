@@ -202,8 +202,8 @@ p1 <- ggplot() +
 # %% ---- Plot per area
 df_viz <- stations_sf |>
   filter(area != "Atlantic Ocean") |>
-  group_by(area) |>
-  summarise(geometry = st_union(geometry)) |>
+  # group_by(area) |>
+  # summarise(geometry = st_union(geometry)) |>
   group_nest(area, keep = TRUE) |>
   mutate(p = map(data, function(df, land = ne_land, river = ne_river) {
 
@@ -229,9 +229,9 @@ df_viz <- stations_sf |>
         -Inf,
         Inf,
         label = glue("n = {n}"),
-        vjust = 1.5,
+        vjust = 1.9,
         hjust = -0.2,
-        size = 3
+        size = 2.5
       ) +
       scale_color_manual(
         breaks = area_breaks,
@@ -240,7 +240,7 @@ df_viz <- stations_sf |>
       labs(
         title = df$area
       ) +
-      coord_sf(expand = FALSE) +
+      coord_sf(expand = TRUE) +
       theme(
         legend.position = "none",
         aspect.ratio = 1,
@@ -248,7 +248,7 @@ df_viz <- stations_sf |>
         plot.title = element_text(size = 6, hjust = 0.5),
         axis.text = element_text(size = 5),
         axis.title = element_blank(),
-        panel.border = element_rect(size = 0.25, fill = NA)
+        panel.border = element_rect(size = 0.25, fill = NA, color = NA)
       )
   }))
 
@@ -274,3 +274,7 @@ ggsave(
 knitr::plot_crop(outfile)
 
 # %%
+
+# Stats for the paper
+stations_sf |>
+  count(area)

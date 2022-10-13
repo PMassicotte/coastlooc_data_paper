@@ -12,7 +12,7 @@ source(here("R", "zzz.R"))
 
 station <- read_csv(here("data", "clean", "stations.csv"))
 
-surface <- read_csv(here("data", "clean", "surface.csv"))
+surface <- read_csv(here("data", "clean", "pigments.csv"))
 
 absorption <- read_csv(here("data", "clean", "absorption.csv")) |>
   filter(wavelength %in% c(440, 675))
@@ -24,7 +24,7 @@ df <- absorption |>
 df
 
 df |>
-  ggplot(aes(x = a_phy_m1, y = total_chl_a)) +
+  ggplot(aes(x = a_phy_m1, y = chlorophyll_a_mg_m3)) +
   geom_point(aes(color = area)) +
   scale_x_log10() +
   scale_y_log10() +
@@ -38,7 +38,7 @@ df |>
 df |>
   group_nest(wavelength) |>
   mutate(correlation = map_dbl(data, ~ cor(
-    log10(.$total_chl_a), log10(.$a_phy_m1),
+    log10(.$chlorophyll_a_mg_m3), log10(.$a_phy_m1),
     use = "complete.obs"
   )))
 
@@ -69,9 +69,9 @@ surface
 
 surface |>
   mutate(trophic_status = case_when(
-    total_chl_a <= 0.1 ~ "oligo",
-    between(total_chl_a, 0.1, 1) ~ "meso",
-    total_chl_a > 1 ~ "eutro",
+    chlorophyll_a_mg_m3 <= 0.1 ~ "oligo",
+    between(chlorophyll_a_mg_m3, 0.1, 1) ~ "meso",
+    chlorophyll_a_mg_m3 > 1 ~ "eutro",
     TRUE ~ NA_character_
   )) |>
   count(trophic_status)
@@ -79,13 +79,19 @@ surface |>
 # %%
 
 # %% ---- POC
-surface |>
+poc <- read_csv(here("data", "clean", "nutrients.csv"))
+
+poc |>
   inner_join(station, by = "station") |>
   group_by(area) |>
-  summarise(across(poc_g_m3, median, na.rm = TRUE)) |>
-  mutate(across(poc_g_m3, round, digits = 1)) |>
+  summarise(across(particulate_organic_carbon_g_m3, median, na.rm = TRUE)) |>
+  mutate(across(particulate_organic_carbon_g_m3, round, digits = 1)) |>
   ungroup() |>
-  arrange(poc_g_m3)
+  arrange(particulate_organic_carbon_g_m3)
 
-range(surface$poc_g_m3, na.rm = TRUE)
+range(poc$particulate_organic_carbon_g_m3, na.rm = TRUE)
+# %%
+
+# %% ---- Chlorophyll-a
+range(surface$chlorophyll_a_mg_m3, na.rm = TRUE)
 # %%

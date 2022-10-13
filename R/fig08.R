@@ -70,3 +70,12 @@ ggsave(
   height = 10
 )
 # %%
+
+# %% ---- Salinity
+
+df |>
+  ggplot(aes(x = salin_psu)) +
+  geom_histogram()
+
+
+# %%

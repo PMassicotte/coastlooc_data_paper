@@ -75,5 +75,13 @@ tidy_mrg <- function(df_raw) {
       .after = cast
     )
 
+  # Set NA for negative values (probaly used at indication of missing
+  # observation).
+  df_tidy <- df_tidy |>
+    mutate(salin_psu = case_when(
+      salin_psu < 0 ~ NA_real_,
+      TRUE ~ salin_psu
+    ))
+
   return(df_tidy)
 }

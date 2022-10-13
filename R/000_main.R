@@ -16,12 +16,12 @@
 # renv::install("bspm")
 # renv::install("languageserver") # For vscode
 # renv::install("httpgd") # For vscode
+# renv::install("clauswilke/ggisoband")
 
 # renv::repair()
 
 # %% ---- Setup
 library(tidyverse)
-library(stars)
 library(sf)
 library(here)
 library(MBA)
@@ -48,9 +48,7 @@ theme_update(
 )
 # %%
 
-# Scripts -----------------------------------------------------------------
-
-# %% ----
+# %% ---- Clean up the data
 
 source(here("R", "001_tidy_raw_data.R"))
 source(here("R", "002_tidy_stations.R"))
@@ -66,9 +64,7 @@ source(here("R", "009_extract_bathymetry.R"))
 # source(here("R", "999_assert.R"))
 # %%
 
-# Figures for the manuscript ----------------------------------------------
-
-# %% ----
+# %% ---- Figures for the manuscript
 source(here("R", "fig01.R"))
 source(here("R", "fig02.R"))
 source(here("R", "fig03.R"))

@@ -51,7 +51,7 @@ irradiance |>
     x = "Wavelength (mm)",
     y = quote(E[d](0^"-") ~ "[" ~ W ~ m^{
       -2
-    } ~ nm^{
+    } ~ mu * m^{
       -1
     } ~ "]")
   ) +
