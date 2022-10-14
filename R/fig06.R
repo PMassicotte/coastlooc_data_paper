@@ -62,6 +62,6 @@ ggsave(
   here("graphs", "fig06.pdf"),
   device = cairo_pdf,
   width = 180,
-  height = 140,
+  height = 120,
   units = "mm"
 )

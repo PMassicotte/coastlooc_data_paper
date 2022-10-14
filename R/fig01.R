@@ -201,7 +201,7 @@ p1 <- ggplot() +
 
 # %% ---- Plot per area
 df_viz <- stations_sf |>
-  filter(area != "Atlantic Ocean") |>
+  # filter(area != "Atlantic Ocean") |>
   # group_by(area) |>
   # summarise(geometry = st_union(geometry)) |>
   group_nest(area, keep = TRUE) |>

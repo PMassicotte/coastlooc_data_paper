@@ -8,7 +8,7 @@ format:
     # fig-dpi: 300
 editor_options: 
   chunk_output_type: console
-bibliography: /home/filoche/Documents/library.bib
+# bibliography: /home/filoche/Documents/library.bib
 ---
 
 ```{r setup, include=FALSE}
@@ -231,6 +231,6 @@ knitr::include_graphics(pdf2png(here("graphs", "appendix01.pdf")))
 
 - Make sure that SPMR units are OK. um vs nm. Change accordingly in the SPMR code file (`zzz_radiometer.R`).
 
-- SPMR vertical profiles have been reprocessed. This means that the *original* surface data is not the same as the newly processed vertical profiles (i.e. extrapolation to the surface). How to deal with that?
+- Remove Almofront (A2, Med case 1) observations? Looks like these were from a separate mission with different funding. Wait for Marcel's answer.
 
 ## References

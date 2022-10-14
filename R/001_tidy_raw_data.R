@@ -29,4 +29,7 @@ stations <- data.table::fread(file, col.names = header_names) |>
 
 stations
 
+stations <- stations |>
+  filter(!str_detect(station, "^A2"))
+
 write_csv(stations, here("data", "raw", "tidied", "surface_data.csv"))
