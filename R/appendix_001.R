@@ -8,9 +8,9 @@ rm(list = ls())
 
 df <- read_csv(here("data", "clean", "appendix01_eu_surface_extrapolation.csv"))
 
-# TODO Something wrong with the depth difference of 0.00001 m
-
-# Check at 443 nm for example. 1.20204 m vs 1.20203 m
+# Something weird with the depth difference of 0.00001 m. Check at 443 nm for
+# example. 1.20204 m vs 1.20203 m. After pointing it out to Frank, it seems it
+# is ok...
 df |>
   distinct(wavelength, depth)
 
@@ -134,22 +134,4 @@ ggsave(
   height = 180,
   units = "mm"
 )
-# %%
-
-# %% ---- How I would present the data
-
-# df |>
-#   mutate(depth_bin = depth %/% 0.01 * 0.01, .after = depth) |>
-#   group_by(station, wavelength, depth_bin) |>
-#   summarise(across(eu:c4, mean, na.rm = TRUE), n = n()) |>
-#   ungroup() |>
-#   write_csv("~/Desktop/bined_grid.csv")
-
-# df |>
-#   write_csv("~/Desktop/raw_grid.csv")
-
-# read_csv("data/clean/spmr/csv/C1030000.csv") |>
-#   drop_na(eu_w_m2_um) |>
-#   View()
-
 # %%

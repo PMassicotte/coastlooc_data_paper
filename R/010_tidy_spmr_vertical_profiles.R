@@ -90,7 +90,8 @@ ds |>
   ggplot(aes(x = salin_psu)) +
   geom_histogram()
 
-# TODO: Looks like the NA value for salinity is... -66... wth...
+# Looks like the NA value for salinity is... -66... wth... It is Frank data, he
+# will deal with it.
 ds |>
   collect() |>
   filter(salin_psu != -66) |>

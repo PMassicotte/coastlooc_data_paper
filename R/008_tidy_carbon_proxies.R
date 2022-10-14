@@ -105,8 +105,6 @@ massimo
 
 # %% ---- Convert from mol to mg
 
-# TODO: verify calculation. Other variables are in g
-
 # 1 mol C = 12.0107 grams of C Here it is assumed that the data in Massimo is
 # presented in uMol C per liter, hence the '* 1000' to convert from L to cubic
 # metter.

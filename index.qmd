@@ -8,7 +8,7 @@ format:
     # fig-dpi: 300
 editor_options: 
   chunk_output_type: console
-# bibliography: /home/filoche/Documents/library.bib
+bibliography: /home/filoche/Documents/library.bib
 ---
 
 ```{r setup, include=FALSE}
@@ -222,15 +222,13 @@ knitr::include_graphics(pdf2png(here("graphs", "appendix01.pdf")))
 
 - [x] Removed duplicated radiometric surface spectral profiles (duplicated Ed/Eu/Kd/Ku).
 
+- [x] Removed Almofront (A2, Med case 1) observations as they were collected from a separate mission with different funding.
+
 ## TODO
 
 - Use `piggyback` <https://docs.ropensci.org/piggyback/>
 
 - Release the final report PDF with a DOI and cite it in the main text.
   - Who should be included in the release of this document?
-
-- Make sure that SPMR units are OK. um vs nm. Change accordingly in the SPMR code file (`zzz_radiometer.R`).
-
-- Remove Almofront (A2, Med case 1) observations? Looks like these were from a separate mission with different funding. Wait for Marcel's answer.
 
 ## References

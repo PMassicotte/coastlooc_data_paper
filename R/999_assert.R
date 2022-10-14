@@ -30,12 +30,7 @@ read_csv(here("data", "clean", "ac9.csv")) |>
 # %%
 
 # %% ---- Slope of CDOM spectra
-read_csv(here("data", "clean", "s_cdom.csv")) |>
-  assert(all_positive, -station)
-# %%
-
-# %% ---- Slope of nap spectra
-read_csv(here("data", "clean", "s_nap.csv")) |>
+read_csv(here("data", "clean", "spectral_slopes.csv")) |>
   assert(all_positive, -station)
 # %%
 
@@ -43,13 +38,4 @@ read_csv(here("data", "clean", "s_nap.csv")) |>
 read_csv(here("data", "clean", "stations.csv")) |>
   verify(all(between(longitude, -180, 180), na.rm = TRUE)) |>
   verify(all(between(latitude, -90, 90), na.rm = TRUE))
-# %%
-
-# %% ---- All wavelength are the same
-# TODO:
-
-# What is the "official list" of wavelengths?
-# - absorption
-# - radiometry
-
 # %%
