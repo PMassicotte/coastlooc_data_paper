@@ -30,3 +30,12 @@ options(
   renv.config.install.transactional = FALSE,
   renv.config.synchronized.check = FALSE
 )
+
+# Use an external browser for displaying html files, such as {gt} and {xaringan}
+options(vsc.viewer = FALSE)
+# External browser for web apps, such as {shiny}
+options(vsc.browser = FALSE)
+# View help page in an external browser
+options(vsc.helpPanel = FALSE)
+# Use original data viewer
+options(vsc.view = FALSE)
