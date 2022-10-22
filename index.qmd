@@ -188,6 +188,18 @@ Scatterplots showing relationships among different selected variables. (**A**) P
 knitr::include_graphics(pdf2png(here("graphs", "fig07.pdf")))
 ```
 
+### Figure 8
+
+(**A**) Vertical profile of the upwelling irradiance at station C1021, located in the North-East Atlantic offshore Northern Portugal. A double deep chlorophyll maximum with the corresponding irradiance increase due to chlorophyll fluorescence is observed at ca. 35 m and 45 m water depth, respectively, most prominently at 683 nm, but als at 664 nm and even at 706 nm. (**B**) Vertical profiles of the upwelling and downwelling irradiance at station C6176, located in the Baltic Sea offshore Usedom Island in North-East Germany. Baltic Sea waters are rich in CDOM, resulting in strong absorption in the UV and blue. The reduced decrease of the upwelling irradiance at 559 nm towards larger depths is likely caused by reflection from the ocean bottom.
+
+```{r fig08a}
+knitr::include_graphics(here("graphs", "fig08a.png"))
+```
+
+```{r fig08b}
+knitr::include_graphics(here("graphs", "fig08b.png"))
+```
+
 ### Appendix 1
 
 Example of extrapolation of the upward irradiance towards the sea surface. The irradiance values just below the sea surface and the corresponding diffuse attenuation coefficient for the topmost water layer are specified in the figures.
@@ -202,7 +214,7 @@ knitr::include_graphics(pdf2png(here("graphs", "appendix01.pdf")))
 
 - [x] A few stations were located on the land (bad geographical coordinates). They have been removed.
 
-- [x] Calculate `s_nap` and `s_cdom`. See the method in @Babin2003 where he removes some wavelengths to calculate `s_nap`.
+- [x] Calculate `s_nap` and `s_cdom`. See the method in @babin2003 where he removes some wavelengths to calculate `s_nap`.
 
 - [x] Removed dissolved `a` and `c` from the AC9 data because there were problems with the filtering procedure during the sampling. These correspond to the `ad` and `cd` variables in `SurfaceData5(C4corr).txt`.
 
