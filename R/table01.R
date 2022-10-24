@@ -32,45 +32,42 @@ df
 
 ## ├ Create the table ----
 
-table1 <- df |>
-  mutate(source_file = str_remove(source_file, ".csv")) |>
-  # Not sure if I should group by category
-  # group_by(source_file, pi) |>
-  # group_by(category = paste0(source_file, " (", pi, ")")) |>
-  gt(rowname_col = "df") |>
-  tab_header(md("**List of variables**")) |>
-  cols_label(
-    variable = "Variable",
-    units = "Units",
-    pi = "PI",
-    description = "Description"
-  ) |>
-  sub_missing(
-    columns = c(pi, description),
-    missing_text = "TBD"
-  ) |>
-  # sub_missing(
-  #   columns = units,
-  #   missing_text = "Not Applicable"
-  # ) |>
-  text_transform(
-    locations = cells_body(columns = units),
-    fn = function(x) {
-      # Write units in latex here for the PDF
-      case_when(
-        x == "m-1" ~ "m\\textsuperscript{-1}",
-        x == "mg m-3" ~ "mg~m\\textsuperscript{-3}",
-        x == "m-2 mg chla -1" ~ "m\\textsuperscript{2}~mg~chla~\\textsuperscript{-1}",
-        x == "wm-2 µm-1" ~ "w~m\\textsuperscript{-2}~\\textmu m~\\textsuperscript{-1}",
-        x == "nm-1" ~ "nm\\textsuperscript{-1}",
-        x == "g m-3" ~ "g~m\\textsuperscript{-3}",
-        x == "um" ~ "µm",
-        TRUE ~ x
-      )
-    }
-  ) |>
-  cols_width(
-    description ~ pct(30)
-  )
+# %% ---- Create and save the table
 
-gtsave(table1, "~/Desktop/table1.tex")
+# To show missing values as blank cells instead of 'NA'
+options(knitr.kable.NA = "")
+
+df |>
+  mutate(source_file = str_replace_all(source_file, "_", "\\\\_")) |>
+  mutate(variable = str_replace_all(variable, "_", "\\\\_")) |>
+  mutate(units = case_when(
+    units == "m-1" ~ "m\\textsuperscript{-1}",
+    units == "mg m-3" ~ "mg~m\\textsuperscript{-3}",
+    units == "m-2 mg chla -1" ~ "m\\textsuperscript{2}~mg~chla~\\textsuperscript{-1}",
+    units == "wm-2 µm-1" ~ "w~m\\textsuperscript{-2}~\\textmu m~\\textsuperscript{-1}",
+    units == "nm-1" ~ "nm\\textsuperscript{-1}",
+    units == "g m-3" ~ "g~m\\textsuperscript{-3}",
+    units == "um" ~ "µm",
+    TRUE ~ units
+  )) |>
+  kbl(
+    caption = "List of measured parameters",
+    booktabs = TRUE,
+    longtable = TRUE,
+    format = "latex",
+    escape = FALSE,
+    linesep = "\\addlinespace",
+    col.names = c("Source file", "Variable", "Units", "PI", "Description")
+  ) |>
+  kable_styling(
+    latex_options = c("striped", "repeat_header", "hold_position"),
+    font_size = 8
+  ) |>
+  column_spec(1, width = "10em") |>
+  column_spec(2, width = "15em") |>
+  column_spec(3, width = "8em") |>
+  column_spec(4, width = "5em") |>
+  column_spec(5, width = "25em") |>
+  landscape() |>
+  save_kable(here("tables", "table01.tex"))
+# %%

@@ -31,11 +31,11 @@ library(tabulizer)
 library(patchwork)
 library(ggpmthemes)
 library(terra)
-library(arrow)
 library(googlesheets4)
 library(gt)
 library(ggbeeswarm)
 library(rnaturalearth)
+library(kableExtra)
 
 # Set default ggplot2 font size and font family
 theme_set(theme_light_modified(base_family = "Montserrat", base_size = 10))
@@ -78,4 +78,5 @@ source(here("R", "fig07.R"))
 # source(here("R", "fig08.R"))
 
 source(here("R", "appendix_001.R"))
+source(here("R", "appendix_002.R"))
 # %%

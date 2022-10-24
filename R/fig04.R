@@ -138,6 +138,13 @@ p5 <- df_north_sea |>
   ggplot(aes(x = latitude, y = a_cdom_measured_m1)) +
   geom_line(color = "#3366CCFF") +
   geom_point(size = 3, color = "#3366CCFF") +
+  geom_text(
+    aes(label = station),
+    check_overlap = TRUE,
+    size = 2,
+    nudge_y = -0.1,
+    nudge_x = -0.005
+  ) +
   scale_x_continuous(labels = ~ paste0(., "\u00b0")) +
   annotate("text",
     x = 52.205,
@@ -173,9 +180,7 @@ p5 <- df_north_sea |>
   ) +
   labs(
     x = "Latitude",
-    y = quote(a[CDOM] ~ (350) ~ (m^{
-      -1
-    }))
+    y = parse(text = "a[CDOM] ~ (350) ~ (m^{-1})")
   )
 
 # Combine plots -----------------------------------------------------------

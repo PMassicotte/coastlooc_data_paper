@@ -11,8 +11,6 @@
 %% 2-column papers and preprints
 \documentclass[essd, manuscript]{copernicus}
 
-
-
 %% Journal abbreviations (please use the same for preprints and final revised papers)
 
 
@@ -78,6 +76,10 @@
 % Packages needed for table 1
 \usepackage{longtable}
 \usepackage{booktabs}
+\usepackage[table]{xcolor}
+\usepackage{array}
+\usepackage[]{pdflscape}
+
 
 \begin{document}
 
@@ -106,10 +108,6 @@
 
 \runningauthor{TEXT}
 
-
-
-
-
 \received{}
 \pubdiscuss{} %% only important for two-stage journals
 \revised{}
@@ -123,10 +121,8 @@
 
 \maketitle
 
-
-
 \begin{abstract}
-    TEXT
+    Coastal Surveillance Through Observation of Ocean Color (COASTLOOC) oceanographic expeditions were conducted in 1997 and 1998 to obtain a synoptic view of the spatial distribution of different biological, chemical and physical variables across the land-to-sea gradient along the European coasts. A total of 379 stations distributed in six areas were visited: (1) 39 in the Adriatic Sea, (2) 38 in the Atlantic Ocean, (3) 57 in the Baltic Sea, (4) 85 in the English Channel, (5) 61 in the Mediterranean Sea and (6) 99 in the North Sea. A particular emphasis has been dedicated to the collection of a comprehensive set of apparent (AOPs) and inherent (IOPs) optical properties to document carbon fluxes at both the local and global scales. These radiometric quantities have been measured using traditional ship-based sampling, but also from a helicopter in shallow estuaries, which are more difficult to access from boats. Although that the COASTLOOC campaigns were carried out more than 20 years ago, the rich and historical dataset that has been collected has great potential to contribute to the development and evaluation of new bio-optical models adapted for optically-complex waters. Given that this unique dataset is still today frequently requested by other researchers, we present the result of an effort to compile and standardize data that will facilitate their reuse in other oceanographic studies. The dataset is available at https://doi.org/10.17882/75345 (Massicotte2022).
 \end{abstract}
 
 
@@ -134,15 +130,16 @@
 
 
 \introduction  %% \introduction[modified heading if necessary]
+
+Since the launch of the Coastal Zone Color Scanner (CZCS) by NASA in 1978, ocean color remote sensing has been used to monitor the state and the evolution of global marine ecosystems both in time and space. In open oceans, the main component that affects the variations in the inherent (IOPs) and apparent (AOPs) optical properties of seawater is phytoplankton, which is usually represented by the concentration of chlorophyll-a (\citep{Morel1977}). Many simple empirical spectral band ratio algorithms have been developed to link changes in remotely-sensed ocean color (OC), measured as reflectance, to the variations in chlorophyll-a concentration (see OReilly2019 for an extensive evaluation of OC band ratio algorithms). Because these algorithms perform surprisingly well, a plethora of studies have been conducted, notably about phytoplankton phenology (e.g., \citealt{Vargas2009}) and phytoplankton primary production (see \citealt{Carr2006} and references therein).
+
+\section{Study area and sampling overview}
 TEXT
 
 
-\section{HEADING}
-TEXT
+\subsection{Study area and general sampling strategys}
 
-
-\subsection{HEADING}
-TEXT
+During the COASTLOOC campaigns, a total of 420 locations were visited. These locations were spread out along the coasts of the Mediterranean Sea (\textit{n} = 41 in case 1 water, \textit{n} = 61 in case 2 water), Adriatic Sea (n = 39), Baltic Sea (n = 57), North Sea (n = 99), English Channel (n = 85) and Atlantic Ocean (n = 38) Within each area, the stations were generally distributed along across-shore or along-shore transects to capture the land-to-sea gradients and document river plumes (Fig. 1B). Stations were sampled either with a helicopter or a ship between 1997-04-02 and 1998-09-25 (Fig. 2A). Compared to traditional ship-based sampling, the helicopter platform allowed to efficiently sample shallow estuaries, which can be difficult to access by boat (some samples were collected in waters as shallow as 1 m, \citealt{Babin2003}). Combining both ship and airborne sampling approaches allowed covering the whole inshore to open-ocean aquatic continuum. The bathymetry \citep{GEBCO2020} varied greatly across the stations, where it averaged 10 meters in the Adriatic Sea and 2 600 meters in the Case 1 Mediterranean Sea (Fig. 2B).
 
 
 \subsubsection{HEADING}
@@ -151,6 +148,66 @@ TEXT
 
 \conclusions  %% \conclusions[modified heading if necessary]
 TEXT
+
+%% FIGURES
+
+%% When figures and tables are placed at the end of the MS (article in one-column style), please add \clearpage
+%% between bibliography and first table and/or figure as well as between each table and/or figure.
+
+% The figure files should be labelled correctly with Arabic numerals (e.g. fig01.jpg, fig02.png).
+
+
+%% ONE-COLUMN FIGURES
+
+\begin{figure}[t]
+    \includegraphics[width=12cm]{../../../graphs/fig01.pdf}
+    \caption{My caption}
+\end{figure}
+
+\clearpage
+
+\begin{figure}[t]
+    \includegraphics[width=12cm]{../../../graphs/fig02.pdf}
+    \caption{My caption}
+\end{figure}
+
+\clearpage
+
+\begin{figure}[t]
+    \includegraphics[width=12cm]{../../../graphs/fig03.pdf}
+    \caption{My caption}
+\end{figure}
+
+\clearpage
+
+\begin{figure}[t]
+    \includegraphics[width=12cm]{../../../graphs/fig04.pdf}
+    \caption{My caption}
+\end{figure}
+
+\clearpage
+
+\begin{figure}[t]
+    \includegraphics[width=12cm]{../../../graphs/fig05.pdf}
+    \caption{My caption}
+\end{figure}
+
+\clearpage
+
+\begin{figure}[t]
+    \includegraphics[width=12cm]{../../../graphs/fig06.pdf}
+    \caption{My caption}
+\end{figure}
+
+\clearpage
+
+\begin{figure}[t]
+    \includegraphics[width=12cm]{../../../graphs/fig07.pdf}
+    \caption{My caption}
+\end{figure}
+
+\clearpage
+\input{../../../tables/table01.tex}
 
 %% The following commands are for the statements about the availability of data sets and/or software code corresponding to the manuscript.
 %% It is strongly recommended to make use of these sections in case data sets and/or software code have been part of your research the article is based on.
@@ -188,10 +245,16 @@ TEXT
 
 \appendixfigures  %% needs to be added in front of appendix figures
 
+\begin{figure}[t]
+    \includegraphics[width=12cm]{../../../graphs/appendix01.pdf}
+    \caption{My caption}
+\end{figure}
+
 \appendixtables   %% needs to be added in front of appendix tables
 
-%% Please add \clearpage between each table and/or figure. Further guidelines on figures and tables can be found below.
+\input{../../../tables/appendix02.tex}
 
+%% Please add \clearpage between each table and/or figure. Further guidelines on figures and tables can be found below.
 
 
 \authorcontribution{TEXT} %% this section is mandatory
@@ -204,217 +267,11 @@ TEXT
     TEXT
 \end{acknowledgements}
 
-
-
-
 %% REFERENCES
 
 %% The reference list is compiled as follows:
 
-\begin{thebibliography}{}
-    
-    \bibitem[AUTHOR(YEAR)]{LABEL1}
-    REFERENCE 1
-    
-    \bibitem[AUTHOR(YEAR)]{LABEL2}
-    REFERENCE 2
-    
-\end{thebibliography}
-
-%% Since the Copernicus LaTeX package includes the BibTeX style file copernicus.bst,
-%% authors experienced with BibTeX only have to include the following two lines:
-%%
-%% \bibliographystyle{copernicus}
-%% \bibliography{example.bib}
-%%
-%% URLs and DOIs can be entered in your BibTeX file as:
-%%
-%% URL = {http://www.xyz.org/~jones/idx_g.htm}
-%% DOI = {10.5194/xyz}
-
-
-%% LITERATURE CITATIONS
-%%
-%% command                        & example result
-%% \citet{jones90}|               & Jones et al. (1990)
-%% \citep{jones90}|               & (Jones et al., 1990)
-%% \citep{jones90,jones93}|       & (Jones et al., 1990, 1993)
-%% \citep[p.~32]{jones90}|        & (Jones et al., 1990, p.~32)
-%% \citep[e.g.,][]{jones90}|      & (e.g., Jones et al., 1990)
-%% \citep[e.g.,][p.~32]{jones90}| & (e.g., Jones et al., 1990, p.~32)
-%% \citeauthor{jones90}|          & Jones et al.
-%% \citeyear{jones90}|            & 1990
-
-
-
-%% FIGURES
-
-%% When figures and tables are placed at the end of the MS (article in one-column style), please add \clearpage
-%% between bibliography and first table and/or figure as well as between each table and/or figure.
-
-% The figure files should be labelled correctly with Arabic numerals (e.g. fig01.jpg, fig02.png).
-
-
-%% ONE-COLUMN FIGURES
-
-\begin{figure}[t]
-    \includegraphics[width=8.3cm]{../../../graphs/fig01.pdf}
-    \caption{My caption}
-\end{figure}
-
-\clearpage
-
-\begin{figure}[t]
-    \includegraphics[width=8.3cm]{../../../graphs/fig02.pdf}
-    \caption{My caption}
-\end{figure}
-
-\clearpage
-
-\begin{figure}[t]
-    \includegraphics[width=8.3cm]{../../../graphs/fig03.pdf}
-    \caption{My caption}
-\end{figure}
-
-\clearpage
-\input{/home/filoche/Desktop/table1.tex}
-
-%%f
-%\begin{figure}[t]
-%\includegraphics[width=8.3cm]{FILE NAME}
-%\caption{TEXT}
-%\end{figure}
-%
-%%% TWO-COLUMN FIGURES
-%
-%%f
-%\begin{figure*}[t]
-%\includegraphics[width=12cm]{FILE NAME}
-%\caption{TEXT}
-%\end{figure*}
-%
-%
-%%% TABLES
-%%%
-%%% The different columns must be seperated with a & command and should
-%%% end with \\ to identify the column brake.
-%
-%%% ONE-COLUMN TABLE
-%
-%%t
-%\begin{table}[t]
-%\caption{TEXT}
-%\begin{tabular}{column = lcr}
-%\tophline
-%
-%\middlehline
-%
-%\bottomhline
-%\end{tabular}
-%\belowtable{} % Table Footnotes
-%\end{table}
-%
-%%% TWO-COLUMN TABLE
-%
-%%t
-%\begin{table*}[t]
-%\caption{TEXT}
-%\begin{tabular}{column = lcr}
-%\tophline
-%
-%\middlehline
-%
-%\bottomhline
-%\end{tabular}
-%\belowtable{} % Table Footnotes
-%\end{table*}
-%
-%%% LANDSCAPE TABLE
-%
-%%t
-%\begin{sidewaystable*}[t]
-%\caption{TEXT}
-%\begin{tabular}{column = lcr}
-%\tophline
-%
-%\middlehline
-%
-%\bottomhline
-%\end{tabular}
-%\belowtable{} % Table Footnotes
-%\end{sidewaystable*}
-%
-%
-%%% MATHEMATICAL EXPRESSIONS
-%
-%%% All papers typeset by Copernicus Publications follow the math typesetting regulations
-%%% given by the IUPAC Green Book (IUPAC: Quantities, Units and Symbols in Physical Chemistry,
-%%% 2nd Edn., Blackwell Science, available at: http://old.iupac.org/publications/books/gbook/green_book_2ed.pdf, 1993).
-%%%
-%%% Physical quantities/variables are typeset in italic font (t for time, T for Temperature)
-%%% Indices which are not defined are typeset in italic font (x, y, z, a, b, c)
-%%% Items/objects which are defined are typeset in roman font (Car A, Car B)
-%%% Descriptions/specifications which are defined by itself are typeset in roman font (abs, rel, ref, tot, net, ice)
-%%% Abbreviations from 2 letters are typeset in roman font (RH, LAI)
-%%% Vectors are identified in bold italic font using \vec{x}
-%%% Matrices are identified in bold roman font
-%%% Multiplication signs are typeset using the LaTeX commands \times (for vector products, grids, and exponential notations) or \cdot
-%%% The character * should not be applied as mutliplication sign
-%
-%
-%%% EQUATIONS
-%
-%%% Single-row equation
-%
-%\begin{equation}
-%
-%\end{equation}
-%
-%%% Multiline equation
-%
-%\begin{align}
-%& 3 + 5 = 8\\
-%& 3 + 5 = 8\\
-%& 3 + 5 = 8
-%\end{align}
-%
-%
-%%% MATRICES
-%
-%\begin{matrix}
-%x & y & z\\
-%x & y & z\\
-%x & y & z\\
-%\end{matrix}
-%
-%
-%%% ALGORITHM
-%
-%\begin{algorithm}
-%\caption{...}
-%\label{a1}
-%\begin{algorithmic}
-%...
-%\end{algorithmic}
-%\end{algorithm}
-%
-%
-%%% CHEMICAL FORMULAS AND REACTIONS
-%
-%%% For formulas embedded in the text, please use \chem{}
-%
-%%% The reaction environment creates labels including the letter R, i.e. (R1), (R2), etc.
-%
-%\begin{reaction}
-%%% \rightarrow should be used for normal (one-way) chemical reactions
-%%% \rightleftharpoons should be used for equilibria
-%%% \leftrightarrow should be used for resonance structures
-%\end{reaction}
-%
-%
-%%% PHYSICAL UNITS
-%%%
-%%% Please use \unit{} and apply the exponential notation
-
+\bibliography{/home/filoche/Documents/library.bib}
+\bibliographystyle{copernicus}
 
 \end{document}
