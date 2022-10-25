@@ -266,3 +266,5 @@ vignettes/*.pdf
 # R package: bookdown caching files
 /*_files/
 # End of https://www.toptal.com/developers/gitignore/api/r,latex
+
+.vscode/
