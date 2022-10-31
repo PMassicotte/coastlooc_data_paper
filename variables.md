@@ -6,24 +6,18 @@ List of variables that will be included in the published data archive.
 
 - AC9: `ac9.csv`
 
+- Bathymetry at each station (derived from GEBCO): `bathymetry.csv`
+  
 - Irradiance: `irradiance.csv`
+
+- Nutrients: `nutrients.csv`
+
+- Pigments: `pigments.csv`
 
 - Reflectance: `reflectance.csv`
 
-- Slope of CDOM absorption: `s_cdom.csv`
-
-- Slope of non-algal particulate absorption (aNAP): `s_nap.csv`
+- Slope of CDOM and non-algal absorption: `spectral_slope.csv`
 
 - Metadata and information on sampled stations: `stations.csv`
 
-- Pigments: `surface.csv`
-  - Find a better file name: `pigments.csv`
-  - Add units to pigment variables
-    - Looks like most of them are in mg m3.
-
-- Radiometric vertical measurements in the water column: *no processed at the moment, waiting for Frank*
-  - Probably a lot of data, determine how the data should be stored. CSV?
-
-## Notes
-
-- Do not forget to check why we have duplicated radiometric data.
+- SPMR (irradiance vertical profiles): I have not touched/tidied the files. These files have been produced and provided by Frank Fell who preferred to keep the data organized as is.
