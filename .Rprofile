@@ -1,16 +1,3 @@
-if (interactive() && Sys.getenv("RSTUDIO") == "") {
-  Sys.setenv(TERM_PROGRAM = "vscode")
-  if ("httpgd" %in% .packages(all.available = TRUE)) {
-    options(vsc.plot = FALSE)
-    options(device = function(...) {
-      httpgd::hgd(silent = TRUE)
-      .vsc.browser(httpgd::hgd_url(history = FALSE), viewer = FALSE)
-    })
-  }
-}
-
-# rspm::enable()
-
 # For Linux and Windows users, we'll use RStudio Package Manager (RSPM).
 if (Sys.info()[["sysname"]] %in% c("Linux")) {
   options(repos = c(CRAN = "https://packagemanager.rstudio.com/all/__linux__/jammy/latest"))
@@ -30,6 +17,21 @@ options(
   renv.config.install.transactional = FALSE,
   renv.config.synchronized.check = FALSE
 )
+
+# vscode-R options
+if (interactive() && Sys.getenv("RSTUDIO") == "") {
+  Sys.setenv(TERM_PROGRAM = "vscode")
+  if ("httpgd" %in% .packages(all.available = TRUE)) {
+    options(vsc.plot = FALSE)
+    options(device = function(...) {
+      httpgd::hgd(silent = TRUE)
+      .vsc.browser(httpgd::hgd_url(history = FALSE), viewer = FALSE)
+    })
+  }
+}
+
+options(vsc.viewer = FALSE)
+
 
 # Use an external browser for displaying html files, such as {gt} and {xaringan}
 options(vsc.viewer = FALSE)
