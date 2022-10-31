@@ -41,11 +41,11 @@ df <- df |>
   left_join(params) |>
   select(-c) |>
   mutate(across(where(is.character), parse_number)) |>
-  mutate(depth = -depth) |>
+  mutate(depth_m = -depth, .keep = "unused") |>
   select(-name) |>
   mutate(station = "C3004000", .before = 1) |>
-  relocate(depth, .after = wavelength) |>
-  arrange(wavelength, depth)
+  relocate(depth_m, .after = wavelength) |>
+  arrange(wavelength, depth_m)
 
 df
 
@@ -54,7 +54,7 @@ df
 
 df <- df |>
   mutate(
-    predicted_eu = c1 * exp(-c2 * depth) + c3 * exp(-c4 * depth),
+    predicted_eu = c1 * exp(-c2 * depth_m) + c3 * exp(-c4 * depth_m),
     .after = eu
   )
 

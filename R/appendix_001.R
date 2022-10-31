@@ -12,23 +12,23 @@ df <- read_csv(here("data", "clean", "appendix01_eu_surface_extrapolation.csv"))
 # example. 1.20204 m vs 1.20203 m. After pointing it out to Frank, it seems it
 # is ok...
 df |>
-  distinct(wavelength, depth)
+  distinct(wavelength, depth_m)
 
 # Data for Eu 0-
 surface <- df |>
   distinct(across(c(wavelength, starts_with("c")))) |>
-  mutate(depth = 0) |>
-  mutate(predicted_eu = c1 * exp(-c2 * depth) + c3 * exp(-c4 * depth))
+  mutate(depth_m = 0) |>
+  mutate(predicted_eu = c1 * exp(-c2 * depth_m) + c3 * exp(-c4 * depth_m))
 
 # Extrapolate from the top most measure up to the surface
 extrapolated_eu <- df |>
-  select(wavelength, depth, starts_with("c")) |>
+  select(wavelength, depth_m, starts_with("c")) |>
   group_by(wavelength) |>
-  filter(depth == min(depth)) |>
-  complete(depth = seq(0, max(depth), by = 0.1)) |>
+  filter(depth_m == min(depth_m)) |>
+  complete(depth_m = seq(0, max(depth_m), by = 0.1)) |>
   ungroup() |>
   fill(everything(), .direction = "up") |>
-  mutate(predicted_eu = c1 * exp(-c2 * depth) + c3 * exp(-c4 * depth))
+  mutate(predicted_eu = c1 * exp(-c2 * depth_m) + c3 * exp(-c4 * depth_m))
 
 # %% ---- Eu and Keu
 
@@ -40,14 +40,14 @@ extrapolated_eu <- df |>
 
 note <- df |>
   group_by(wavelength) |>
-  filter(depth == min(depth)) |>
+  filter(depth_m == min(depth_m)) |>
   mutate(eu0 = round(c1 + c3, digits = 2)) |>
   mutate(keu = round(c4, digits = 2)) |>
   mutate(eu0_string = glue("E[u](0^'-')~'='~{eu0}")) |>
   mutate(keu_string = glue("K[Eu]~'='~{keu}"))
 
 curve <- surface |>
-  filter(wavelength == 443 & depth == 0) |>
+  filter(wavelength == 443 & depth_m == 0) |>
   mutate(
     x = 41.5,
     y = 0.8,
@@ -59,8 +59,8 @@ curve <- surface |>
 
 # %% ---- Plot
 p <- df |>
-  # distinct(wavelength, depth, .keep_all = TRUE) |>
-  ggplot(aes(x = eu, y = depth)) +
+  # distinct(wavelength, depth_m, .keep_all = TRUE) |>
+  ggplot(aes(x = eu, y = depth_m)) +
   geom_point(
     fill = "black",
     size = 2,
@@ -70,7 +70,7 @@ p <- df |>
   ) +
   geom_point(
     data = surface,
-    aes(x = predicted_eu, y = depth),
+    aes(x = predicted_eu, y = depth_m),
     color = "#FE4A49",
     size = 3,
     pch = 4
