@@ -62,6 +62,7 @@ source(here("R", "009_extract_bathymetry.R"))
 source(here("R", "010_tidy_spmr_vertical_profiles.R"))
 source(here("R", "011_tidy_data_eu_surface_extrapolation.R"))
 source(here("R", "012_valente_2019.R"))
+# %%
 
 # %% ---- Basic tests to validate the data
 # source(here("R", "999_assert.R"))
@@ -75,7 +76,6 @@ source(here("R", "fig04.R"))
 source(here("R", "fig05.R"))
 source(here("R", "fig06.R"))
 source(here("R", "fig07.R"))
-# source(here("R", "fig08.R"))
 
 source(here("R", "appendix_001.R"))
 source(here("R", "appendix_002.R"))

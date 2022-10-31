@@ -1,3 +1,4 @@
+source("renv/activate.R")
 # For Linux and Windows users, we'll use RStudio Package Manager (RSPM).
 if (Sys.info()[["sysname"]] %in% c("Linux")) {
   options(repos = c(CRAN = "https://packagemanager.rstudio.com/all/__linux__/jammy/latest"))
