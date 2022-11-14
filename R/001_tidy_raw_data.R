@@ -29,6 +29,10 @@ stations <- data.table::fread(file, col.names = header_names) |>
 
 stations
 
+# Remove Med. Sea (Case 1) stations as they were sampled during Almofront 2.
+# According to Frank: ALmofront was a different project, different funding,
+# different PI, so I think to remember we decided to leave the Almofront data
+# out.
 stations <- stations |>
   filter(!str_detect(station, "^A2"))
 
