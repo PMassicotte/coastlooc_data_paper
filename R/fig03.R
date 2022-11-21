@@ -61,7 +61,7 @@ p1
 
 # POC ---------------------------------------------------------------------
 
-nutrients <- read_csv(here("data", "clean", "nutrients.csv")) |>
+nutrients <- read_csv(here("data", "clean", "carbon.csv")) |>
   inner_join(station, by = "station")
 
 p2 <- nutrients |>

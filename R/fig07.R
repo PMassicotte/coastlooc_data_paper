@@ -11,7 +11,7 @@ source(here("R", "zzz.R"))
 stations <- read_csv(here("data", "clean", "stations.csv")) |>
   select(station, area)
 
-poc <- read_csv(here("data", "clean", "nutrients.csv")) |>
+poc <- read_csv(here("data", "clean", "carbon.csv")) |>
   select(station, particulate_organic_carbon_g_m3)
 
 chla <- read_csv(here("data", "clean", "pigments.csv")) |>

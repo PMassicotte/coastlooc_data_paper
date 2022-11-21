@@ -79,7 +79,7 @@ surface |>
 # %%
 
 # %% ---- POC
-poc <- read_csv(here("data", "clean", "nutrients.csv"))
+poc <- read_csv(here("data", "clean", "carbon.csv"))
 
 poc |>
   inner_join(station, by = "station") |>

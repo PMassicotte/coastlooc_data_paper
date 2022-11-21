@@ -148,5 +148,5 @@ carbon
 
 names(carbon)
 
-write_csv(carbon, here("data", "clean", "nutrients.csv"))
+write_csv(carbon, here("data", "clean", "carbon.csv"))
 # %%
