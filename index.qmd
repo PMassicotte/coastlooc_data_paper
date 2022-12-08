@@ -200,6 +200,18 @@ knitr::include_graphics(here("graphs", "fig08a.png"))
 knitr::include_graphics(here("graphs", "fig08b.png"))
 ```
 
+### Figure 9
+
+(**A**) Kd(490) profiles along a transect taken in the Lion’s Gulf on 30. Sept. 1997 from site C4014 located ca. 5 km to the west of the mouth of the main Rhône branch (Grand Rhône) to site C4019 some 20 km further south in clear Mediterranean waters. (**B**) Kd(490) profiles along a transect taken in the North Sea on 12. Sept. 1998 extending from site C6063 close to the western shore of the island of Texel to site C6069 located ca. 22 km further west in the open North Sea.
+
+```{r fig0ba}
+knitr::include_graphics(here("graphs", "fig09a.png"))
+```
+
+```{r fig0bb}
+knitr::include_graphics(here("graphs", "fig09b.png"))
+```
+
 ### Appendix 1
 
 Example of extrapolation of the upward irradiance towards the sea surface. The irradiance values just below the sea surface and the corresponding diffuse attenuation coefficient for the topmost water layer are specified in the figures.
