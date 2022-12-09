@@ -30,11 +30,11 @@ absorption.csv & a\_cdom\_measured\_m1 & m\textsuperscript{-1} &  & Measured chr
 \addlinespace
 \cellcolor{gray!6}{absorption.csv} & \cellcolor{gray!6}{a\_cdom\_modeled\_m1} & \cellcolor{gray!6}{m\textsuperscript{-1}} & \cellcolor{gray!6}{} & \cellcolor{gray!6}{Modeled chromophoric dissolved organig matter absorption}\\
 \addlinespace
-ac9.csv & a\_m1 & m\textsuperscript{-1} &  & Particulate absorption\\
+ac9.csv & a\_m1 & m\textsuperscript{-1} &  & Total non-water absorption coefficient\\
 \addlinespace
-\cellcolor{gray!6}{ac9.csv} & \cellcolor{gray!6}{c\_m1} & \cellcolor{gray!6}{m\textsuperscript{-1}} & \cellcolor{gray!6}{} & \cellcolor{gray!6}{Beam attenuation}\\
+\cellcolor{gray!6}{ac9.csv} & \cellcolor{gray!6}{c\_m1} & \cellcolor{gray!6}{m\textsuperscript{-1}} & \cellcolor{gray!6}{} & \cellcolor{gray!6}{Total non-water attenuation coefficient}\\
 \addlinespace
-ac9.csv & bp\_m1 & m\textsuperscript{-1} &  & Particulate scattering\\
+ac9.csv & bp\_m1 & m\textsuperscript{-1} &  & Particle scattering coefficient\\
 \addlinespace
 \cellcolor{gray!6}{bathymetry.csv} & \cellcolor{gray!6}{longitude} & \cellcolor{gray!6}{Degree decimal} & \cellcolor{gray!6}{} & \cellcolor{gray!6}{Longitude of the pixel used to extract the bathymetry}\\
 \addlinespace
@@ -108,35 +108,53 @@ pigments.csv & peridinin\_mg\_m3 & mg~m\textsuperscript{-3} &  & Peridinin\\
 \addlinespace
 pigments.csv & lutein\_mg\_m3 & mg~m\textsuperscript{-3} &  & Lutein\\
 \addlinespace
-\cellcolor{gray!6}{nutrients.csv} & \cellcolor{gray!6}{suspended\_particulate\_matter\_g\_m3} & \cellcolor{gray!6}{g~m\textsuperscript{-3}} & \cellcolor{gray!6}{} & \cellcolor{gray!6}{Suspended particulate matter}\\
+\cellcolor{gray!6}{carbon.csv} & \cellcolor{gray!6}{suspended\_particulate\_matter\_g\_m3} & \cellcolor{gray!6}{g~m\textsuperscript{-3}} & \cellcolor{gray!6}{} & \cellcolor{gray!6}{Suspended particulate matter}\\
 \addlinespace
-nutrients.csv & particulate\_organic\_nitrogen\_g\_m3 & g~m\textsuperscript{-3} &  & Particulate organic nitrogen\\
+carbon.csv & particulate\_organic\_nitrogen\_g\_m3 & g~m\textsuperscript{-3} &  & Particulate organic nitrogen\\
 \addlinespace
-\cellcolor{gray!6}{nutrients.csv} & \cellcolor{gray!6}{total\_particulate\_carbon\_g\_m3} & \cellcolor{gray!6}{g~m\textsuperscript{-3}} & \cellcolor{gray!6}{} & \cellcolor{gray!6}{Total particulate carbon}\\
+\cellcolor{gray!6}{carbon.csv} & \cellcolor{gray!6}{total\_particulate\_carbon\_g\_m3} & \cellcolor{gray!6}{g~m\textsuperscript{-3}} & \cellcolor{gray!6}{} & \cellcolor{gray!6}{Total particulate carbon}\\
 \addlinespace
-nutrients.csv & particulate\_organic\_carbon\_g\_m3 & g~m\textsuperscript{-3} &  & Particulate organic carbon\\
+carbon.csv & particulate\_organic\_carbon\_g\_m3 & g~m\textsuperscript{-3} &  & Particulate organic carbon\\
 \addlinespace
-\cellcolor{gray!6}{nutrients.csv} & \cellcolor{gray!6}{dissolved\_organic\_carbon\_g\_m3} & \cellcolor{gray!6}{g~m\textsuperscript{-3}} & \cellcolor{gray!6}{} & \cellcolor{gray!6}{Dissolved organic carbon}\\
+\cellcolor{gray!6}{carbon.csv} & \cellcolor{gray!6}{dissolved\_organic\_carbon\_g\_m3} & \cellcolor{gray!6}{g~m\textsuperscript{-3}} & \cellcolor{gray!6}{} & \cellcolor{gray!6}{Dissolved organic carbon}\\
 \addlinespace
-SPMR & TODO & TODO &  & TODO\\
+SPMR & Cast & 1 &  & Processed cast number\\
 \addlinespace
-\cellcolor{gray!6}{SPMR} & \cellcolor{gray!6}{} & \cellcolor{gray!6}{} & \cellcolor{gray!6}{ \vphantom{8}} & \cellcolor{gray!6}{}\\
+\cellcolor{gray!6}{SPMR} & \cellcolor{gray!6}{Depth} & \cellcolor{gray!6}{m} & \cellcolor{gray!6}{} & \cellcolor{gray!6}{Depth of vertical bin, e.g. -1.00 representing the depth bin [-0.90, -1.10 m]}\\
 \addlinespace
-SPMR &  &  &  \vphantom{7} & \\
+SPMR & TmpWat & Degree celcious &  & Water temperature\\
 \addlinespace
-\cellcolor{gray!6}{SPMR} & \cellcolor{gray!6}{} & \cellcolor{gray!6}{} & \cellcolor{gray!6}{ \vphantom{6}} & \cellcolor{gray!6}{}\\
+\cellcolor{gray!6}{SPMR} & \cellcolor{gray!6}{Cond} & \cellcolor{gray!6}{ms~cm\textsuperscript{-1}} & \cellcolor{gray!6}{} & \cellcolor{gray!6}{Conductivity}\\
 \addlinespace
-SPMR &  &  &  \vphantom{5} & \\
+SPMR & Salin & PSU &  & Salinity\\
 \addlinespace
-\cellcolor{gray!6}{SPMR} & \cellcolor{gray!6}{} & \cellcolor{gray!6}{} & \cellcolor{gray!6}{ \vphantom{4}} & \cellcolor{gray!6}{}\\
+\cellcolor{gray!6}{SPMR} & \cellcolor{gray!6}{SigmaT} & \cellcolor{gray!6}{1} & \cellcolor{gray!6}{} & \cellcolor{gray!6}{Density of sea water}\\
 \addlinespace
-SPMR &  &  &  \vphantom{3} & \\
+SPMR & TiProf & Degree &  & Tilt of profiling radiometer\\
 \addlinespace
-\cellcolor{gray!6}{SPMR} & \cellcolor{gray!6}{} & \cellcolor{gray!6}{} & \cellcolor{gray!6}{ \vphantom{2}} & \cellcolor{gray!6}{}\\
+\cellcolor{gray!6}{SPMR} & \cellcolor{gray!6}{TiRef} & \cellcolor{gray!6}{Degree} & \cellcolor{gray!6}{} & \cellcolor{gray!6}{Tilt of reference radiometer}\\
 \addlinespace
-SPMR &  &  &  \vphantom{1} & \\
+SPMR & VSpeed & m~s\textsuperscript{-1} &  & Vertical speed\\
 \addlinespace
-\cellcolor{gray!6}{SPMR} & \cellcolor{gray!6}{} & \cellcolor{gray!6}{} & \cellcolor{gray!6}{} & \cellcolor{gray!6}{}\\*
+\cellcolor{gray!6}{SPMR} & \cellcolor{gray!6}{Altim} & \cellcolor{gray!6}{m} & \cellcolor{gray!6}{} & \cellcolor{gray!6}{Altimeter sounding of distance from the ocean ground}\\
+\addlinespace
+SPMR & N\_OBS & 1 &  & Number of observations within depth bin\\
+\addlinespace
+\cellcolor{gray!6}{SPMR} & \cellcolor{gray!6}{EUnnn} & \cellcolor{gray!6}{w~m\textsuperscript{-2}~\textmu m~\textsuperscript{-1}} & \cellcolor{gray!6}{} & \cellcolor{gray!6}{In-water upwelling irradiance at wavelength nnn}\\
+\addlinespace
+SPMR & EDnnn & w~m\textsuperscript{-2}~\textmu m~\textsuperscript{-1} &  & In-water downwelling irradiance at wavelength nnn\\
+\addlinespace
+\cellcolor{gray!6}{SPMR} & \cellcolor{gray!6}{ERnnn} & \cellcolor{gray!6}{w~m\textsuperscript{-2}~\textmu m~\textsuperscript{-1}} & \cellcolor{gray!6}{} & \cellcolor{gray!6}{In-air downwelling irradiance at wavelength nnn}\\
+\addlinespace
+SPMR & KUnnn & m\textsuperscript{-1} &  & Diffuse attenuation at wavelength nnn calculated from the upwelling irradiance\\
+\addlinespace
+\cellcolor{gray!6}{SPMR} & \cellcolor{gray!6}{KDnnn} & \cellcolor{gray!6}{m\textsuperscript{-1}} & \cellcolor{gray!6}{} & \cellcolor{gray!6}{Diffuse attenuation at wavelength nnn calculated from the downwelling irradiance}\\
+\addlinespace
+SPMR & PAR\_ABS & µmol~m\textsuperscript{-2}~s\textsuperscript{-1} &  & Phytosynthetically Active Radiation (PAR)\\
+\addlinespace
+\cellcolor{gray!6}{SPMR} & \cellcolor{gray!6}{PAR\%SRF} & \cellcolor{gray!6}{Percent} & \cellcolor{gray!6}{} & \cellcolor{gray!6}{PAR at depth z relative to PAR on the sea surface}\\
+\addlinespace
+SPMR & K\_PAR & m\textsuperscript{-1} &  & Diffuse attenuation for PAR\\*
 \end{longtable}
 \endgroup{}
 \end{landscape}
