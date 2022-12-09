@@ -86,3 +86,8 @@ stations_clean <- stations |>
 stations_clean |>
   write_csv(here("data", "clean", "stations.csv"))
 # %%
+
+stations |>
+  mutate(prefix = str_sub(station, 1, 2), .before = station) |>
+  count(area, prefix) |>
+  arrange(prefix)
