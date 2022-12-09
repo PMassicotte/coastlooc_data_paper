@@ -132,9 +132,9 @@ p1 <- ggplot() +
       paste(x, "m")
     }
   ) +
-  geom_sf(data = ne_land, size = 0.1, fill = "gray85") +
-  geom_sf(data = ne_river, size = 0.1, color = "gray70") +
-  geom_sf(data = ne_country, size = 0.1, color = "#3c3c3c", fill = NA) +
+  geom_sf(data = ne_land, linewidth = 0.1, fill = "gray85") +
+  geom_sf(data = ne_river, linewidth = 0.1, color = "gray70") +
+  geom_sf(data = ne_country, linewidth = 0.1, color = "#3c3c3c", fill = NA) +
   geom_sf(
     data = stations_sf,
     size = 0.5,
@@ -200,13 +200,37 @@ p1 <- ggplot() +
   )
 
 # %% ---- Plot per area
+
+stations_sf
+
+# Identify stations used in figure 9
+stations_sf_fig9 <- stations_sf |>
+  filter(station %in% c(
+    "C4014000",
+    "C4015000",
+    "C4017000",
+    "C4018000",
+    "C4019000",
+    "C6063000",
+    "C6064000",
+    "C6066000",
+    "C6067000",
+    "C6068000",
+    "C6069000"
+  ))
+
+stations_sf_fig9 <- stations_sf_fig9 |>
+  group_by(area) |>
+  summarise() |>
+  st_convex_hull() |>
+  st_buffer(dist = 6e3)
+
 df_viz <- stations_sf |>
   # filter(area != "Atlantic Ocean") |>
   # group_by(area) |>
   # summarise(geometry = st_union(geometry)) |>
   group_nest(area, keep = TRUE) |>
   mutate(p = map(data, function(df, land = ne_land, river = ne_river) {
-
     # Number of stations in this area
     n <- st_coordinates(df) |>
       nrow()
@@ -216,13 +240,18 @@ df_viz <- stations_sf |>
     river <- st_crop(river, bbox)
 
     p <- ggplot() +
-      geom_sf(data = land, size = 0.1, fill = "gray85", color = "gray85") +
-      geom_sf(data = river, size = 0.1, color = "gray70") +
+      geom_sf(data = land, linewidth = 0.1, fill = "gray85", color = "gray85") +
+      geom_sf(data = river, linewidth = 0.1, color = "gray70") +
       geom_sf(
         data = df,
-        size = 0.5,
+        size = 0.25,
         key_glyph = "rect",
         aes(color = area)
+      ) +
+      geom_sf(
+        data = filter(stations_sf_fig9, area %in% df$area),
+        fill = NA,
+        color = "red"
       ) +
       annotate(
         "text",
