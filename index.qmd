@@ -174,7 +174,7 @@ knitr::include_graphics(pdf2png(here("graphs", "fig05.pdf")))
 
 ### Figure 6
 
-Figure 6: Spectra of downward irradiance measured at the surface across the sampled areas. The tick lines represent the average spectra.
+Figure 6: Reflectance spectra measured at the surface across the sampled areas. The tick lines represent the average spectra.
 
 ```{r fig06}
 knitr::include_graphics(pdf2png(here("graphs", "fig06.pdf")))
