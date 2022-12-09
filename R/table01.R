@@ -40,6 +40,7 @@ options(knitr.kable.NA = "")
 df |>
   mutate(source_file = str_replace_all(source_file, "_", "\\\\_")) |>
   mutate(variable = str_replace_all(variable, "_", "\\\\_")) |>
+  mutate(variable = str_replace_all(variable, "%", "\\\\%")) |>
   mutate(units = case_when(
     units == "m-1" ~ "m\\textsuperscript{-1}",
     units == "mg m-3" ~ "mg~m\\textsuperscript{-3}",
@@ -48,6 +49,9 @@ df |>
     units == "nm-1" ~ "nm\\textsuperscript{-1}",
     units == "g m-3" ~ "g~m\\textsuperscript{-3}",
     units == "um" ~ "µm",
+    units == "ms cm-1" ~ "ms~cm\\textsuperscript{-1}",
+    units == "m s-1" ~ "m~s\\textsuperscript{-1}",
+    units == "µmol m-2 s-1" ~ "µmol~m\\textsuperscript{-2}~s\\textsuperscript{-1}",
     TRUE ~ units
   )) |>
   kbl(
