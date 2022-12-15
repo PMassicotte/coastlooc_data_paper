@@ -78,7 +78,7 @@ p3 <- df_viz |>
   )
 
 p4 <- absorption |>
-  ggplot(aes(x = wavelength, y = a_cdom_measured_m1, color = area)) +
+  ggplot(aes(x = wavelength, y = a_cdom_adjusted_m1, color = area)) +
   geom_line() +
   scale_color_manual(
     breaks = area_breaks,
@@ -111,7 +111,7 @@ stations <- read_csv(here("data", "clean", "stations.csv"))
 
 df <- absorption |>
   filter(wavelength == 350) |>
-  drop_na(a_cdom_measured_m1) |>
+  drop_na(a_cdom_adjusted_m1) |>
   inner_join(stations, by = "station")
 
 df
@@ -134,8 +134,7 @@ df_north_sea |>
   st_distance()
 
 p5 <- df_north_sea |>
-  # drop_na(a_cdom_measured) |>
-  ggplot(aes(x = latitude, y = a_cdom_measured_m1)) +
+  ggplot(aes(x = latitude, y = a_cdom_adjusted_m1)) +
   geom_line(color = "#3366CCFF") +
   geom_point(size = 3, color = "#3366CCFF") +
   geom_text(
@@ -205,46 +204,6 @@ ggsave(
 # Stats for the paper -----------------------------------------------------
 
 ## Range of sCDOM on the averaged spectra per area ----
-
-df_viz
-
-range(df_viz$wavelength, na.rm = TRUE)
-
-df_scdom <- df_viz |>
-  select(area, wavelength, a_cdom_modeled_m1) |>
-  filter(between(wavelength, 350, 700)) |>
-  group_nest(area) |>
-  mutate(model = map(data, ~ nls(
-    a_cdom_modeled_m1 ~ a0 * exp(-s * (wavelength - 400)) + k,
-    data = .,
-    start = list(a0 = 0.5, s = 0.02, k = 0)
-  ))) |>
-  mutate(tidied = map(model, broom::tidy))
-
-df_scdom
-
-df_scdom |>
-  unnest(tidied)
-
-df_scdom |>
-  mutate(pred = map(model, broom::augment)) |>
-  unnest(pred) |>
-  ggplot(aes(x = wavelength, y = a_cdom_modeled_m1, color = area)) +
-  geom_point() +
-  geom_line(aes(y = .fitted)) +
-  scale_color_manual(
-    breaks = area_breaks,
-    values = area_colors
-  )
-
-df_scdom |>
-  unnest(tidied) |>
-  filter(term == "s") |>
-  mutate(area = fct_reorder(area, estimate)) |>
-  ggplot(aes(x = estimate, y = area)) +
-  geom_col()
-
-## Range of acdom(350) ----
 
 absorption <- read_csv(here("data", "clean", "absorption.csv")) |>
   filter(wavelength == 350) |>
