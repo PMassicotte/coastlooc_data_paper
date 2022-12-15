@@ -1,6 +1,7 @@
 graphs/
 data/
 
+man/*.doc
 
 .Rproj.user
 .Rhistory
