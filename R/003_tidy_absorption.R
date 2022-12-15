@@ -91,21 +91,6 @@ absorption <- full_join(anap_ap, acdom, by = c("station", "wavelength"))
 absorption
 # %%
 
-# %% ---- Remove outliers
-
-# Remove any spectra if there are negative values below 500 nm
-
-absorption <- absorption |>
-  pivot_longer(starts_with("a_")) |>
-  drop_na(value) |>
-  group_by(station, name) |>
-  filter(all(value[wavelength <= 500] >= 0, na.rm = TRUE)) |>
-  ungroup() |>
-  pivot_wider(names_from = name, values_from = value) |>
-  arrange(station, wavelength)
-
-# %%
-
 # %% ---- Visualize a few absorption spectra
 
 absorption |>
