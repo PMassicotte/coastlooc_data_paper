@@ -81,7 +81,7 @@ p <- df_sf |>
     subtitle = "There are no overlaps with the COASTLOOC data (in red)."
   )
 
-file <- here("graphs", "012_map_valente_et_al.pdf")
+file <- here("graphs", "011_map_valente_et_al.pdf")
 
 ggsave(
   file,
