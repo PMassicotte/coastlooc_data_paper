@@ -8,63 +8,49 @@ rm(list = ls())
 
 source(here("R", "zzz.R"))
 
-# %% ---- aphy, anap, ap
-absorption <- data.table::fread(here("data", "raw", "all_abs_transpose.txt"),
-  na.strings = "9.999900000"
+# %% ---- Tidy anap and ap
+
+files <- fs::dir_ls(
+  here("data", "raw", "absorption"),
+  glob = "*.dta|*.toa",
+  ignore.case = TRUE
+)
+
+anap_ap <- map(
+  files,
+  data.table::fread,
+  col.names = c("wavelength", "absorption"),
+  drop = 3
 ) |>
+  bind_rows(.id = "filename") |>
   as_tibble() |>
-  pivot_longer(
-    -wavelength,
-    names_pattern = c("(.*)_(.*)"),
-    names_to = c(".value", "station")
+  mutate(filename = basename(filename)) |>
+  mutate(type = ifelse(
+    str_detect(filename, regex("\\.dta", ignore_case = TRUE)),
+    "a_nap_m1",
+    "a_p_m1"
+  )) |>
+  mutate(
+    station = tools::file_path_sans_ext(filename),
+    .keep = "unused",
+    .before = 1
   ) |>
-  arrange(station, wavelength) |>
-  relocate(wavelength, .after = station) |>
   mutate(station = str_to_upper(station))
 
-absorption
+anap_ap <- anap_ap |>
+  pivot_wider(names_from = type, values_from = absorption)
 
-# Remove cdom data, will use the "raw" data with the complete range of
-# wavelengths.
-absorption <- absorption |>
-  select(-contains("cdom"))
+anap_ap
 
-# Should have 371 wavelengths per station
-absorption |>
+anap_ap |>
+  distinct(station)
+
+anap_ap |>
   count(station) |>
-  verify(n == 371)
-
-# How many station do we have?
-absorption |>
-  distinct(station)
-
-absorption |>
-  filter(is.na(toa)) |>
-  distinct(station)
-
-# Rename absorption variables
-
-absorption
-
-absorption <- absorption |>
-  rename(
-    a_phy_m1 = pga,
-    a_phy_specific_m2_mg_chla_m1 = aph_spe,
-    a_nap_m1 = dta,
-    a_p_m1 = toa
-  ) |>
-  relocate(a_p_m1, .after = wavelength) |>
-  relocate(starts_with("a_phy"), .after = contains("a_phy"))
-
-absorption
+  assertr::verify(n == 371)
 # %%
 
-# %% ---- aCDOM Tidy and model aCDOM spectra.
-
-# After discussion with Marcel, he provided the original (i.e. un-corrected
-# aCDOM spectra) files. Here I am converting these from absorbance to
-# absorption. Then I remove the average background (683 - 687 nm). Finally, I
-# model the spectra using a simple exponential function (see Babin 2003 GJR).
+# %% ---- Tidy aCDOM and convert absorbance to absorption
 
 files <- fs::dir_ls(here("data", "raw", "CDOM"), recurse = TRUE, glob = "*.YSA")
 
@@ -88,362 +74,210 @@ acdom <- acdom |>
 
 acdom
 
-acdom |>
-  count(station)
-
-# Most CDOM spectra start at 350 nm, some at 300 nm.
-acdom |>
-  group_by(station) |>
-  filter(wavelength == min(wavelength)) |>
-  ggplot(aes(x = wavelength)) +
-  geom_histogram()
-
-# Convert to absorption ---------------------------------------------------
-
-# 10 cm cuvette (0.1 m)
+# Convert to absorption: 10 cm cuvette (0.1 m)
 
 acdom <- acdom |>
-  mutate(absorption_m1 = (2.303 * absorbance) / 0.1) |>
+  mutate(a_cdom_m1 = (2.303 * absorbance) / 0.1) |>
   select(-absorbance)
+# %%
 
-# Visualize ---------------------------------------------------------------
+# %% ---- Merge all absorption (anap ap and acdom)
 
-p1 <- acdom |>
-  filter(wavelength <= 750) |>
-  ggplot(aes(x = wavelength, y = absorption_m1, group = station)) +
-  geom_line(size = 0.1) +
-  geom_hline(yintercept = 0, lty = 2, size = 0.25, color = "blue") +
-  facet_wrap(~ str_sub(station, 1, 2), scales = "free_y") +
-  labs(
-    x = "Wavelength (nm)",
-    y = quote(a[CDOM] ~ (m^{
-      -1
-    })),
-    title = quote(bold(Raw ~ a[CDOM] ~ spectra))
-  )
+anap_ap
+acdom
 
-# Baseline correction -----------------------------------------------------
+absorption <- full_join(anap_ap, acdom, by = c("station", "wavelength"))
 
-# Calculate the average between 683 and 687 nm and subtract it from the spectra.
-acdom <- acdom |>
-  group_by(station) |>
-  mutate(
-    background_a_cdom_average_683_687_m1 =
-      mean(absorption_m1[between(wavelength, 683, 687)])
-  ) |>
-  mutate(
-    absorption_background_corrected_m1 =
-      absorption_m1 - background_a_cdom_average_683_687_m1,
-    .after = absorption_m1
-  ) |>
-  ungroup()
+absorption
+# %%
 
-p2 <- acdom |>
-  filter(wavelength <= 750) |>
-  ggplot(
-    aes(
-      x = wavelength,
-      y = absorption_background_corrected_m1,
-      group = station
-    )
-  ) +
-  geom_line(size = 0.1) +
-  geom_hline(yintercept = 0, lty = 2, size = 0.25, color = "blue") +
-  facet_wrap(~ str_sub(station, 1, 2), scales = "free_y") +
-  labs(
-    x = "Wavelength (nm)",
-    y = quote(a[CDOM] ~ (m^{
-      -1
-    })),
-    title = quote(bold(Baseline ~ corrected ~ a[CDOM] ~ spectra)),
-    subtitle = "Average aCDOM value between 683-687 nm has been removed."
-  )
+# %% ---- Visualize a few absorption spectra
 
-p <- p1 / p2
+absorption |>
+  pivot_longer(starts_with("a_")) |>
+  ggplot(aes(x = wavelength, y = value, group = station)) +
+  geom_line(linewidth = 0.1) +
+  facet_wrap(~name, scales = "free_y")
 
-ggsave(
-  here("graphs", "003_raw_and_background_corrected_acdom_spectra.pdf"),
-  device = cairo_pdf,
-  height = 8,
-  width = 10
-)
+set.seed(1234)
 
-# Model acdom spectra -----------------------------------------------------
-
-acdom <- acdom |>
+absorption |>
+  pivot_longer(starts_with("a_")) |>
   group_nest(station) |>
+  sample_n(size = 9) |>
+  unnest(data) |>
+  ggplot(aes(x = wavelength, y = value, color = name)) +
+  geom_line() +
+  geom_hline(yintercept = 0, lty = 2, color = "red") +
+  facet_wrap(~station, scale = "free_y")
+
+# %%
+
+# %% ---- Model absorption spectra
+
+spectral_slopes <- absorption |>
+  select(-a_p_m1) |>
+  mutate(a_cdom_m1 = ifelse(wavelength > 700, NA, a_cdom_m1)) |>
+  mutate(a_nap_m1 = ifelse(
+    between(wavelength, 400, 480) |
+      between(wavelength, 620, 710), NA, a_nap_m1
+  )) |>
+  pivot_longer(starts_with("a_")) |>
+  drop_na(value) |>
+  group_nest(station, name) |>
   mutate(mod = map(
     data,
     ~ minpack.lm::nlsLM(
-      absorption_background_corrected_m1 ~ a443 * exp(-s * (wavelength - 443)),
+      value ~ a443 * exp(-s * (wavelength - 443)) + k,
       data = .,
-      start = c(a443 = 0.2, s = 0.03),
-      lower =  c(a443 = 0.001, s = 0.001),
-      subset = between(wavelength, 350, 500)
+      start = c(a443 = 0.2, s = 0.03, k = 0)
     )
   ))
 
-acdom <- acdom |>
+spectral_slopes <- spectral_slopes |>
   mutate(mod_augmented = map(mod, broom::augment)) |>
   mutate(mod_pred = map2(data, mod, modelr::add_predictions)) |>
+  mutate(mod_tidied = map(mod, broom::tidy)) |>
   mutate(r2 = map_dbl(
     mod_augmented,
-    ~ cor(.$absorption_background_corrected_m1, .$.fitted)^2
+    ~ cor(.$value, .$.fitted)^2
   ))
 
-acdom
+spectral_slopes
 
-# Visualize fitted spectra ------------------------------------------------
+spectral_slopes |>
+  unnest(mod_augmented) |>
+  mutate(mission = str_sub(station, 1, 2), .after = station) |>
+  ggplot(aes(x = wavelength, y = value, group = station)) +
+  geom_point(alpha = 0.5, size = 0.25) +
+  geom_line(aes(y = .fitted), color = "red", linewidth = 0.1) +
+  facet_wrap(vars(name, mission), scales = "free_y", ncol = 6)
 
-df_viz <- acdom |>
-  # slice_sample(n = 10)  |>
-  select(station, mod_pred, r2) |>
-  unnest(mod_pred) |>
-  group_nest(station, r2, keep = TRUE) |>
-  arrange(desc(r2))
+ggsave(
+  here("graphs", "003_fitted_absorption_spectra.pdf"),
+  device = cairo_pdf,
+  width = 14,
+  height = 6
+)
 
-df_viz
+mod_coef <- spectral_slopes |>
+  unnest(mod_tidied) |>
+  select(station, name, term, estimate)
 
-plot_acdom <- function(acdom) {
-  p <- acdom |>
-    ggplot(aes(x = wavelength, y = absorption_background_corrected_m1)) +
-    geom_point(color = "gray50") +
-    geom_line(aes(y = pred), color = "red") +
-    geom_vline(xintercept = c(350, 500), lty = 2, color = "#3c3c3c") +
-    scale_x_continuous(breaks = seq(200, 800, by = 50)) +
-    labs(
-      x = "Wavelength (nm)",
-      y = quote(a[CDOM] ~ (lambda)),
-      title = glue("{unique(acdom$station)} (R2 = {round(unique(acdom$r2), digits = 4)})"),
-      subtitle = "Fits have been performed between 350 and 500 nm."
-    )
+mod_coef
 
-  print(p)
-}
+anap_acdom_background <- mod_coef |>
+  filter(term == "k") |>
+  select(station, name, k = estimate)
+
+# %%
+
+# %% ---- Calculate background for ap
+
+# Given that we are not able to model ap (not with an exponential model), lets
+# calculate the average between 746 and 750 nm.
+
+ap_background <- absorption |>
+  filter(station %in% unique(mod_coef$station)) |>
+  select(station, wavelength, a_p_m1) |>
+  drop_na() |>
+  pivot_longer(starts_with("a_")) |>
+  filter(between(wavelength, 746, 750)) |>
+  group_by(station, name) |>
+  summarise(k = mean(value), .groups = "drop")
+
+ap_background
+
+# %%
+
+# %% ---- Remove background from spectra (acdom, anap and ap)
+
+ap_background
+
+anap_acdom_background
+
+background <- bind_rows(ap_background, anap_acdom_background) |>
+  pivot_wider(
+    names_from = name,
+    values_from = k,
+    names_glue = "background_{name}"
+  )
+
+background
+
+absorption_corrected <- absorption |>
+  inner_join(background) |>
+  mutate(a_cdom_adjusted_m1 = a_cdom_m1 - background_a_cdom_m1) |>
+  mutate(
+    a_nap_adjusted_m1 =
+      a_nap_m1 - background_a_nap_m1 + background_a_p_m1
+  ) |>
+  mutate(a_phy_m1 = a_p_m1 - a_nap_adjusted_m1)
+
+absorption_corrected
+
+# %%
+
+# %% ---- Visualize the corrected spectra
+p <- absorption_corrected |>
+  select(station, wavelength, starts_with("a_")) |>
+  pivot_longer(starts_with("a_")) |>
+  group_nest(station, keep = TRUE) |>
+  # slice(1:20) |>
+  mutate(p = map(data, \(data) {
+    data |>
+      ggplot(aes(x = wavelength, y = value, color = name)) +
+      geom_line() +
+      geom_hline(yintercept = 0, lty = 2) +
+      scale_color_brewer(palette = "Set2") +
+      labs(
+        title = unique(data$station),
+        x = NULL,
+        y = parse(text = "Absorption~(m^{-1})"),
+        color = NULL
+      )
+  }))
 
 cairo_pdf(
-  here("graphs", "003_fitted_acdom_spectra_ordered_from_best_to_worst_fits.pdf"),
+  here("graphs", "003_absorption_spectra_clean.pdf"),
   width = 7,
   height = 5,
   onefile = TRUE
 )
 
-walk(df_viz$data, plot_acdom)
+walk(p$p, print)
 
 dev.off()
+# %%
 
-# Filter bad spectra ------------------------------------------------------
+# %% ---- Merge spectral snap and scdom
 
-acdom |>
-  select(r2) |>
-  ggplot(aes(x = r2)) +
-  geom_histogram(bins = 50) +
-  geom_vline(xintercept = 0.95, lty = 2, size = 0.25, color = "red")
-
-min_r2 <- 0.95
-
-# Only keep the best fits
-df_filtered <- acdom |>
-  filter(r2 >= min_r2) |>
-  unnest(mod_pred) |>
-  select(
-    station,
-    wavelength,
-    a_cdom_measured_m1 = absorption_background_corrected_m1,
-    a_cdom_modeled_m1 = pred,
-    r2
-  ) |>
-  arrange(station, wavelength)
-
-df_filtered
-
-# Visualize the worst remaining fits.
-p <- df_filtered |>
-  group_nest(station, r2) |>
-  top_n(n = 36, wt = -r2) |>
-  unnest(data) |>
-  ggplot(aes(x = wavelength, y = a_cdom_measured_m1)) +
-  geom_point(size = 0.5) +
-  scale_color_manual(
-    breaks = area_breaks,
-    values = area_colors
-  ) +
-  geom_line(aes(y = a_cdom_modeled_m1), color = "red") +
-  facet_wrap(~ glue("{station}"), scales = "free_y") +
-  labs(
-    x = "Wavelength (nm)",
-    y = quote(a[CDOM] ~ (m^{
-      -1
-    })),
-    title = "Worst fitted aCDOM spectra",
-    subtitle = "I filtered to keep only fits with R2 >= 0.95. These are the worst 36 fits after the filter."
+spectral_slopes <- spectral_slopes |>
+  select(station, name, mod_tidied) |>
+  unnest(mod_tidied) |>
+  filter(term == "s") |>
+  select(station, name, s = estimate) |>
+  pivot_wider(names_from = name, values_from = s) |>
+  rename(
+    s_cdom_nm1 = a_cdom_m1,
+    s_nap_nm1 = a_nap_m1
   )
 
-ggsave(
-  here("graphs", "003_worst_fitted_acdom_spectra.pdf"),
-  device = cairo_pdf,
-  width = 12,
-  height = 10
-)
-# %%
+mean(spectral_slopes$s_cdom_nm1, na.rm = TRUE)
+mean(spectral_slopes$s_nap_nm1, na.rm = TRUE)
 
-# %% ---- Merge all type of absorption
-
-df_filtered
-
-df_filtered <- df_filtered |>
-  select(-r2)
-
-absorption_merged <- absorption |>
-  full_join(df_filtered, by = c("station", "wavelength")) |>
-  add_count(station, wavelength) |>
-  assertr::verify(n == 1) |> # make sure there is only 1 obs per station/wl
-  select(-n)
-
-absorption_merged
+write_csv(spectral_slopes, here("data", "clean", "spectral_slopes.csv"))
 
 # %%
 
-# %% ---- Remove outliers
-
-absorption_merged |>
-  arrange(station, wavelength)
-
-# Remove any spectra if there are negative values below 500 nm
-
-absorption_clean <- absorption_merged |>
-  pivot_longer(starts_with("a_")) |>
-  drop_na(value) |>
-  group_by(station, name) |>
-  filter(all(value[wavelength <= 500] >= 0, na.rm = TRUE)) |>
-  ungroup() |>
-  pivot_wider(names_from = name, values_from = value) |>
-  arrange(station, wavelength)
-
-# %%
 
 # %% ---- Export data
-stations <- read_csv(here("data", "clean", "stations.csv")) |>
-  select(station, area)
 
-absorption_clean |>
-  semi_join(stations, by = "station") |>
+absorption_corrected |>
+  count(station, wavelength) |>
+  assertr::verify(n == 1)
+
+absorption_corrected |>
+  relocate(starts_with("a_"), .after = wavelength) |>
   write_csv(here("data", "clean", "absorption.csv"))
-# %%
-
-# %% ---- SCDOM
-
-s_cdom <- acdom |>
-  semi_join(absorption_clean, by = "station") |>
-  select(station, mod) |>
-  mutate(tidied = map(mod, broom::tidy)) |>
-  select(-mod) |>
-  unnest(tidied) |>
-  filter(term == "s") |>
-  select(station, s_cdom_nm1 = estimate)
-
-s_cdom
-
-s_cdom |>
-  ggplot(aes(x = s_cdom_nm1)) +
-  geom_histogram() +
-  geom_vline(xintercept = 0.012) #
-
-# %%
-
-# %% ---- Snap
-anap <- absorption_clean |>
-  select(station, wavelength, a_nap_m1)
-
-anap
-
-anap <- anap |>
-  filter(between(wavelength, 380, 730)) |>
-  filter(!between(wavelength, 400, 480) & !between(wavelength, 620, 710)) |>
-  drop_na()
-
-anap |>
-  distinct(station)
-
-anap |>
-  ggplot(aes(x = wavelength, y = a_nap_m1, group = station)) +
-  geom_point(size = 0.25)
-
-# Fit the exponential models ----------------------------------------------
-
-anap
-
-s_nap <- anap |>
-  group_nest(station) |>
-  mutate(mod = map(
-    data,
-    ~ minpack.lm::nlsLM(
-      a_nap_m1 ~ a443 * exp(-s * (wavelength - 500)),
-      data = .,
-      start = c(a443 = 0.2, s = 0.03),
-      lower =  c(a443 = 0.001, s = 0.001)
-    )
-  ))
-
-s_nap
-
-s_nap <- s_nap |>
-  mutate(tidied = map(mod, broom::tidy)) |>
-  mutate(augmented = map(mod, broom::augment)) |>
-  mutate(r2 = map_dbl(
-    augmented,
-    ~ cor(.$a_nap_m1, .$.fitted)^2
-  ))
-
-s_nap
-
-s_nap |>
-  ggplot(aes(x = r2)) +
-  geom_histogram(binwidth = 0.001)
-
-# Filter out bad spectra --------------------------------------------------
-
-# Use the same r2 criterion as for s_cdom
-min_r2 <- 0.95
-
-s_nap <- s_nap |>
-  filter(r2 >= min_r2)
-
-# Visualize some fits -----------------------------------------------------
-
-s_nap |>
-  slice_sample(n = 49) |>
-  select(station, augmented) |>
-  unnest(augmented) |>
-  ggplot(aes(x = wavelength, y = a_nap_m1)) +
-  geom_point() +
-  geom_line(aes(y = .fitted), color = "red") +
-  facet_wrap(~station, scales = "free_y")
-
-# Export s_nap ------------------------------------------------------------
-
-s_nap <- s_nap |>
-  select(station, tidied) |>
-  unnest(tidied) |>
-  filter(term == "s") |>
-  select(station, s_nap_nm1 = estimate)
-
-s_nap |>
-  ggplot(aes(x = s_nap_nm1)) +
-  geom_histogram()
-# %%
-
-# %% ---- Save scdom and s_nap
-s_cdom
-s_nap
-
-s_cdom |>
-  anti_join(s_nap, by = "station")
-
-s_nap |>
-  anti_join(s_cdom, by = "station")
-
-spectral_slope <- full_join(s_cdom, s_nap, by = "station")
-
-write_csv(spectral_slope, here("data", "clean", "spectral_slopes.csv"))
 # %%
