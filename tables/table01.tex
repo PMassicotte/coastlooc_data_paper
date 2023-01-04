@@ -1,160 +1,44 @@
 
 \begin{landscape}\begingroup\fontsize{8}{10}\selectfont
 
-\begin{longtable}[t]{>{\raggedright\arraybackslash}p{10em}>{\raggedright\arraybackslash}p{15em}>{\raggedright\arraybackslash}p{8em}>{\raggedright\arraybackslash}p{5em}>{\raggedright\arraybackslash}p{25em}}
-\caption{List of measured parameters}\\
+\begin{longtable}[t]{>{\raggedright\arraybackslash}p{10em}>{\raggedright\arraybackslash}p{2em}>{\raggedleft\arraybackslash}p{2em}>{\raggedright\arraybackslash}p{10em}}
+\caption{Areas visited during the COASTlOOC campaigns C1 to C6 and the corresponding number of stations visited.}\\
 \toprule
-Source file & Variable & Units & PI & Description\\
+Area & Cruise & N & Sampling period\\
 \midrule
 \endfirsthead
-\caption[]{List of measured parameters \textit{(continued)}}\\
+\caption[]{Areas visited during the COASTlOOC campaigns C1 to C6 and the corresponding number of stations visited. \textit{(continued)}}\\
 \toprule
-Source file & Variable & Units & PI & Description\\
+Area & Cruise & N & Sampling period\\
 \midrule
 \endhead
 
 \endfoot
 \bottomrule
 \endlastfoot
-\cellcolor{gray!6}{absorption.csv} & \cellcolor{gray!6}{wavelength} & \cellcolor{gray!6}{nm} & \cellcolor{gray!6}{M. Babin} & \cellcolor{gray!6}{}\\
+\cellcolor{gray!6}{Atlantic Ocean} & \cellcolor{gray!6}{C1} & \cellcolor{gray!6}{35} & \cellcolor{gray!6}{1997-04-05 1997-04-22}\\
 \addlinespace
-absorption.csv & a\_p\_m1 & m\textsuperscript{-1} &  & Total particulate absorption\\
+English Channel & C1 & 3 & 1997-04-03 1997-04-04\\
 \addlinespace
-\cellcolor{gray!6}{absorption.csv} & \cellcolor{gray!6}{a\_nap\_m1} & \cellcolor{gray!6}{m\textsuperscript{-1}} & \cellcolor{gray!6}{} & \cellcolor{gray!6}{Non-algal absorption}\\
+\cellcolor{gray!6}{North Sea} & \cellcolor{gray!6}{C1} & \cellcolor{gray!6}{8} & \cellcolor{gray!6}{1997-04-02 1997-04-02}\\
 \addlinespace
-absorption.csv & a\_phy\_m1 & m\textsuperscript{-1} &  & Phytoplankton absorption\\
+Med. Sea (Case 2) & C2 & 13 & 1997-07-18 1997-07-19\\
 \addlinespace
-\cellcolor{gray!6}{absorption.csv} & \cellcolor{gray!6}{a\_phy\_specific\_m2\_mg\_chla\_m1} & \cellcolor{gray!6}{m\textsuperscript{2}~mg~chla~\textsuperscript{-1}} & \cellcolor{gray!6}{} & \cellcolor{gray!6}{Specific phytoplankton absorption}\\
+\cellcolor{gray!6}{Adriatic Sea} & \cellcolor{gray!6}{C3} & \cellcolor{gray!6}{39} & \cellcolor{gray!6}{1997-07-28 1997-08-02}\\
 \addlinespace
-absorption.csv & a\_cdom\_measured\_m1 & m\textsuperscript{-1} &  & Measured chromophoric dissolved organig matter absorption\\
+Med. Sea (Case 2) & C4 & 48 & 1997-09-28 1997-10-09\\
 \addlinespace
-\cellcolor{gray!6}{absorption.csv} & \cellcolor{gray!6}{a\_cdom\_modeled\_m1} & \cellcolor{gray!6}{m\textsuperscript{-1}} & \cellcolor{gray!6}{} & \cellcolor{gray!6}{Modeled chromophoric dissolved organig matter absorption}\\
+\cellcolor{gray!6}{Atlantic Ocean} & \cellcolor{gray!6}{C5} & \cellcolor{gray!6}{3} & \cellcolor{gray!6}{1998-05-08 1998-05-08}\\
 \addlinespace
-ac9.csv & a\_m1 & m\textsuperscript{-1} &  & Total non-water absorption coefficient\\
+English Channel & C5 & 30 & 1998-05-09 1998-05-14\\
 \addlinespace
-\cellcolor{gray!6}{ac9.csv} & \cellcolor{gray!6}{c\_m1} & \cellcolor{gray!6}{m\textsuperscript{-1}} & \cellcolor{gray!6}{} & \cellcolor{gray!6}{Total non-water attenuation coefficient}\\
+\cellcolor{gray!6}{North Sea} & \cellcolor{gray!6}{C5} & \cellcolor{gray!6}{23} & \cellcolor{gray!6}{1998-05-13 1998-05-16}\\
 \addlinespace
-ac9.csv & bp\_m1 & m\textsuperscript{-1} &  & Particle scattering coefficient\\
+Baltic Sea & C6 & 57 & 1998-09-22 1998-09-25\\
 \addlinespace
-\cellcolor{gray!6}{bathymetry.csv} & \cellcolor{gray!6}{longitude} & \cellcolor{gray!6}{Degree decimal} & \cellcolor{gray!6}{} & \cellcolor{gray!6}{Longitude of the pixel used to extract the bathymetry}\\
+\cellcolor{gray!6}{English Channel} & \cellcolor{gray!6}{C6} & \cellcolor{gray!6}{52} & \cellcolor{gray!6}{1998-09-01 1998-09-05}\\
 \addlinespace
-bathymetry.csv & latitude & Degree decimal &  & Latitude of the pixel used to extract the bathymetry\\
-\addlinespace
-\cellcolor{gray!6}{bathymetry.csv} & \cellcolor{gray!6}{bathymetry\_m} & \cellcolor{gray!6}{m} & \cellcolor{gray!6}{} & \cellcolor{gray!6}{Bathymetry depth at the sampled stations}\\
-\addlinespace
-irradiance.csv & eu\_w\_m2\_um & w~m\textsuperscript{-2}~\textmu m~\textsuperscript{-1} &  & Upward irradiance just beneath the water surface (Eu0-)\\
-\addlinespace
-\cellcolor{gray!6}{irradiance.csv} & \cellcolor{gray!6}{ed\_w\_m2\_um} & \cellcolor{gray!6}{w~m\textsuperscript{-2}~\textmu m~\textsuperscript{-1}} & \cellcolor{gray!6}{} & \cellcolor{gray!6}{Downward irradiance just beneath the water surface (Ed0-)}\\
-\addlinespace
-irradiance.csv & k\_eu\_m1 & m\textsuperscript{-1} &  & Attenuation coefficient for upward irradiance (just beneath the water surface)\\
-\addlinespace
-\cellcolor{gray!6}{irradiance.csv} & \cellcolor{gray!6}{k\_ed\_m1} & \cellcolor{gray!6}{m\textsuperscript{-1}} & \cellcolor{gray!6}{} & \cellcolor{gray!6}{Attenuation coefficient for downward irradiance (just beneath the water surface)}\\
-\addlinespace
-reflectance.csv & measured\_reflectance\_percent & Percent &  & Surface water reflectance\\
-\addlinespace
-\cellcolor{gray!6}{spectral\_slopes.csv} & \cellcolor{gray!6}{s\_cdom\_nm1} & \cellcolor{gray!6}{nm\textsuperscript{-1}} & \cellcolor{gray!6}{} & \cellcolor{gray!6}{Spectral slope that describes the approximate exponential decrease in aCDOM}\\
-\addlinespace
-spectral\_slopes.csv & s\_nap\_nm1 & nm\textsuperscript{-1} &  & Spectral slope that describes the approximate exponential decrease in aNAP\\
-\addlinespace
-\cellcolor{gray!6}{stations.csv} & \cellcolor{gray!6}{station} & \cellcolor{gray!6}{} & \cellcolor{gray!6}{} & \cellcolor{gray!6}{Unique ID of the sampled station. Can be used as unique key to merge the data across other files.}\\
-\addlinespace
-stations.csv & date &  &  & Date at which the measurement was made\\
-\addlinespace
-\cellcolor{gray!6}{stations.csv} & \cellcolor{gray!6}{depth\_m} & \cellcolor{gray!6}{m} & \cellcolor{gray!6}{} & \cellcolor{gray!6}{Depth at which the measurement was made}\\
-\addlinespace
-stations.csv & longitude & Degree decimal &  & Longitude of the sampling station\\
-\addlinespace
-\cellcolor{gray!6}{stations.csv} & \cellcolor{gray!6}{latitude} & \cellcolor{gray!6}{Degree decimal} & \cellcolor{gray!6}{} & \cellcolor{gray!6}{Latitude of the sampling station}\\
-\addlinespace
-stations.csv & area &  &  & Region where the measurement was made. One of: (1) North Sea, (2) English Channel,  (3) Atlantic Ocean, (4) Med. Sea (Case 2), (5) Adriatic Sea, (6) Baltic Sea\\
-\addlinespace
-\cellcolor{gray!6}{stations.csv} & \cellcolor{gray!6}{system} & \cellcolor{gray!6}{} & \cellcolor{gray!6}{} & \cellcolor{gray!6}{}\\
-\addlinespace
-stations.csv & gmt\_time &  &  & \\
-\addlinespace
-\cellcolor{gray!6}{stations.csv} & \cellcolor{gray!6}{solar\_zenith\_angle} & \cellcolor{gray!6}{degree} & \cellcolor{gray!6}{} & \cellcolor{gray!6}{Angle of the sun from the vertical}\\
-\addlinespace
-pigments.csv & chlorophyll\_a\_mg\_m3 & mg~m\textsuperscript{-3} &  & Chloropyll-a\\
-\addlinespace
-\cellcolor{gray!6}{pigments.csv} & \cellcolor{gray!6}{chlorophyll\_b\_mg\_m3} & \cellcolor{gray!6}{mg~m\textsuperscript{-3}} & \cellcolor{gray!6}{} & \cellcolor{gray!6}{Chloropyll-b}\\
-\addlinespace
-pigments.csv & chlorophyll\_c\_mg\_m3 & mg~m\textsuperscript{-3} &  & Chloropyll-c\\
-\addlinespace
-\cellcolor{gray!6}{pigments.csv} & \cellcolor{gray!6}{pheopigment\_mg\_m3} & \cellcolor{gray!6}{mg~m\textsuperscript{-3}} & \cellcolor{gray!6}{} & \cellcolor{gray!6}{Pheopigment}\\
-\addlinespace
-pigments.csv & fucoxanthin\_mg\_m3 & mg~m\textsuperscript{-3} &  & Fucoxanthin\\
-\addlinespace
-\cellcolor{gray!6}{pigments.csv} & \cellcolor{gray!6}{hexanoyloxyfucoxanthin\_19\_mg\_m3} & \cellcolor{gray!6}{mg~m\textsuperscript{-3}} & \cellcolor{gray!6}{} & \cellcolor{gray!6}{Hexanoyloxyfucoxanthin-19}\\
-\addlinespace
-pigments.csv & butanoyloxyfucoxanthin\_19\_mg\_m3 & mg~m\textsuperscript{-3} &  & Butanoyloxyfucoxanthin-19\\
-\addlinespace
-\cellcolor{gray!6}{pigments.csv} & \cellcolor{gray!6}{alloxanthin\_mg\_m3} & \cellcolor{gray!6}{mg~m\textsuperscript{-3}} & \cellcolor{gray!6}{} & \cellcolor{gray!6}{Alloxanthin}\\
-\addlinespace
-pigments.csv & zeaxanthin\_mg\_m3 & mg~m\textsuperscript{-3} &  & Zeaxanthin\\
-\addlinespace
-\cellcolor{gray!6}{pigments.csv} & \cellcolor{gray!6}{prasixanthin\_mg\_m3} & \cellcolor{gray!6}{mg~m\textsuperscript{-3}} & \cellcolor{gray!6}{} & \cellcolor{gray!6}{Prasixanthin}\\
-\addlinespace
-pigments.csv & neoxanthin\_mg\_m3 & mg~m\textsuperscript{-3} &  & Neoxanthin\\
-\addlinespace
-\cellcolor{gray!6}{pigments.csv} & \cellcolor{gray!6}{violaxanthin\_mg\_m3} & \cellcolor{gray!6}{mg~m\textsuperscript{-3}} & \cellcolor{gray!6}{} & \cellcolor{gray!6}{Violaxanthin}\\
-\addlinespace
-pigments.csv & diatoxanthin\_mg\_m3 & mg~m\textsuperscript{-3} &  & Diatoxanthin\\
-\addlinespace
-\cellcolor{gray!6}{pigments.csv} & \cellcolor{gray!6}{diadinoxanthin\_mg\_m3} & \cellcolor{gray!6}{mg~m\textsuperscript{-3}} & \cellcolor{gray!6}{} & \cellcolor{gray!6}{Diadinoxanthin}\\
-\addlinespace
-pigments.csv & peridinin\_mg\_m3 & mg~m\textsuperscript{-3} &  & Peridinin\\
-\addlinespace
-\cellcolor{gray!6}{pigments.csv} & \cellcolor{gray!6}{carotene\_mg\_m3} & \cellcolor{gray!6}{mg~m\textsuperscript{-3}} & \cellcolor{gray!6}{} & \cellcolor{gray!6}{Carotene}\\
-\addlinespace
-pigments.csv & lutein\_mg\_m3 & mg~m\textsuperscript{-3} &  & Lutein\\
-\addlinespace
-\cellcolor{gray!6}{carbon.csv} & \cellcolor{gray!6}{suspended\_particulate\_matter\_g\_m3} & \cellcolor{gray!6}{g~m\textsuperscript{-3}} & \cellcolor{gray!6}{} & \cellcolor{gray!6}{Suspended particulate matter}\\
-\addlinespace
-carbon.csv & particulate\_organic\_nitrogen\_g\_m3 & g~m\textsuperscript{-3} &  & Particulate organic nitrogen\\
-\addlinespace
-\cellcolor{gray!6}{carbon.csv} & \cellcolor{gray!6}{total\_particulate\_carbon\_g\_m3} & \cellcolor{gray!6}{g~m\textsuperscript{-3}} & \cellcolor{gray!6}{} & \cellcolor{gray!6}{Total particulate carbon}\\
-\addlinespace
-carbon.csv & particulate\_organic\_carbon\_g\_m3 & g~m\textsuperscript{-3} &  & Particulate organic carbon\\
-\addlinespace
-\cellcolor{gray!6}{carbon.csv} & \cellcolor{gray!6}{dissolved\_organic\_carbon\_g\_m3} & \cellcolor{gray!6}{g~m\textsuperscript{-3}} & \cellcolor{gray!6}{} & \cellcolor{gray!6}{Dissolved organic carbon}\\
-\addlinespace
-SPMR & Cast & 1 &  & Processed cast number\\
-\addlinespace
-\cellcolor{gray!6}{SPMR} & \cellcolor{gray!6}{Depth} & \cellcolor{gray!6}{m} & \cellcolor{gray!6}{} & \cellcolor{gray!6}{Depth of vertical bin, e.g. -1.00 representing the depth bin [-0.90, -1.10 m]}\\
-\addlinespace
-SPMR & TmpWat & Degree celcious &  & Water temperature\\
-\addlinespace
-\cellcolor{gray!6}{SPMR} & \cellcolor{gray!6}{Cond} & \cellcolor{gray!6}{ms~cm\textsuperscript{-1}} & \cellcolor{gray!6}{} & \cellcolor{gray!6}{Conductivity}\\
-\addlinespace
-SPMR & Salin & PSU &  & Salinity\\
-\addlinespace
-\cellcolor{gray!6}{SPMR} & \cellcolor{gray!6}{SigmaT} & \cellcolor{gray!6}{1} & \cellcolor{gray!6}{} & \cellcolor{gray!6}{Density of sea water}\\
-\addlinespace
-SPMR & TiProf & Degree &  & Tilt of profiling radiometer\\
-\addlinespace
-\cellcolor{gray!6}{SPMR} & \cellcolor{gray!6}{TiRef} & \cellcolor{gray!6}{Degree} & \cellcolor{gray!6}{} & \cellcolor{gray!6}{Tilt of reference radiometer}\\
-\addlinespace
-SPMR & VSpeed & m~s\textsuperscript{-1} &  & Vertical speed\\
-\addlinespace
-\cellcolor{gray!6}{SPMR} & \cellcolor{gray!6}{Altim} & \cellcolor{gray!6}{m} & \cellcolor{gray!6}{} & \cellcolor{gray!6}{Altimeter sounding of distance from the ocean ground}\\
-\addlinespace
-SPMR & N\_OBS & 1 &  & Number of observations within depth bin\\
-\addlinespace
-\cellcolor{gray!6}{SPMR} & \cellcolor{gray!6}{EUnnn} & \cellcolor{gray!6}{w~m\textsuperscript{-2}~\textmu m~\textsuperscript{-1}} & \cellcolor{gray!6}{} & \cellcolor{gray!6}{In-water upwelling irradiance at wavelength nnn}\\
-\addlinespace
-SPMR & EDnnn & w~m\textsuperscript{-2}~\textmu m~\textsuperscript{-1} &  & In-water downwelling irradiance at wavelength nnn\\
-\addlinespace
-\cellcolor{gray!6}{SPMR} & \cellcolor{gray!6}{ERnnn} & \cellcolor{gray!6}{w~m\textsuperscript{-2}~\textmu m~\textsuperscript{-1}} & \cellcolor{gray!6}{} & \cellcolor{gray!6}{In-air downwelling irradiance at wavelength nnn}\\
-\addlinespace
-SPMR & KUnnn & m\textsuperscript{-1} &  & Diffuse attenuation at wavelength nnn calculated from the upwelling irradiance\\
-\addlinespace
-\cellcolor{gray!6}{SPMR} & \cellcolor{gray!6}{KDnnn} & \cellcolor{gray!6}{m\textsuperscript{-1}} & \cellcolor{gray!6}{} & \cellcolor{gray!6}{Diffuse attenuation at wavelength nnn calculated from the downwelling irradiance}\\
-\addlinespace
-SPMR & PAR\_ABS & µmol~m\textsuperscript{-2}~s\textsuperscript{-1} &  & Phytosynthetically Active Radiation (PAR)\\
-\addlinespace
-\cellcolor{gray!6}{SPMR} & \cellcolor{gray!6}{PAR\%SRF} & \cellcolor{gray!6}{Percent} & \cellcolor{gray!6}{} & \cellcolor{gray!6}{PAR at depth z relative to PAR on the sea surface}\\
-\addlinespace
-SPMR & K\_PAR & m\textsuperscript{-1} &  & Diffuse attenuation for PAR\\*
+North Sea & C6 & 68 & 1998-09-11 1998-09-18\\*
 \end{longtable}
 \endgroup{}
 \end{landscape}

@@ -17,7 +17,7 @@ papers |>
   # mutate(value = linebreak(value, double_escape = TRUE)) |>
   set_names("Publications") |>
   kbl(
-    caption = "Related COASTLOOC publication",
+    caption = "Scientific articles in peer-reviewed journals using or referencing COASTLOOC",
     booktabs = TRUE,
     longtable = TRUE,
     format = "latex",
