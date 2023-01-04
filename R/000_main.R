@@ -18,6 +18,18 @@
 # renv::install("httpgd") # For vscode
 # renv::install("clauswilke/ggisoband")
 
+# renv::record("MilesMcBain/breakerofchains")
+# renv::record("mcguinlu/pathformatr")
+# renv::record("ropensci/rnaturalearthdata")
+# renv::record("ropensci/rnaturalearthhires")
+# renv::record("PMassicotte/ggpmthemes")
+# renv::record(c("ropensci/tabulizerjars", "ropensci/tabulizer"))
+# renv::record("Enchufa2/rspm")
+# renv::record("bspm")
+# renv::record("languageserver") # For vscode
+# renv::record("httpgd") # For vscode
+# renv::record("clauswilke/ggisoband")
+
 # renv::repair()
 
 # %% ---- Setup
