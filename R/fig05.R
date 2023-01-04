@@ -49,9 +49,7 @@ p1 <- ac9 |>
   ) +
   labs(
     x = NULL,
-    y = quote(italic(b)[p](440)(m^{
-      -1
-    }))
+    y = parse(text = "italic(b)[p](440)~(m^{-1})")
   ) +
   theme(
     legend.position = "none"
@@ -92,9 +90,7 @@ p2 <- irradiance |>
   ) +
   labs(
     x = NULL,
-    y = quote(italic(K)[Ed](443) ~ (m^{
-      -1
-    }))
+    y = parse(text = "italic(K)[Ed](443) ~ (m^{-1})")
   ) +
   theme(
     legend.position = "none"

@@ -48,6 +48,8 @@ library(gt)
 library(ggbeeswarm)
 library(rnaturalearth)
 library(kableExtra)
+library(breakerofchains)
+library(pathformatr)
 
 # Set default ggplot2 font size and font family
 theme_set(theme_light_modified(base_family = "Open Sans", base_size = 10))

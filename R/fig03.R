@@ -51,9 +51,7 @@ p1 <- surface |>
   ) +
   labs(
     x = NULL,
-    y = quote("Total chlorophyll-a" ~ (mg ~ m^{
-      -3
-    }))
+    y = parse(text = "Total~`chlorophyll-a` ~ (mg ~ m^{-3})")
   ) +
   theme(legend.position = "none")
 
@@ -91,9 +89,7 @@ p2 <- nutrients |>
   ) +
   labs(
     x = NULL,
-    y = quote("Particulate organic carbon" ~ (g ~ m^{
-      -3
-    }))
+    y = parse(text = "Particulate~organic~carbon ~ (g ~ m^{-3})")
   ) +
   theme(
     legend.position = "none"
