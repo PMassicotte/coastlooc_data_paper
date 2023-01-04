@@ -29,7 +29,7 @@
       "Package": "KernSmooth",
       "Version": "2.23-20",
       "Source": "Repository",
-      "Repository": "CRAN",
+      "Repository": "RSPM",
       "Hash": "8dcfa99b14c296bc9f1fd64d52fd3ce7",
       "Requirements": []
     },
@@ -37,7 +37,7 @@
       "Package": "MASS",
       "Version": "7.3-58.1",
       "Source": "Repository",
-      "Repository": "CRAN",
+      "Repository": "RSPM",
       "Hash": "762e1804143a332333c054759f89a706",
       "Requirements": []
     },
@@ -55,7 +55,7 @@
       "Package": "Matrix",
       "Version": "1.5-3",
       "Source": "Repository",
-      "Repository": "RSPM",
+      "Repository": "CRAN",
       "Hash": "4006dffe49958d2dd591c17e61e60591",
       "Requirements": [
         "lattice"
@@ -131,24 +131,6 @@
       "Hash": "4f57884290cc75ab22f4af9e9d4ca862",
       "Requirements": []
     },
-    "arrow": {
-      "Package": "arrow",
-      "Version": "10.0.1",
-      "Source": "Repository",
-      "Repository": "RSPM",
-      "Hash": "74b551e105beb7ee0fae1f7861668bac",
-      "Requirements": [
-        "R6",
-        "assertthat",
-        "bit64",
-        "cpp11",
-        "glue",
-        "purrr",
-        "rlang",
-        "tidyselect",
-        "vctrs"
-      ]
-    },
     "askpass": {
       "Package": "askpass",
       "Version": "1.1",
@@ -196,12 +178,6 @@
       "Version": "1.4.1",
       "Source": "Repository",
       "Repository": "RSPM",
-      "RemoteType": "standard",
-      "RemotePkgRef": "backports",
-      "RemoteRef": "backports",
-      "RemoteRepos": "https://cran.rstudio.com/",
-      "RemotePkgPlatform": "source",
-      "RemoteSha": "1.4.1",
       "Hash": "c39fbec8a30d23e721980b8afb31984c",
       "Requirements": []
     },
@@ -282,7 +258,7 @@
       "Package": "boot",
       "Version": "1.3-28.1",
       "Source": "Repository",
-      "Repository": "RSPM",
+      "Repository": "CRAN",
       "Hash": "9a052fbcbe97a98ceb18dbfd30ebd96e",
       "Requirements": []
     },
@@ -373,7 +349,7 @@
       "Package": "class",
       "Version": "7.3-20",
       "Source": "Repository",
-      "Repository": "CRAN",
+      "Repository": "RSPM",
       "Hash": "da09d82223e669d270e47ed24ac8686e",
       "Requirements": [
         "MASS"
@@ -393,10 +369,10 @@
     },
     "cli": {
       "Package": "cli",
-      "Version": "3.4.1",
+      "Version": "3.5.0",
       "Source": "Repository",
-      "Repository": "CRAN",
-      "Hash": "0d297d01734d2bcea40197bd4971a764",
+      "Repository": "RSPM",
+      "Hash": "eb9fc121ad9a1075c471107ef185be46",
       "Requirements": []
     },
     "clipr": {
@@ -605,10 +581,10 @@
     },
     "evaluate": {
       "Package": "evaluate",
-      "Version": "0.18",
+      "Version": "0.19",
       "Source": "Repository",
-      "Repository": "CRAN",
-      "Hash": "6b6c0f8467cd4ce0b500cabbc1bd1763",
+      "Repository": "RSPM",
+      "Hash": "5aac3cd0a3ccb1a738941796b28c26fe",
       "Requirements": []
     },
     "extrafont": {
@@ -715,7 +691,7 @@
       "Package": "geojsonsf",
       "Version": "2.0.3",
       "Source": "Repository",
-      "Repository": "CRAN",
+      "Repository": "RSPM",
       "Hash": "8d077646c6713838233e8710910ef92e",
       "Requirements": [
         "Rcpp",
@@ -729,7 +705,7 @@
       "Package": "geometries",
       "Version": "0.2.0",
       "Source": "Repository",
-      "Repository": "CRAN",
+      "Repository": "RSPM",
       "Hash": "be29054e97e756ade56d13a89c6d5243",
       "Requirements": [
         "Rcpp"
@@ -1032,10 +1008,10 @@
     },
     "highr": {
       "Package": "highr",
-      "Version": "0.9",
+      "Version": "0.10",
       "Source": "Repository",
       "Repository": "RSPM",
-      "Hash": "8eb36c8125038e648e5d111c0d7b2ed4",
+      "Hash": "06230136b2d2b9ba5805e1963fa6e890",
       "Requirements": [
         "xfun"
       ]
@@ -1147,10 +1123,10 @@
     },
     "isoband": {
       "Package": "isoband",
-      "Version": "0.2.6",
+      "Version": "0.2.7",
       "Source": "Repository",
       "Repository": "RSPM",
-      "Hash": "cfdea9dea85c1a973991c8cbe299f4da",
+      "Hash": "0080607b4a1a7b28979aecef976d8bc2",
       "Requirements": []
     },
     "janitor": {
@@ -1292,7 +1268,7 @@
       "Package": "lattice",
       "Version": "0.20-45",
       "Source": "Repository",
-      "Repository": "CRAN",
+      "Repository": "RSPM",
       "Hash": "b64cdbb2b340437c4ee047a1f4c4377b",
       "Requirements": []
     },
@@ -1308,7 +1284,7 @@
       "Package": "leafem",
       "Version": "0.2.0",
       "Source": "Repository",
-      "Repository": "CRAN",
+      "Repository": "RSPM",
       "Hash": "db6e565a81ce81f137660467644e6fcd",
       "Requirements": [
         "base64enc",
@@ -1355,7 +1331,7 @@
       "Package": "leafpop",
       "Version": "0.1.0",
       "Source": "Repository",
-      "Repository": "CRAN",
+      "Repository": "RSPM",
       "Hash": "0c1e9e9a79598ec5acb1820d1948dae8",
       "Requirements": [
         "base64enc",
@@ -1410,7 +1386,7 @@
       "Package": "mapview",
       "Version": "2.11.0",
       "Source": "Repository",
-      "Repository": "CRAN",
+      "Repository": "RSPM",
       "Hash": "204c456b6b2742e196209a2a70eb5679",
       "Requirements": [
         "base64enc",
@@ -1457,7 +1433,7 @@
       "Package": "mgcv",
       "Version": "1.8-41",
       "Source": "Repository",
-      "Repository": "CRAN",
+      "Repository": "RSPM",
       "Hash": "6b3904f13346742caa3e82dd0303d4ad",
       "Requirements": [
         "Matrix",
@@ -1523,7 +1499,7 @@
       "Package": "nlme",
       "Version": "3.1-160",
       "Source": "Repository",
-      "Repository": "CRAN",
+      "Repository": "RSPM",
       "Hash": "02e3c6e7df163aafa8477225e6827bc5",
       "Requirements": [
         "lattice"
@@ -1748,13 +1724,16 @@
     },
     "purrr": {
       "Package": "purrr",
-      "Version": "0.3.5",
+      "Version": "1.0.0",
       "Source": "Repository",
-      "Repository": "RSPM",
-      "Hash": "54842a2443c76267152eface28d9e90a",
+      "Repository": "CRAN",
+      "Hash": "1ad491d27989ec6c26a2918ad6df116b",
       "Requirements": [
+        "cli",
+        "lifecycle",
         "magrittr",
-        "rlang"
+        "rlang",
+        "vctrs"
       ]
     },
     "qpdf": {
@@ -1885,11 +1864,9 @@
     "renv": {
       "Package": "renv",
       "Version": "0.16.0",
-      "OS_type": NA,
-      "NeedsCompilation": "no",
-      "Repository": "CRAN",
-      "Path": NA,
       "Source": "Repository",
+      "Repository": "CRAN",
+      "Hash": "c9e8442ab69bc21c9697ecf856c1e6c7",
       "Requirements": []
     },
     "reprex": {
@@ -1934,7 +1911,7 @@
       "Package": "rlang",
       "Version": "1.0.6",
       "Source": "Repository",
-      "Repository": "CRAN",
+      "Repository": "RSPM",
       "Hash": "4ed1f8336c8d52c3e750adcdc57228a7",
       "Requirements": []
     },
@@ -2050,7 +2027,7 @@
       "Package": "satellite",
       "Version": "1.0.4",
       "Source": "Repository",
-      "Repository": "CRAN",
+      "Repository": "RSPM",
       "Hash": "6bb739cedb7a0a9e5f9604d599223298",
       "Requirements": [
         "Rcpp",
@@ -2125,7 +2102,7 @@
       "Package": "sfheaders",
       "Version": "0.4.0",
       "Source": "Repository",
-      "Repository": "CRAN",
+      "Repository": "RSPM",
       "Hash": "c1bd5fbd6bed3c16a20df15d9bc20c55",
       "Requirements": [
         "Rcpp",
@@ -2189,7 +2166,7 @@
       "Package": "survival",
       "Version": "3.4-0",
       "Source": "Repository",
-      "Repository": "CRAN",
+      "Repository": "RSPM",
       "Hash": "04411ae66ab4659230c067c32966fc20",
       "Requirements": [
         "Matrix"
@@ -2199,7 +2176,7 @@
       "Package": "svglite",
       "Version": "2.1.0",
       "Source": "Repository",
-      "Repository": "CRAN",
+      "Repository": "RSPM",
       "Hash": "68dfdf211af6aa4e5f050f064f64d401",
       "Requirements": [
         "cpp11",
@@ -2261,7 +2238,7 @@
       "Package": "terra",
       "Version": "1.6-47",
       "Source": "Repository",
-      "Repository": "CRAN",
+      "Repository": "RSPM",
       "Hash": "67b7ba63622fbab6820434ac7ac296d6",
       "Requirements": [
         "Rcpp"
@@ -2506,10 +2483,10 @@
     },
     "xfun": {
       "Package": "xfun",
-      "Version": "0.35",
+      "Version": "0.36",
       "Source": "Repository",
       "Repository": "RSPM",
-      "Hash": "f576593107bdf9aa7db48ef75a8c05fb",
+      "Hash": "f5baec54606751aa53ac9c0e05848ed6",
       "Requirements": []
     },
     "xml2": {

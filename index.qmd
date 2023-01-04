@@ -171,7 +171,7 @@ knitr::include_graphics(pdf2png(here("graphs", "fig05.pdf")))
 
 ### Figure 6
 
-Figure 6: Reflectance spectra measured at the surface across the sampled areas. The tick lines represent the average spectra.
+Figure 6: Subsurface reflectance R(0-) across the sampled areas. The thick lines represent the regional averages. Note that R(0-) at wavelengths above 705 nm could only be derived from helicopter-based measurements.
 
 ```{r fig06}
 knitr::include_graphics(pdf2png(here("graphs", "fig06.pdf")))
