@@ -36,7 +36,8 @@ df_viz <- df |>
     date_month = clock::date_group(date, precision = "month"),
     .after = date
   ) |>
-  count(area, date_month)
+  mutate(cruise = str_sub(station, 1, 2)) |>
+  count(area, cruise, date_month)
 
 df_viz
 
@@ -58,6 +59,7 @@ p1 <- df_viz |>
   ) +
   geom_point(aes(size = n, color = area)) +
   geom_text(aes(label = n), color = "white", size = 3) +
+  geom_text(aes(label = cruise, color = area), size = 2.5, vjust = -2.2) +
   scale_color_manual(
     breaks = area_breaks,
     values = area_colors

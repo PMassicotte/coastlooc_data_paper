@@ -249,7 +249,4 @@ knitr::include_graphics(pdf2png(here("graphs", "appendix01.pdf")))
 
 - Use `piggyback` <https://docs.ropensci.org/piggyback/>
 
-- Release the final report PDF with a DOI and cite it in the main text.
-  - Who should be included in the release of this document?
-
 ## References
