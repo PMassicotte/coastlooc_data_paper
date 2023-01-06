@@ -8,7 +8,7 @@ format:
     # fig-dpi: 300
 editor_options: 
   chunk_output_type: console
-bibliography: /home/filoche/Documents/library.bib
+bibliography: references.bib
 ---
 
 ```{r setup, include=FALSE}
@@ -48,37 +48,37 @@ This section shows the main steps that have been applied to pre-process the raw 
 
 ### aCDOM spectra
 
-- The CDOM spectra were modelled according to the information in @.
+-   The CDOM spectra were modelled according to the information in \@.
 
-    - `acdom` spectra were re-fitted using the complete data (i.e. between 350-500 nm) because the data in `all_abs_transpose.txt` started at 380 nm.
+    -   `acdom` spectra were re-fitted using the complete data (i.e. between 350-500 nm) because the data in `all_abs_transpose.txt` started at 380 nm.
 
-- Average background values calculated between 683-687 nm and subtracted from each spectrum.
+-   Average background values calculated between 683-687 nm and subtracted from each spectrum.
 
-- Some files were in binary format, so I could not open them (ex.: `C2001000.YSA`).
+-   Some files were in binary format, so I could not open them (ex.: `C2001000.YSA`).
 
-- Some spectra start at 300 nm while others at 350 nm.
+-   Some spectra start at 300 nm while others at 350 nm.
 
-- Calculated the correlation between the measured and the fitted values.
+-   Calculated the correlation between the measured and the fitted values.
 
-    - Fits with R2 lower than 0.95 were removed from the data.
+    -   Fits with R2 lower than 0.95 were removed from the data.
 
-- Absorption spectra with any negative values below 500 nm were removed.
+-   Absorption spectra with any negative values below 500 nm were removed.
 
-- Exported the complete spectra (350-700 nm): both the raw and the modelled data.
+-   Exported the complete spectra (350-700 nm): both the raw and the modelled data.
 
 ### Phytoplankton and non-algal absorption
 
-- Absorption spectra with any negative values below 500 nm were removed.
+-   Absorption spectra with any negative values below 500 nm were removed.
 
 ### Irradiance
 
-- There were negative values in the irradiance data (`Ed`, `Eu`, `Kd`, `Ku`). I have cleaned the data by setting these negative values to `NA`.
+-   There were negative values in the irradiance data (`Ed`, `Eu`, `Kd`, `Ku`). I have cleaned the data by setting these negative values to `NA`.
 
-- `Eu` is in fact `Eu0-` that was estimated using a two-exponential function model.
+-   `Eu` is in fact `Eu0-` that was estimated using a two-exponential function model.
 
-- `Ed` is in fact `Ed0-` calculated from `0.94 x ed0+`.
+-   `Ed` is in fact `Ed0-` calculated from `0.94 x ed0+`.
 
-- There are differences in wavelengths among cruises. I have not found any information in the report concerning channel change across the missions.
+-   There are differences in wavelengths among cruises. I have not found any information in the report concerning channel change across the missions.
 
 ```{r}
 irradiance <- read_csv("data/clean/irradiance.csv")
@@ -110,21 +110,21 @@ irradiance |>
 
 ### Reflectance
 
-- Reflectance values outside the 0-1 range were set to `NA`.
+-   Reflectance values outside the 0-1 range were set to `NA`.
 
 ### Other stuff
 
-- Extracted extra variables (`DOC`, `AQY`) from Massimo 2000.
+-   Extracted extra variables (`DOC`, `AQY`) from Massimo 2000.
 
 ### Bathymetry
 
-- I have extracted the bathymetry at each sampling locations.
+-   I have extracted the bathymetry at each sampling locations.
 
 ## Journal candidates
 
-- [Scientific data](https://www.nature.com/sdata/) (I.F: 5.541)
-- [Earth System Science Data (ESSD)](https://earth-system-science-data.net/) (I.F: 9.197)
-- [PLOS One](https://journals.plos.org/plosone/) (I.F: 2.740)
+-   [Scientific data](https://www.nature.com/sdata/) (I.F: 5.541)
+-   [Earth System Science Data (ESSD)](https://earth-system-science-data.net/) (I.F: 9.197)
+-   [PLOS One](https://journals.plos.org/plosone/) (I.F: 2.740)
 
 ## Figures for the paper
 
@@ -145,6 +145,7 @@ Figure 2: (**A**) Overview of the temporal sampling for the seven areas. The num
 ```{r fig02}
 knitr::include_graphics(pdf2png(here("graphs", "fig02.pdf")))
 ```
+
 ### Figure 3
 
 Figure 3: (**A**) Total chlorophyll-a and (**B**) particulate organic carbon across the sampled areas.
@@ -199,7 +200,7 @@ knitr::include_graphics(here("graphs", "fig08b.png"))
 
 ### Figure 9
 
-(**A**) Kd(490) profiles along a transect taken in the Lion’s Gulf on 30. Sept. 1997 from site C4014 located ca. 5 km to the west of the mouth of the main Rhône branch (Grand Rhône) to site C4019 some 20 km further south in clear Mediterranean waters. (**B**) Kd(490) profiles along a transect taken in the North Sea on 12. Sept. 1998 extending from site C6063 close to the western shore of the island of Texel to site C6069 located ca. 22 km further west in the open North Sea.
+(**A**) Kd(490) profiles along a transect taken in the Lion's Gulf on 30. Sept. 1997 from site C4014 located ca. 5 km to the west of the mouth of the main Rhône branch (Grand Rhône) to site C4019 some 20 km further south in clear Mediterranean waters. (**B**) Kd(490) profiles along a transect taken in the North Sea on 12. Sept. 1998 extending from site C6063 close to the western shore of the island of Texel to site C6069 located ca. 22 km further west in the open North Sea.
 
 ```{r fig09a}
 knitr::include_graphics(here("graphs", "fig09a.png"))
@@ -219,34 +220,35 @@ knitr::include_graphics(pdf2png(here("graphs", "appendix01.pdf")))
 
 ## Done
 
-- [x] Validated that there are no absorption for Med. Sea Case 1 cruise.
+-   [x] Validated that there are no absorption for Med. Sea Case 1 cruise.
 
-- [x] A few stations were located on the land (bad geographical coordinates). They have been removed.
+-   [x] A few stations were located on the land (bad geographical coordinates). They have been removed.
 
-- [x] Calculate `s_nap` and `s_cdom`. See the method in @babin2003 where he removes some wavelengths to calculate `s_nap`.
+-   [x] Calculate `s_nap` and `s_cdom`. See the method in @babin2003 where he removes some wavelengths to calculate `s_nap`.
 
-- [x] Removed dissolved `a` and `c` from the AC9 data because there were problems with the filtering procedure during the sampling. These correspond to the `ad` and `cd` variables in `SurfaceData5(C4corr).txt`.
+-   [x] Removed dissolved `a` and `c` from the AC9 data because there were problems with the filtering procedure during the sampling. These correspond to the `ad` and `cd` variables in `SurfaceData5(C4corr).txt`.
 
-- [x] Extract bathymetry at each station.
+-   [x] Extract bathymetry at each station.
 
-- [x] Zoom on geographic areas in Fig. 1 such as figure 13 in the final report.
+-   [x] Zoom on geographic areas in Fig. 1 such as figure 13 in the final report.
 
-- [x] Recode Ed wavelengths from the SPMR *vertical* profiles as:
+-   [x] Recode Ed wavelengths from the SPMR *vertical* profiles as:
 
-    - 412 -\> 411
-    - 510 -\> 509
-    - 589 -\> 590
-    - 666 -\> 665
-    - 780 -\> 779
+    -   412 -\> 411
+    -   510 -\> 509
+    -   589 -\> 590
+    -   666 -\> 665
+    -   780 -\> 779
 
-- [x] Validated that are only two AC9 measurements in the Adriatic Sea.
+-   [x] Validated that are only two AC9 measurements in the Adriatic Sea.
 
-- [x] Removed duplicated radiometric surface spectral profiles (duplicated Ed/Eu/Kd/Ku).
+-   [x] Removed duplicated radiometric surface spectral profiles (duplicated Ed/Eu/Kd/Ku).
 
-- [x] Removed Almofront (A2, Med case 1) observations as they were collected from a separate mission with different funding.
+-   [x] Removed Almofront (A2, Med case 1) observations as they were collected from a separate mission with different funding.
 
 ## TODO
 
-- Use `piggyback` <https://docs.ropensci.org/piggyback/>
+-   Use `piggyback` <https://docs.ropensci.org/piggyback/>
 
 ## References
+
