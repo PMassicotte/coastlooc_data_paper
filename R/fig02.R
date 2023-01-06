@@ -126,11 +126,3 @@ ggsave(
   height = 120,
   units = "mm"
 )
-
-ggsave(
-  here("graphs", "fig02.svg"),
-  device = svglite::svglite,
-  width = 200,
-  height = 120,
-  units = "mm"
-)

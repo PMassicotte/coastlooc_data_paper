@@ -82,13 +82,16 @@ source(here("R", "999_assert.R"))
 # %%
 
 # %% ---- Figures for the manuscript
+
+# Figures 3 and 8 were made by Frank Fell.
+
 source(here("R", "fig01.R"))
 source(here("R", "fig02.R"))
-source(here("R", "fig03.R"))
 source(here("R", "fig04.R"))
 source(here("R", "fig05.R"))
 source(here("R", "fig06.R"))
 source(here("R", "fig07.R"))
+source(here("R", "fig09.R"))
 
 source(here("R", "appendix_001.R"))
 source(here("R", "appendix_002.R"))
