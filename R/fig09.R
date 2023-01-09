@@ -56,7 +56,7 @@ p1 <- df |>
   annotation_logticks(sides = "bl", size = 0.1) +
   geom_smooth(method = "lm", color = "#3c3c3c") +
   labs(
-    x = parse(text = "Total~`chlorophyll-a` ~ (mg ~ m^{-3})"),
+    x = parse(text = "Total~chlorophyll~italic(a) ~ (mg ~ m^{-3})"),
     y = parse(text = "Particulate~organic~carbon~ (g ~ m^{-3})")
   ) +
   ggpmisc::stat_correlation(
@@ -122,7 +122,7 @@ p2 <- df |>
     values = area_colors
   ) +
   labs(
-    x = parse(text = "Total~`chlorophyll-a` ~ (mg ~ m^{-3})"),
+    x = parse(text = "Total~chlorophyll~italic(a) ~ (mg ~ m^{-3})"),
     y = parse(text = "a[phi](443) ~ (m^{-1})")
   ) +
   ggpmisc::stat_correlation(
