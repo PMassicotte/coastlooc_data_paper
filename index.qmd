@@ -176,7 +176,7 @@ knitr::include_graphics(pdf2png(here("graphs", "fig05.pdf")))
 
 ### Figure 6
 
-Figure 6: (**A**) Particulate scattering coefficient at 440 nm ($b_{b}(440)$) and (**B**) attenuation coefficient for downward irradiance at 443 nm ($K_{d}(443)$) across the sampled areas.
+Figure 6: (**A**) Particulate scattering coefficient at 440 nm ($b_{b}(440)$) and (**B**) attenuation coefficient for downward irradiance at 443 nm ($K_{\text{Ed}}(443)$) across the sampled areas.
 
 ```{r fig06}
 knitr::include_graphics(pdf2png(here("graphs", "fig06.pdf")))
@@ -192,7 +192,7 @@ knitr::include_graphics(pdf2png(here("graphs", "fig07.pdf")))
 
 ### Figure 8
 
-(**A**) Kd(490) profiles along a transect taken in the Lion's Gulf on 30. Sept. 1997 from site C4014 located ca. 5 km to the west of the mouth of the main Rhône branch (Grand Rhône) to site C4019 some 20 km further south in clear Mediterranean waters. (**B**) Kd(490) profiles along a transect taken in the North Sea on 12. Sept. 1998 extending from site C6063 close to the western shore of the island of Texel to site C6069 located ca. 22 km further west in the open North Sea.
+(**A**) $K_{\text{Ed}}(490)$ profiles along a transect taken in the Lion's Gulf on 30. Sept. 1997 from site C4014 located ca. 5 km to the west of the mouth of the main Rhône branch (Grand Rhône) to site C4019 some 20 km further south in clear Mediterranean waters. (**B**) $K_{\text{Ed}}(490)$ profiles along a transect taken in the North Sea on 12. Sept. 1998 extending from site C6063 close to the western shore of the island of Texel to site C6069 located ca. 22 km further west in the open North Sea.
 
 ```{r fig08a}
 knitr::include_graphics(here("graphs", "fig08a.png"))
