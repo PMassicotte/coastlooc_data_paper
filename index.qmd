@@ -184,7 +184,7 @@ knitr::include_graphics(pdf2png(here("graphs", "fig06.pdf")))
 
 ### Figure 7
 
-Figure 7: Subsurface reflectance R(0-) across the sampled areas. The thick lines represent the regional averages. Note that R(0-) at wavelengths above 705 nm could only be derived from helicopter-based measurements.
+Figure 7: Subsurface reflectance $R~(0^{-})$ across the sampled areas. The thick lines represent the regional averages. Note that $R~(0^{-})$ at wavelengths above 705 nm could only be derived from helicopter-based measurements.
 
 ```{r fig07}
 knitr::include_graphics(pdf2png(here("graphs", "fig07.pdf")))
@@ -213,7 +213,7 @@ knitr::include_graphics(pdf2png(here("graphs", "fig09.pdf")))
 
 ### Appendix 1
 
-Example of extrapolation of the upward irradiance towards the sea surface. The irradiance values just below the sea surface and the corresponding diffuse attenuation coefficient for the topmost water layer are specified in the figures.
+Example of extrapolation of the upward irradiance towards the sea surface. The irradiance values just below the sea surface (red crosses, $E_u~(0^{-})$) and the corresponding diffuse attenuation coefficient for the topmost water layer are specified in the figures. The full lines represent the interpolated values whereas the dashed lines show extrapolation values up to the sea surface.
 
 ```{r appendix01}
 knitr::include_graphics(pdf2png(here("graphs", "appendix01.pdf")))
