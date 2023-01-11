@@ -52,7 +52,8 @@ p1 <- ac9 |>
     y = parse(text = "italic(b)[p](440)~(m^{-1})")
   ) +
   theme(
-    legend.position = "none"
+    legend.position = "none",
+    panel.grid.minor = element_blank()
   )
 
 # Downward attenuation coefficient ----------------------------------------
@@ -93,7 +94,8 @@ p2 <- irradiance |>
     y = parse(text = "italic(K)[Ed](443) ~ (m^{-1})")
   ) +
   theme(
-    legend.position = "none"
+    legend.position = "none",
+    panel.grid.minor = element_blank()
   )
 
 # Combine plots -----------------------------------------------------------

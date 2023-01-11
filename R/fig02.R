@@ -107,7 +107,8 @@ p2 <- df |>
   ) +
   theme(
     legend.position = "none",
-    axis.text.y = element_blank()
+    axis.text.y = element_blank(),
+    panel.grid.minor = element_blank()
   )
 
 # Combine and save plots --------------------------------------------------

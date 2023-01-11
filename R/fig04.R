@@ -53,7 +53,10 @@ p1 <- surface |>
     x = NULL,
     y = parse(text = "Total~chlorophyll~italic(a) ~ (mg ~ m^{-3})")
   ) +
-  theme(legend.position = "none")
+  theme(
+    legend.position = "none",
+    panel.grid.minor = element_blank()
+  )
 
 p1
 
@@ -92,7 +95,8 @@ p2 <- nutrients |>
     y = parse(text = "Particulate~organic~carbon ~ (g ~ m^{-3})")
   ) +
   theme(
-    legend.position = "none"
+    legend.position = "none",
+    panel.grid.minor = element_blank()
   )
 
 # Combine plots -----------------------------------------------------------

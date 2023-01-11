@@ -78,7 +78,8 @@ p1 <- df |>
     legend.justification = c(0, 1),
     legend.position = c(0.02, 0.99),
     legend.key.size = unit(0.4, "cm"),
-    legend.background = element_blank()
+    legend.background = element_blank(),
+    panel.grid.minor = element_blank()
   )
 
 df |>
@@ -141,7 +142,8 @@ p2 <- df |>
     small.r = TRUE
   ) +
   theme(
-    legend.position = "none"
+    legend.position = "none",
+    panel.grid.minor = element_blank()
   )
 
 df |>
@@ -200,7 +202,8 @@ p3 <- df |>
     family = "Montserrat"
   ) +
   theme(
-    legend.position = "none"
+    legend.position = "none",
+    panel.grid.minor = element_blank()
   )
 
 # %%
@@ -254,7 +257,8 @@ p4 <- df |>
   ) +
   theme(
     legend.position = "none",
-    legend.title = element_blank()
+    legend.title = element_blank(),
+    panel.grid.minor = element_blank()
   )
 
 # %%
