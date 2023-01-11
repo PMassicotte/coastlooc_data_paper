@@ -50,7 +50,7 @@ This section shows the figures that I think should be included in the data paper
 
 ### Figure 1
 
-Figure 1: Map of the sampling stations. Black outlines in the bottom panels (Mediterranean Sea and North Sea) identify the stations used in Fig. 5 as well as examples of vertical profiles of $K_{\text{Ed}}(490)$ in Fig. 8.
+Figure 1: Map of the sampling stations. The three black outlines in the bottom panels (Mediterranean Sea and North Sea) identify the stations and the transects used in Fig. 5E (C100) as well as for the examples of vertical profiles of $K_{\text{Ed}}(490)$ in Fig. 8 (C401 and C606).
 
 ```{r fig01}
 knitr::include_graphics(pdf2png(here("graphs", "fig01.pdf")))

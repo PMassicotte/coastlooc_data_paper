@@ -234,6 +234,8 @@ outlines <- outlines |>
   st_buffer(dist = 6e3) |>
   ungroup()
 
+# Extract the northen most station of each transect. It will be used to place
+# labels in subpanels.
 outline_labels <- outlines |>
   group_by(area, cruise) |>
   mutate(coords = list(st_coordinates(geometry))) |>
@@ -276,7 +278,7 @@ df_viz <- stations_sf |>
         aes(x = X, y = Y, label = cruise),
         fill = NA,
         check_overlap = TRUE,
-        size = 1.1,
+        size = 1.75,
         vjust = -0.6,
         hjust = 0.5
       ) +
