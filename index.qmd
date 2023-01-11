@@ -42,89 +42,7 @@ theme_update(
 source(here("R", "zzz.R"))
 ```
 
-## Data cleaning and pre-processing
-
-This section shows the main steps that have been applied to pre-process the raw data.
-
-### aCDOM spectra
-
--   The CDOM spectra were modelled according to the information in \@.
-
-    -   `acdom` spectra were re-fitted using the complete data (i.e. between 350-500 nm) because the data in `all_abs_transpose.txt` started at 380 nm.
-
--   Average background values calculated between 683-687 nm and subtracted from each spectrum.
-
--   Some files were in binary format, so I could not open them (ex.: `C2001000.YSA`).
-
--   Some spectra start at 300 nm while others at 350 nm.
-
--   Calculated the correlation between the measured and the fitted values.
-
-    -   Fits with R2 lower than 0.95 were removed from the data.
-
--   Absorption spectra with any negative values below 500 nm were removed.
-
--   Exported the complete spectra (350-700 nm): both the raw and the modelled data.
-
-### Phytoplankton and non-algal absorption
-
--   Absorption spectra with any negative values below 500 nm were removed.
-
-### Irradiance
-
--   There were negative values in the irradiance data (`Ed`, `Eu`, `Kd`, `Ku`). I have cleaned the data by setting these negative values to `NA`.
-
--   `Eu` is in fact `Eu0-` that was estimated using a two-exponential function model.
-
--   `Ed` is in fact `Ed0-` calculated from `0.94 x ed0+`.
-
--   There are differences in wavelengths among cruises. I have not found any information in the report concerning channel change across the missions.
-
-```{r}
-irradiance <- read_csv("data/clean/irradiance.csv")
-
-irradiance |> 
-  mutate(cruise = str_sub(station, 1, 2), .after = station) |> 
-  distinct(cruise, wavelength) |> 
-  group_nest(cruise) |> 
-  unnest_wider(data) |> 
-  pivot_wider(names_from = cruise, values_from = wavelength) |> 
-  unnest(everything()) |> 
-  knitr::kable() |> 
-  kableExtra::kable_styling()
-
-irradiance |> 
-  mutate(cruise = str_sub(station, 1, 2), .after = station) |> 
-  distinct(cruise, wavelength) |> 
-  group_nest(cruise) |> 
-  unnest_wider(data) |> 
-  pivot_wider(names_from = cruise, values_from = wavelength) |> 
-  unnest(everything()) |> 
-  rowwise() |> 
-  mutate(u = length(unique(c_across(everything())))) |> 
-  filter(u != 1) |> 
-  select(-u) |> 
-  knitr::kable() |> 
-  kableExtra::kable_styling()
-```
-
-### Reflectance
-
--   Reflectance values outside the 0-1 range were set to `NA`.
-
-### Other stuff
-
--   Extracted extra variables (`DOC`, `AQY`) from Massimo 2000.
-
-### Bathymetry
-
--   I have extracted the bathymetry at each sampling locations.
-
-## Journal candidates
-
--   [Scientific data](https://www.nature.com/sdata/) (I.F: 5.541)
 -   [Earth System Science Data (ESSD)](https://earth-system-science-data.net/) (I.F: 9.197)
--   [PLOS One](https://journals.plos.org/plosone/) (I.F: 2.740)
 
 ## Figures for the paper
 
@@ -132,7 +50,7 @@ This section shows the figures that I think should be included in the data paper
 
 ### Figure 1
 
-Figure 1: Map of the sampling stations. Red outlines in the bottom panels (Mediterranean Sea and North Sea) identify the stations used to present examples of subsurface reflectance spectra in Fig. 9.
+Figure 1: Map of the sampling stations. Black outlines in the bottom panels (Mediterranean Sea and North Sea) identify the stations used in Fig. 5 as well as examples of vertical profiles of $K_{\text{Ed}}(490)$ in Fig. 8.
 
 ```{r fig01}
 knitr::include_graphics(pdf2png(here("graphs", "fig01.pdf")))
@@ -140,7 +58,7 @@ knitr::include_graphics(pdf2png(here("graphs", "fig01.pdf")))
 
 ### Figure 2
 
-Figure 2: (**A**) Overview of the temporal sampling for the seven areas. The numbers in the circles indicate the number of visited stations each month. (**B**) Boxplot showing the bathymetry at the sampling locations by area. The labels on top of each circle identify the COASTLOOC campaigns (C1 to C6).
+Figure 2: (**A**) Overview of the temporal sampling for the six areas. The numbers in the circles indicate the number of visited stations each month. (**B**) Boxplot showing the bathymetry at the sampling locations by area. The labels on top of each circle identify the COASTLOOC campaigns (C1 to C6).
 
 ```{r fig02}
 knitr::include_graphics(pdf2png(here("graphs", "fig02.pdf")))
@@ -148,7 +66,7 @@ knitr::include_graphics(pdf2png(here("graphs", "fig02.pdf")))
 
 ### Figure 3
 
-(**A**) Vertical profile of the upwelling irradiance at station C1021, located in the North-East Atlantic offshore Northern Portugal. A double deep chlorophyll maximum with the corresponding irradiance increase due to chlorophyll fluorescence is observed at ca. 35 m and 45 m water depth, respectively, most prominently at 683 nm, but als at 664 nm and even at 706 nm. (**B**) Vertical profiles of the upwelling and downwelling irradiance at station C6176, located in the Baltic Sea offshore Usedom Island in North-East Germany. Baltic Sea waters are rich in CDOM, resulting in strong absorption in the UV and blue. The reduced decrease of the upwelling irradiance at 559 nm towards larger depths is likely caused by reflection from the ocean bottom.
+(**A**) Vertical profile of the upwelling irradiance taken on 11 April 1997 at station C1021 located in the North-East Atlantic offshore Northern Portugal. A double deep chlorophyll maximum with the corresponding irradiance increase due to chlorophyll fluorescence is observed at water depths of ca. 35 m and 45 m, most prominently at 683 nm, but also at 664 nm and even at 706 nm. Attenuation in the blue to green wavelengths is correspondingly enhanced as reflected by the change in slope at a depth of ca. 34 m. (**B**) Vertical profiles of the upwelling and downwelling irradiance taken on 25 September 1998 at station C6176 located in the Baltic Sea offshore Usedom Island in North-East Germany. Baltic Sea waters are rich in CDOM, resulting in strong absorption in the UV and blue. The reduced decrease of the upwelling irradiance at 559 nm towards larger depths is likely caused by reflection of downwelling irradiance from the ocean bottom. Chlorophyll fluorescence is likely the reason for the relatively enhanced upwelling irradiance at 683 nm for depths below ca. 7 m.
 
 ```{r fig03a}
 knitr::include_graphics(here("graphs", "fig03a.png"))
@@ -192,7 +110,7 @@ knitr::include_graphics(pdf2png(here("graphs", "fig07.pdf")))
 
 ### Figure 8
 
-(**A**) $K_{\text{Ed}}(490)$ profiles along a transect taken in the Lion's Gulf on 30. Sept. 1997 from site C4014 located ca. 5 km to the west of the mouth of the main Rhône branch (Grand Rhône) to site C4019 some 20 km further south in clear Mediterranean waters. (**B**) $K_{\text{Ed}}(490)$ profiles along a transect taken in the North Sea on 12. Sept. 1998 extending from site C6063 close to the western shore of the island of Texel to site C6069 located ca. 22 km further west in the open North Sea.
+(**A**) $K_{\text{Ed}}(490)$ profiles taken in the Lion’s Gulf on 30. Sept. 1997 along a transect extending from site C4014 located ca. 5 km to the west of the mouth of the main Rhône branch (Grand Rhône) to site C4019 located some 20 km further south in clear Mediterranean waters. (**B**) $K_{\text{Ed}}(490)$ profiles taken in the North Sea on 12. Sept 1998 along a transect extending from site C6063 close to the western shore of the island of Texel to site C6069 located ca. 22 km further west in the open North Sea.
 
 ```{r fig08a}
 knitr::include_graphics(here("graphs", "fig08a.png"))
@@ -204,7 +122,7 @@ knitr::include_graphics(here("graphs", "fig08b.png"))
 
 ### Figure 9
 
-Scatterplots showing relationships among different selected variables. (**A**) Particulate organic carbon (POC) and (**B**) phytoplankton absorption at 443 nm ($a_{\phi}(443)$) against total chlorophyll *a*. (**C**) Downward irradiance at 443 nm ($E_{d}(443)$) and (**D**) particulate scattering at 440 nm ($b_{b}(440)$ against particulate organic carbon. The red lines show the linear relationships between the variables. The shaded gray areas represent the 95% confidence intervals around the fitted models.
+Scatterplots showing relationships among different selected variables. (**A**) Particulate organic carbon (POC) and (**B**) phytoplankton absorption at 443 nm ($a_{\phi}(443)$) against total chlorophyll *a*. (**C**) Downward irradiance at 443 nm ($K_{\text{Ed}}(443)$) and (**D**) particulate scattering at 440 nm ($b_{b}(440)$ against particulate organic carbon. The red lines show the linear relationships between the variables. The shaded gray areas represent the 95% confidence intervals around the fitted models.
 
 ```{r fig09}
 knitr::include_graphics(pdf2png(here("graphs", "fig09.pdf")))
@@ -232,14 +150,6 @@ knitr::include_graphics(pdf2png(here("graphs", "appendix01.pdf")))
 -   [x] Extract bathymetry at each station.
 
 -   [x] Zoom on geographic areas in Fig. 1 such as figure 13 in the final report.
-
--   [x] Recode Ed wavelengths from the SPMR *vertical* profiles as:
-
-    -   412 -\> 411
-    -   510 -\> 509
-    -   589 -\> 590
-    -   666 -\> 665
-    -   780 -\> 779
 
 -   [x] Validated that are only two AC9 measurements in the Adriatic Sea.
 

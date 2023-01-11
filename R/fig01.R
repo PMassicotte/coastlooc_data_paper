@@ -203,8 +203,8 @@ p1 <- ggplot() +
 
 stations_sf
 
-# Identify stations used in figure 9
-stations_sf_fig9 <- stations_sf |>
+# Identify stations used in figure 8
+outlines <- stations_sf |>
   filter(station %in% c(
     "C4014000",
     "C4015000",
@@ -216,14 +216,33 @@ stations_sf_fig9 <- stations_sf |>
     "C6066000",
     "C6067000",
     "C6068000",
-    "C6069000"
+    "C6069000",
+    "C1008000",
+    "C1007000",
+    "C1006000",
+    "C1005000",
+    "C1004000",
+    "C1003000",
+    "C1001000"
   ))
 
-stations_sf_fig9 <- stations_sf_fig9 |>
-  group_by(area) |>
+outlines <- outlines |>
+  mutate(cruise = str_sub(station, 1, 4)) |>
+  group_by(area, cruise) |>
   summarise() |>
   st_convex_hull() |>
-  st_buffer(dist = 6e3)
+  st_buffer(dist = 6e3) |>
+  ungroup()
+
+outline_labels <- outlines |>
+  group_by(area, cruise) |>
+  mutate(coords = list(st_coordinates(geometry))) |>
+  mutate(m = map_df(
+    coords, \(x) x |>
+      as_tibble() |>
+      filter(Y == max(Y))
+  )) |>
+  unnest(m)
 
 df_viz <- stations_sf |>
   # filter(area != "Atlantic Ocean") |>
@@ -249,9 +268,17 @@ df_viz <- stations_sf |>
         aes(color = area)
       ) +
       geom_sf(
-        data = filter(stations_sf_fig9, area %in% df$area),
+        data = filter(outlines, area %in% df$area),
+        fill = NA
+      ) +
+      geom_text(
+        data = filter(outline_labels, area %in% df$area),
+        aes(x = X, y = Y, label = cruise),
         fill = NA,
-        color = "red"
+        check_overlap = TRUE,
+        size = 1.1,
+        vjust = -0.6,
+        hjust = 0.5
       ) +
       annotate(
         "text",
