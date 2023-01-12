@@ -68,12 +68,8 @@ knitr::include_graphics(pdf2png(here("graphs", "fig02.pdf")))
 
 (**A**) Vertical profile of the upwelling irradiance taken on 11 April 1997 at station C1021 located in the North-East Atlantic offshore Northern Portugal. A double deep chlorophyll maximum with the corresponding irradiance increase due to chlorophyll fluorescence is observed at water depths of ca. 35 m and 45 m, most prominently at 683 nm, but also at 664 nm and even at 706 nm. Attenuation in the blue to green wavelengths is correspondingly enhanced as reflected by the change in slope at a depth of ca. 34 m. (**B**) Vertical profiles of the upwelling and downwelling irradiance taken on 25 September 1998 at station C6176 located in the Baltic Sea offshore Usedom Island in North-East Germany. Baltic Sea waters are rich in CDOM, resulting in strong absorption in the UV and blue. The reduced decrease of the upwelling irradiance at 559 nm towards larger depths is likely caused by reflection of downwelling irradiance from the ocean bottom. Chlorophyll fluorescence is likely the reason for the relatively enhanced upwelling irradiance at 683 nm for depths below ca. 7 m.
 
-```{r fig03a}
-knitr::include_graphics(here("graphs", "fig03a.png"))
-```
-
-```{r fig03b}
-knitr::include_graphics(here("graphs", "fig03b.png"))
+```{r fig03}
+knitr::include_graphics(here("graphs", "fig03.png"))
 ```
 
 ### Figure 4
@@ -112,12 +108,8 @@ knitr::include_graphics(pdf2png(here("graphs", "fig07.pdf")))
 
 (**A**) $K_{\text{Ed}}(490)$ profiles taken in the Lion’s Gulf on 30. Sept. 1997 along a transect extending from site C4014 located ca. 5 km to the west of the mouth of the main Rhône branch (Grand Rhône) to site C4019 located some 20 km further south in clear Mediterranean waters. (**B**) $K_{\text{Ed}}(490)$ profiles taken in the North Sea on 12. Sept 1998 along a transect extending from site C6063 close to the western shore of the island of Texel to site C6069 located ca. 22 km further west in the open North Sea.
 
-```{r fig08a}
-knitr::include_graphics(here("graphs", "fig08a.png"))
-```
-
-```{r fig08b}
-knitr::include_graphics(here("graphs", "fig08b.png"))
+```{r fig08}
+knitr::include_graphics(here("graphs", "fig08.png"))
 ```
 
 ### Figure 9
