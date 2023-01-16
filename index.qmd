@@ -50,7 +50,7 @@ This section shows the figures that I think should be included in the data paper
 
 ### Figure 1
 
-Figure 1: Map of the sampling stations. The three black outlines in the bottom panels (Mediterranean Sea and North Sea) identify the stations and the transects used in Fig. 5E (C100) as well as for the examples of vertical profiles of $K_{\text{Ed}}(490)$ in Fig. 8 (C401 and C606).
+Map of the sampling stations. The three black outlines in the bottom panels (Mediterranean Sea and North Sea) identify the stations and the transects used in Fig. 5E (C100) as well as for the examples of vertical profiles of $K_{\text{Ed}}(490)$ in Fig. 8 (C401 and C606).
 
 ```{r fig01}
 knitr::include_graphics(pdf2png(here("graphs", "fig01.pdf")))
@@ -58,7 +58,7 @@ knitr::include_graphics(pdf2png(here("graphs", "fig01.pdf")))
 
 ### Figure 2
 
-Figure 2: (**A**) Overview of the temporal sampling for the six areas. The numbers in the circles indicate the number of visited stations each month. (**B**) Boxplot showing the bathymetry at the sampling locations by area. The labels on top of each circle identify the COASTLOOC campaigns (C1 to C6).
+(**A**) Overview of the temporal sampling for the six areas. The numbers in the circles indicate the number of visited stations each month. (**B**) Boxplot showing the bathymetry at the sampling locations by area. The labels on top of each circle identify the COASTLOOC campaigns (C1 to C6).
 
 ```{r fig02}
 knitr::include_graphics(pdf2png(here("graphs", "fig02.pdf")))
@@ -74,7 +74,7 @@ knitr::include_graphics(here("graphs", "fig03.png"))
 
 ### Figure 4
 
-Figure 4: (**A**) Total chlorophyll *a* and (**B**) particulate organic carbon across the sampled areas.
+(**A**) Total chlorophyll *a* and (**B**) particulate organic carbon across the sampled areas.
 
 ```{r fig04}
 knitr::include_graphics(pdf2png(here("graphs", "fig04.pdf")))
@@ -82,7 +82,7 @@ knitr::include_graphics(pdf2png(here("graphs", "fig04.pdf")))
 
 ### Figure 5
 
-Figure 5: (**A**) Average total particulate ($a_\text{p}$), (**B**) non-algal ($a_\text{NAP}$), (**C**) phytoplankton ($a_{\phi}$) and (**D**) chromophoric dissolved organic matter ($a_\text{CDOM}$) absorption spectra in each area. (**E**) $a_\text{CDOM}(350)$ along the westernmost transect in the North Sea (see Fig. 1B).
+(**A**) Average total particulate ($a_\text{p}$), (**B**) non-algal ($a_\text{NAP}$), (**C**) phytoplankton ($a_{\phi}$) and (**D**) chromophoric dissolved organic matter ($a_\text{CDOM}$) absorption spectra in each area. (**E**) $a_\text{CDOM}(350)$ along the westernmost transect in the North Sea (see Fig. 1B).
 
 ```{r fig05}
 knitr::include_graphics(pdf2png(here("graphs", "fig05.pdf")))
@@ -90,7 +90,7 @@ knitr::include_graphics(pdf2png(here("graphs", "fig05.pdf")))
 
 ### Figure 6
 
-Figure 6: (**A**) Particulate scattering coefficient at 440 nm ($b_{b}(440)$) and (**B**) attenuation coefficient for downward irradiance at 443 nm ($K_{\text{Ed}}(443)$) across the sampled areas.
+(**A**) Particulate scattering coefficient at 440 nm ($b_{b}(440)$) and (**B**) attenuation coefficient for downward irradiance at 443 nm ($K_{\text{Ed}}(443)$) across the sampled areas.
 
 ```{r fig06}
 knitr::include_graphics(pdf2png(here("graphs", "fig06.pdf")))
@@ -98,7 +98,7 @@ knitr::include_graphics(pdf2png(here("graphs", "fig06.pdf")))
 
 ### Figure 7
 
-Figure 7: Subsurface reflectance $R~(0^{-})$ across the sampled areas. The thick lines represent the regional averages. Note that $R~(0^{-})$ at wavelengths above 705 nm could only be derived from helicopter-based measurements.
+Subsurface reflectance $R~(0^{-})$ across the sampled areas. The thick lines represent the regional averages. Note that $R~(0^{-})$ at wavelengths above 705 nm could only be derived from helicopter-based measurements.
 
 ```{r fig07}
 knitr::include_graphics(pdf2png(here("graphs", "fig07.pdf")))
@@ -119,7 +119,6 @@ Scatterplots showing relationships among different selected variables. (**A**) P
 ```{r fig09}
 knitr::include_graphics(pdf2png(here("graphs", "fig09.pdf")))
 ```
-
 
 ### Appendix 1
 
