@@ -61,7 +61,7 @@ df |>
     format = "latex",
     escape = FALSE,
     linesep = "\\addlinespace",
-    col.names = c("Source file", "Variable", "Units", "PI", "Description")
+    col.names = c("Source file", "Variable", "Units", "Description")
   ) |>
   kable_styling(
     latex_options = c("striped", "repeat_header", "hold_position"),
@@ -70,8 +70,7 @@ df |>
   column_spec(1, width = "10em") |>
   column_spec(2, width = "15em") |>
   column_spec(3, width = "8em") |>
-  column_spec(4, width = "5em") |>
-  column_spec(5, width = "25em") |>
+  column_spec(4, width = "25em") |>
   landscape() |>
   save_kable(here("tables", "table01.tex"))
 # %%

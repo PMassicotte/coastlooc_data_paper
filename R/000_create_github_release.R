@@ -9,12 +9,14 @@ rm(list = ls())
 
 library(piggyback)
 
-pb_new_release(tag = "v0.0.1")
-
-tmpfile <- "~/Desktop/data.zip"
+# Create a zip file with all the data
+dir_path <- tempdir()
+tmpfile <- paste0(dir_path, "/data.zip")
 
 zip(tmpfile, fs::dir_ls("data/", recurse = TRUE, type = "file"))
 
-pb_upload(tmp, overwrite = FALSE)
+# Create a new release and upload the data zip file
+pb_new_release(tag = "v1.0.1", commit = )
+pb_upload(file = tmpfile, overwrite = TRUE, tag = "v1.0.1")
 
-unlist(tmpfile)
+unlink(tmpfile)
