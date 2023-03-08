@@ -71,6 +71,6 @@ df |>
   column_spec(2, width = "15em") |>
   column_spec(3, width = "8em") |>
   column_spec(4, width = "25em") |>
-  landscape() |>
+  # landscape() |>
   save_kable(here("tables", "table01.tex"))
 # %%
