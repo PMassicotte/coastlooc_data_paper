@@ -148,8 +148,6 @@ knitr::include_graphics(pdf2png(here("graphs", "appendix01.pdf")))
 
 -   [x] Removed Almofront (A2, Med case 1) observations as they were collected from a separate mission with different funding.
 
-## TODO
-
--   Use `piggyback` <https://docs.ropensci.org/piggyback/>
+-   [x] Use `piggyback` <https://docs.ropensci.org/piggyback/>
 
 ## References
