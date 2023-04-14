@@ -52,7 +52,7 @@ reflectance |>
     x = "Wavelength (mm)",
     y = parse(text = "R(0^'-')")
   ) +
-  facet_wrap(~area) +
+  facet_wrap(~area, scales = "free_y") +
   theme(legend.position = "none")
 
 ggsave(

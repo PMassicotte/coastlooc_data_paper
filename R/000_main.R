@@ -54,7 +54,7 @@ library(rnaturalearthhires)
 library(rnaturalearth)
 
 # Set default ggplot2 font size and font family
-theme_set(theme_light_modified(base_family = "Open Sans", base_size = 10))
+theme_set(theme_light_modified(base_family = "Open Sans", base_size = 12))
 
 theme_update(
   panel.border = element_blank(),

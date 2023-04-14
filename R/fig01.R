@@ -280,7 +280,7 @@ df_viz <- stations_sf |>
         check_overlap = TRUE,
         size = 1.75,
         vjust = -0.6,
-        hjust = 0.5
+        hjust = 0.4
       ) +
       annotate(
         "text",

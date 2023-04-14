@@ -272,7 +272,7 @@ p <- wrap_plots(p1, p2, p3, p4, ncol = 2) +
 ggsave(
   here("graphs", "fig09.pdf"),
   device = cairo_pdf,
-  width = 180,
+  width = 200,
   height = 160,
   units = "mm"
 )

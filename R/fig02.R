@@ -67,7 +67,8 @@ p1 <- df_viz |>
   scale_size(range = c(4, 10)) +
   scale_x_date(
     date_breaks = "3 months",
-    date_labels = "%Y-%b"
+    # date_labels = "%Y-%b",
+    labels = scales::label_date_short()
   ) +
   labs(
     x = "Sampling date",
