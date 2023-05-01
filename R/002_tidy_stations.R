@@ -39,6 +39,7 @@ stations_sf <- stations |>
 stations_sf
 
 wm <- ne_countries(scale = "large", returnclass = "sf") |>
+  st_make_valid() |>
   st_crop(stations_sf)
 
 # Find a proper crs for the area

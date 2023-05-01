@@ -12,8 +12,6 @@
 # renv::install("ropensci/rnaturalearthhires")
 # renv::install("PMassicotte/ggpmthemes")
 # renv::install(c("ropensci/tabulizerjars", "ropensci/tabulizer"), INSTALL_opts = "--no-multiarch")
-# renv::install("Enchufa2/rspm")
-# renv::install("bspm")
 # renv::install("languageserver") # For vscode
 # renv::install("httpgd") # For vscode
 # renv::install("clauswilke/ggisoband")
@@ -24,8 +22,6 @@
 # renv::record("ropensci/rnaturalearthhires")
 # renv::record("PMassicotte/ggpmthemes")
 # renv::record(c("ropensci/tabulizerjars", "ropensci/tabulizer"))
-# renv::record("Enchufa2/rspm")
-# renv::record("bspm")
 # renv::record("languageserver") # For vscode
 # renv::record("httpgd") # For vscode
 # renv::record("clauswilke/ggisoband")
@@ -46,12 +42,14 @@ library(terra)
 library(googlesheets4)
 library(gt)
 library(ggbeeswarm)
-library(rnaturalearth)
 library(kableExtra)
 library(breakerofchains)
 library(pathformatr)
-library(rnaturalearthhires)
 library(rnaturalearth)
+library(rnaturalearthhires)
+library(ggthemes)
+library(languageserver)
+library(httpgd)
 
 # Set default ggplot2 font size and font family
 theme_set(theme_light_modified(base_family = "Open Sans", base_size = 12))

@@ -46,6 +46,7 @@ ne_land <-
     returnclass = "sf",
     scale = "large"
   ) |>
+  st_make_valid() |>
   st_crop(bbox_4326) |>
   st_transform(map_crs)
 
@@ -56,6 +57,7 @@ ne_country <-
     returnclass = "sf",
     scale = "large"
   ) |>
+  st_make_valid() |>
   st_crop(bbox_4326) |>
   st_transform(map_crs)
 
@@ -67,6 +69,7 @@ ne_river <- rnaturalearth::ne_download(
   type = "rivers_lake_centerlines",
   returnclass = "sf"
 ) |>
+  st_make_valid() |>
   st_crop(bbox_4326) |>
   st_transform(map_crs)
 
