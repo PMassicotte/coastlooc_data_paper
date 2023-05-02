@@ -945,17 +945,18 @@
     },
     "ggbeeswarm": {
       "Package": "ggbeeswarm",
-      "Version": "0.7.1",
+      "Version": "0.7.2",
       "Source": "Repository",
       "Repository": "RSPM",
       "Requirements": [
         "R",
         "beeswarm",
+        "cli",
         "ggplot2",
         "lifecycle",
         "vipor"
       ],
-      "Hash": "e2adea988a575e168ad44022e80cd44e"
+      "Hash": "899f28fe0388b7f687d7453429c2474d"
     },
     "ggisoband": {
       "Package": "ggisoband",
@@ -2453,14 +2454,14 @@
     },
     "rlang": {
       "Package": "rlang",
-      "Version": "1.1.0",
+      "Version": "1.1.1",
       "Source": "Repository",
       "Repository": "RSPM",
       "Requirements": [
         "R",
         "utils"
       ],
-      "Hash": "dc079ccd156cde8647360f473c1fa718"
+      "Hash": "a85c767b55f0bf9b7ad16c6d7baee5bb"
     },
     "rmarkdown": {
       "Package": "rmarkdown",
@@ -3144,7 +3145,7 @@
     },
     "vroom": {
       "Package": "vroom",
-      "Version": "1.6.1",
+      "Version": "1.6.3",
       "Source": "Repository",
       "Repository": "RSPM",
       "Requirements": [
@@ -3166,7 +3167,7 @@
         "vctrs",
         "withr"
       ],
-      "Hash": "7015a74373b83ffaef64023f4a0f5033"
+      "Hash": "8318e64ffb3a70e652494017ec455561"
     },
     "webshot": {
       "Package": "webshot",
