@@ -11,11 +11,8 @@ source(here("R", "zzz.R"))
 station <- read_csv(here("data", "clean", "stations.csv"))
 
 absorption <- read_csv(here("data", "clean", "absorption.csv")) |>
-  filter(wavelength >= 350) |>
   left_join(station, ., by = "station") |>
-  group_by(area, wavelength) |>
-  summarise(across(starts_with("a_"), ~ mean(., na.rm = TRUE))) |>
-  ungroup()
+  filter(wavelength >= 350)
 
 df_viz <- absorption |>
   group_by(area, wavelength) |>
@@ -28,7 +25,9 @@ df_viz
 
 p1 <- df_viz |>
   ggplot(aes(x = wavelength, y = a_phy_m1, color = area)) +
+  geom_line(data = absorption, aes(group = station), alpha = 0.1, color = "gray40", linewidth = 0.2) +
   geom_line() +
+  scale_y_continuous(limits = c(0, NA)) +
   scale_color_manual(
     breaks = area_breaks,
     values = area_colors
@@ -43,6 +42,7 @@ p1 <- df_viz |>
 
 p2 <- df_viz |>
   ggplot(aes(x = wavelength, y = a_nap_m1, color = area)) +
+  geom_line(data = absorption, aes(group = station), alpha = 0.1, color = "gray40", linewidth = 0.2) +
   geom_line() +
   scale_color_manual(
     breaks = area_breaks,
@@ -58,6 +58,7 @@ p2 <- df_viz |>
 
 p3 <- df_viz |>
   ggplot(aes(x = wavelength, y = a_p_m1, color = area)) +
+  geom_line(data = absorption, aes(group = station), alpha = 0.1, color = "gray40", linewidth = 0.2) +
   geom_line() +
   scale_color_manual(
     breaks = area_breaks,
@@ -71,8 +72,9 @@ p3 <- df_viz |>
     legend.position = "none"
   )
 
-p4 <- absorption |>
+p4 <- df_viz |>
   ggplot(aes(x = wavelength, y = a_cdom_adjusted_m1, color = area)) +
+  geom_line(data = absorption, aes(group = station), alpha = 0.1, color = "gray40", linewidth = 0.2) +
   geom_line() +
   scale_color_manual(
     breaks = area_breaks,
@@ -132,9 +134,9 @@ p5 <- df_north_sea |>
   geom_text(
     aes(label = station),
     check_overlap = TRUE,
-    size = 2,
+    size = 3,
     nudge_y = -0.1,
-    nudge_x = -0.005
+    nudge_x = -0.007
   ) +
   scale_x_continuous(labels = ~ paste0(., "\u00b0")) +
   annotate("text",
