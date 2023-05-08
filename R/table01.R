@@ -61,15 +61,15 @@ df |>
     format = "latex",
     escape = FALSE,
     linesep = "\\addlinespace",
-    col.names = c("Source file", "Variable", "Units", "Description")
+    col.names = c("Variable", "Units", "Source file", "Description")
   ) |>
   kable_styling(
     latex_options = c("striped", "repeat_header", "hold_position"),
     font_size = 8
   ) |>
-  column_spec(1, width = "10em") |>
-  column_spec(2, width = "15em") |>
-  column_spec(3, width = "8em") |>
+  column_spec(1, width = "18em") |>
+  column_spec(2, width = "8em") |>
+  column_spec(3, width = "10em") |>
   column_spec(4, width = "25em") |>
   # landscape() |>
   save_kable(here("tables", "table01.tex"))
