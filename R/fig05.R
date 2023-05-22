@@ -27,7 +27,7 @@ p1 <- df_viz |>
   ggplot(aes(x = wavelength, y = a_phy_m1, color = area)) +
   geom_line(data = absorption, aes(group = station), alpha = 0.1, color = "gray40", linewidth = 0.2) +
   geom_line() +
-  scale_y_continuous(limits = c(0, NA)) +
+  scale_y_continuous(limits = c(0, NA), breaks = scales::breaks_pretty(n = 6)) +
   scale_color_manual(
     breaks = area_breaks,
     values = area_colors
@@ -48,6 +48,7 @@ p2 <- df_viz |>
     breaks = area_breaks,
     values = area_colors
   ) +
+  scale_y_continuous(breaks = scales::breaks_pretty(n = 6)) +
   labs(
     x = "Wavelength (nm)",
     y = parse(text = "a[NAP] ~ (m^{-1})")
@@ -64,6 +65,7 @@ p3 <- df_viz |>
     breaks = area_breaks,
     values = area_colors
   ) +
+  scale_y_continuous(breaks = scales::breaks_pretty(n = 6)) +
   labs(
     x = "Wavelength (nm)",
     y = parse(text = "a[P] ~ (m^{-1})")
@@ -87,6 +89,7 @@ p4 <- df_viz |>
       override.aes = list(size = 1)
     )
   ) +
+  scale_y_continuous(breaks = scales::breaks_pretty(n = 6)) +
   labs(
     x = "Wavelength (nm)",
     y = parse(text = "a[CDOM] ~ (m^{-1})")
