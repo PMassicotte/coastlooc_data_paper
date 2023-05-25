@@ -2697,9 +2697,9 @@
     },
     "sf": {
       "Package": "sf",
-      "Version": "1.0-12",
+      "Version": "1.0-13",
       "Source": "Repository",
-      "Repository": "RSPM",
+      "Repository": "CRAN",
       "Requirements": [
         "DBI",
         "R",
@@ -2716,7 +2716,7 @@
         "units",
         "utils"
       ],
-      "Hash": "5b41b4f0bd22b38661d82205a87deb4b"
+      "Hash": "8fb4839843abc03528ff9f86424d6acd"
     },
     "sfheaders": {
       "Package": "sfheaders",
@@ -2812,7 +2812,7 @@
     },
     "styler": {
       "Package": "styler",
-      "Version": "1.9.1",
+      "Version": "1.10.0",
       "Source": "Repository",
       "Repository": "RSPM",
       "Requirements": [
@@ -2827,7 +2827,7 @@
         "vctrs",
         "withr"
       ],
-      "Hash": "ed8c90822b7da46beee603f263a85fe0"
+      "Hash": "24f7192497d696c39d3b39b2e29a039d"
     },
     "survival": {
       "Package": "survival",
@@ -2859,10 +2859,10 @@
     },
     "sys": {
       "Package": "sys",
-      "Version": "3.4.1",
+      "Version": "3.4.2",
       "Source": "Repository",
-      "Repository": "CRAN",
-      "Hash": "34c16f1ef796057bfa06d3f4ff818a5d"
+      "Repository": "RSPM",
+      "Hash": "3a1be13d68d47a8cd0bfd74739ca1555"
     },
     "systemfonts": {
       "Package": "systemfonts",
