@@ -130,3 +130,54 @@ irradiance |>
   group_by(area) |>
   summarise(median_kd_m1 = median(k_ed_m1, na.rm = TRUE)) |>
   arrange(median_kd_m1)
+
+# %% ---- title
+
+# Relation between a and c from AC9 (at surface). Made to anwswer reviewer's
+# comment.
+
+p <- ac9 |>
+  drop_na(a_m1, bp_m1) |>
+  ggplot(aes(x = a_m1, y = bp_m1)) +
+  geom_point(size = 1) +
+  geom_smooth(method = "lm") +
+  scale_x_log10() +
+  scale_y_log10() +
+  labs(
+    x = parse(text = "a~(m^{-1})"),
+    y = parse(text = "b[p]~(m^{-1})")
+  ) +
+  annotation_logticks(size = 0.2) +
+  ggpmisc::stat_poly_eq(
+    aes(label = ..eq.label..),
+    parse = TRUE,
+    coef.digits = 4,
+    f.digits = 5,
+    p.digits = 10,
+    label.x.npc = 0.05,
+    family = "Montserrat",
+    size = 3.5
+  ) +
+  ggpmisc::stat_poly_eq(
+    aes(
+      label = paste(..rr.label.., after_stat(p.value.label), sep = "*\", \"*")
+    ),
+    label.x.npc = 0.05,
+    label.y.npc = 0.88,
+    coef.digits = 4,
+    parse = TRUE,
+    family = "Montserrat",
+    size = 3.5,
+    small.p = TRUE
+  ) +
+  facet_wrap(~ glue("{wavelength} nm"), scales = "free")
+
+ggsave(
+  here("graphs", "999_a_vs_bp_ac9.png"),
+  device = ragg::agg_png(),
+  width = 9,
+  height = 9,
+  dpi = 300,
+  units = "in"
+)
+# %%
