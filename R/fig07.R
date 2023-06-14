@@ -25,7 +25,12 @@ reflectance <- reflectance |>
 
 irradiance_mean <- reflectance |>
   group_by(area, wavelength) |>
-  summarise(measured_reflectance_percent = mean(measured_reflectance_percent, na.rm = TRUE), n = n()) |>
+  summarise(
+    measured_reflectance_percent = mean(measured_reflectance_percent,
+      na.rm = TRUE
+    ),
+    n = n()
+  ) |>
   ungroup() |>
   filter(n >= 10)
 

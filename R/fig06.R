@@ -181,3 +181,57 @@ ggsave(
   units = "in"
 )
 # %%
+# %% ---- title
+
+ac9
+
+absorption <- read_csv(here("data", "clean", "absorption.csv")) |>
+  select(station, wavelength, a_p_m1)
+
+df_viz <- ac9 |>
+  inner_join(absorption)
+
+df_viz |>
+  ggplot(aes(x = a_p_m1, y = bp_m1)) +
+  geom_point(size = 1) +
+  geom_smooth(method = "lm") +
+  scale_x_log10() +
+  scale_y_log10() +
+  labs(
+    x = parse(text = "a[p]~(m^{-1})"),
+    y = parse(text = "b[p]~(m^{-1})")
+  ) +
+  annotation_logticks(size = 0.2) +
+  ggpmisc::stat_poly_eq(
+    aes(label = ..eq.label..),
+    parse = TRUE,
+    coef.digits = 4,
+    f.digits = 5,
+    p.digits = 10,
+    label.x.npc = 0.05,
+    family = "Montserrat",
+    size = 3.5
+  ) +
+  ggpmisc::stat_poly_eq(
+    aes(
+      label = paste(..rr.label.., after_stat(p.value.label), sep = "*\", \"*")
+    ),
+    label.x.npc = 0.05,
+    label.y.npc = 0.88,
+    coef.digits = 4,
+    parse = TRUE,
+    family = "Montserrat",
+    size = 3.5,
+    small.p = TRUE
+  ) +
+  facet_wrap(~ glue("{wavelength} nm"), scales = "free")
+
+ggsave(
+  here("graphs", "999_ap_vs_bp_ac9.png"),
+  device = ragg::agg_png(),
+  width = 12,
+  height = 9,
+  dpi = 300,
+  units = "in"
+)
+# %%

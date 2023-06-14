@@ -25,7 +25,13 @@ df_viz
 
 p1 <- df_viz |>
   ggplot(aes(x = wavelength, y = a_phy_m1, color = area)) +
-  geom_line(data = absorption, aes(group = station), alpha = 0.1, color = "gray40", linewidth = 0.2) +
+  geom_line(
+    data = absorption,
+    aes(group = station),
+    alpha = 0.1,
+    color = "gray40",
+    linewidth = 0.2
+  ) +
   geom_line() +
   scale_y_continuous(limits = c(0, NA), breaks = scales::breaks_pretty(n = 6)) +
   scale_color_manual(
@@ -42,7 +48,13 @@ p1 <- df_viz |>
 
 p2 <- df_viz |>
   ggplot(aes(x = wavelength, y = a_nap_m1, color = area)) +
-  geom_line(data = absorption, aes(group = station), alpha = 0.1, color = "gray40", linewidth = 0.2) +
+  geom_line(
+    data = absorption,
+    aes(group = station),
+    alpha = 0.1,
+    color = "gray40",
+    linewidth = 0.2
+  ) +
   geom_line() +
   scale_color_manual(
     breaks = area_breaks,
@@ -59,7 +71,13 @@ p2 <- df_viz |>
 
 p3 <- df_viz |>
   ggplot(aes(x = wavelength, y = a_p_m1, color = area)) +
-  geom_line(data = absorption, aes(group = station), alpha = 0.1, color = "gray40", linewidth = 0.2) +
+  geom_line(
+    data = absorption,
+    aes(group = station),
+    alpha = 0.1,
+    color = "gray40",
+    linewidth = 0.2
+  ) +
   geom_line() +
   scale_color_manual(
     breaks = area_breaks,
@@ -76,7 +94,13 @@ p3 <- df_viz |>
 
 p4 <- df_viz |>
   ggplot(aes(x = wavelength, y = a_cdom_adjusted_m1, color = area)) +
-  geom_line(data = absorption, aes(group = station), alpha = 0.1, color = "gray40", linewidth = 0.2) +
+  geom_line(
+    data = absorption,
+    aes(group = station),
+    alpha = 0.1,
+    color = "gray40",
+    linewidth = 0.2
+  ) +
   geom_line() +
   scale_color_manual(
     breaks = area_breaks,
