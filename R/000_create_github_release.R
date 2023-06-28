@@ -16,7 +16,8 @@ tmpfile <- paste0(dir_path, "/data.zip")
 zip(tmpfile, fs::dir_ls("data/", recurse = TRUE, type = "file"))
 
 # Create a new release and upload the data zip file
-pb_new_release(tag = "v1.0.1", body = "ESSD acceptance")
-pb_upload(file = tmpfile, overwrite = TRUE, tag = "v1.0.1")
+pb_new_release(tag = "v1.1.4", body = "ESSD revision round 1")
+
+pb_upload(file = tmpfile, overwrite = TRUE, tag = "v1.1.4")
 
 unlink(tmpfile)
