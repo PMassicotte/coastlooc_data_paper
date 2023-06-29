@@ -16,6 +16,6 @@ tmpfile <- paste0(dir_path, "/data.zip")
 zip(tmpfile, fs::dir_ls("data/", recurse = TRUE, type = "file"))
 
 # Do not forget to create the release on Github first
-pb_upload(file = tmpfile, overwrite = TRUE, tag = "v1.1.0")
+pb_upload(file = tmpfile, overwrite = TRUE, tag = "v1.1.1")
 
 unlink(tmpfile)
