@@ -1,6 +1,6 @@
 {
   "R": {
-    "Version": "4.3.0",
+    "Version": "4.3.1",
     "Repositories": [
       {
         "Name": "CRAN",
@@ -1977,9 +1977,14 @@
     },
     "piggyback": {
       "Package": "piggyback",
-      "Version": "0.1.4",
-      "Source": "Repository",
-      "Repository": "RSPM",
+      "Version": "0.1.5",
+      "Source": "GitHub",
+      "RemoteType": "github",
+      "RemoteUsername": "ropensci",
+      "RemoteRepo": "piggyback",
+      "RemoteRef": "HEAD",
+      "RemoteSha": "45eeeaa9726bd5bb321d5916d129363a686b0382",
+      "RemoteHost": "api.github.com",
       "Requirements": [
         "cli",
         "fs",
@@ -1990,7 +1995,7 @@
         "lubridate",
         "memoise"
       ],
-      "Hash": "006bc382c1f4b40b30e19ce8503f0a91"
+      "Hash": "b6506acf7ac7220d2a482bbbf50c6d49"
     },
     "pillar": {
       "Package": "pillar",
