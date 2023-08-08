@@ -8,7 +8,7 @@
     - [renv](#renv)
     - [Docker and VSCode devcontainer](#docker-and-vscode-devcontainer)
 
-The COSTLOOC oceanic expeditions took place in 1997 and 1998. This project (a data paper) aims at presenting an overview of the collected data. A lot of data are about radiometric quantities and nutrients collected at the surface of the water column.
+The COASTLOOC oceanic expeditions took place in 1997 and 1998. This project (a data paper) aims at presenting an overview of the collected data. A lot of data are about radiometric quantities and nutrients collected at the surface of the water column.
 
 <https://pmassicotte.github.io/coastlooc_data_paper/>
 
@@ -16,14 +16,18 @@ The COSTLOOC oceanic expeditions took place in 1997 and 1998. This project (a da
 
 The COASTLOOC data has been peer-reviewed and published in Earth System Science Data (ESSD).
 
-- TODO: provide the URL to the published papers.
+- https://essd.copernicus.org/articles/15/3529/2023/
 
-Public reviews are available:
+### Open reviews
 
 1. https://doi.org/10.5194/essd-2023-83-CC1
 2. https://doi.org/10.5194/essd-2023-83-RC1
 3. https://doi.org/10.5194/essd-2023-83-RC2
 4. https://doi.org/10.5194/essd-2023-83-RC3
+
+### How to cite
+
+*Massicotte, P., Babin, M., Fell, F., Fournier-Sicre, V., and Doxaran, D.: The Coastal Surveillance Through Observation of Ocean Color (COASTℓOOC) dataset, Earth Syst. Sci. Data, 15, 3529–3545, https://doi.org/10.5194/essd-15-3529-2023, 2023.*
 
 ## Using the project
 
